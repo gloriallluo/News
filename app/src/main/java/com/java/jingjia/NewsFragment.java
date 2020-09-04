@@ -12,6 +12,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NewsFragment extends Fragment {
@@ -19,7 +20,7 @@ public class NewsFragment extends Fragment {
     private String TAG = "NewsFragment";
     private Activity mActivity;
     private NewsListAdapter mAdapter;
-    private ListView mListView;
+    private RecyclerView mRecyclerView;
 
     public NewsFragment(Activity activity) {
         mActivity = activity;
@@ -29,19 +30,11 @@ public class NewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: 1");
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        mAdapter = new NewsListAdapter(mActivity);
-        Log.d(TAG, "onCreateView: 2");
-        mListView = view.findViewById(R.id.news_lv);
-        mListView.setAdapter(mAdapter);
-        Log.d(TAG, "onCreateView: 3");
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemClick: " + position);
-            }
-        });
+        mAdapter = new NewsListAdapter();
+        mRecyclerView = view.findViewById(R.id.news_rv);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         return view;
     }
 }
