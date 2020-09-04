@@ -14,6 +14,9 @@ import android.widget.RadioGroup;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Main page of the News App.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private String TAG = "MainActivity";
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // mViewPager.removeOnPageChangeListener(null);
     }
 
     private void bindViews() {
@@ -49,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         mRadioGroup = findViewById(R.id.tabs_rg);
     }
 
+    /**
+     * Create three Fragments,
+     * which are the news page, covid-data page and the user page
+     */
     private void initFragments() {
         Fragment fgNews = new NewsFragment(MainActivity.this);
         Fragment fgData = new DataFragment(MainActivity.this);
@@ -58,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
         mFragments.add(fgUser);
     }
 
+    /**
+     * Set OnPageChangeListener to the ViewPager and
+     * OnCheckedChangeListener to the RadioGroup
+     */
     private void setListeners() {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -92,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
         }});
     }
 
+    /**
+     * Inner class MainFragmentPagerAdapter
+     * to manage the Fragments
+     */
     private class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         private List<Fragment> mFragments;
 

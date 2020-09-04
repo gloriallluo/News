@@ -13,11 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * class NewsListAdapter
+ * pass data to RecyclerView
+ */
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHolder> {
 
     private String TAG = "NewsListAdapter";
     private List<NewsItem> mNewsItems;
 
+    /**
+     * Inner static class ViewHolder
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView title, source, time;
