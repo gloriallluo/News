@@ -2,7 +2,9 @@ package com.java.jingjia;
 
 import android.widget.LinearLayout;
 
-public class NewsItem {
+import java.io.Serializable;
+
+public class NewsItem implements Serializable {
     LinearLayout mLayout;
     long newsId;
     String title;

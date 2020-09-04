@@ -1,5 +1,7 @@
 package com.java.jingjia;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import java.util.List;
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHolder> {
 
     private String TAG = "NewsListAdapter";
+    private Activity mActivity;
     private List<NewsItem> mNewsItems;
 
     /**
@@ -37,14 +40,15 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
         }
     }   /* Inner class ViewHolder */
 
-    public NewsListAdapter() {
+    public NewsListAdapter(Activity activity) {
+        mActivity = activity;
         // just for displaying
         mNewsItems = new ArrayList<NewsItem>();
-        NewsItem item1 = new NewsItem(1, "Hello News App!");
+        NewsItem item1 = new NewsItem(1, "Hello World!");
         mNewsItems.add(item1);
-        NewsItem item2 = new NewsItem(2, "Hello News App!");
+        NewsItem item2 = new NewsItem(2, "Hello Java!");
         mNewsItems.add(item2);
-        NewsItem item3 = new NewsItem(3, "Hello News App!");
+        NewsItem item3 = new NewsItem(3, "Hello Android!");
         mNewsItems.add(item3);
         NewsItem item4 = new NewsItem(4, "Hello News App!");
         mNewsItems.add(item4);
@@ -61,7 +65,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: " + position);
+                Intent intent = new Intent(mActivity, NewsActivity.class);
+                intent.putExtra("news", mNewsItems.get(position));
+                mActivity.startActivity(intent);
             }
         });
     }

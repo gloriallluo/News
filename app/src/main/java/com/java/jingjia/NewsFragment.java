@@ -34,7 +34,7 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        mAdapter = new NewsListAdapter();
+        mAdapter = new NewsListAdapter(mActivity);
         mRecyclerView = view.findViewById(R.id.news_rv);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
