@@ -7,4 +7,7 @@
     <string name="btn_collect">collect</string>
     <string name="btn_wb">weibo</string>
     <string name="btn_wx">wechat</string>
+    <string name="user_collection">我的收藏</string>
+    <string name="user_downloads">本地缓存</string>
+    <string name="user_history">我的足迹</string>
 </resources>
