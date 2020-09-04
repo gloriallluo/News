@@ -7,8 +7,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/news_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:descendantFocusability="afterDescendants"
-        android:dividerHeight="3dp" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

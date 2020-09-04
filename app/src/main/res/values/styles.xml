@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/yd_blue</item>
         <item name="colorPrimaryDark">@color/yd_navy_blue</item>
         <item name="colorAccent">@color/yd_grey</item>
+        <item name="android:listDivider">@drawable/item_divider</item>
     </style>
 
 </resources>
