@@ -10,10 +10,8 @@ import org.json.JSONObject;
  */
 public class NewsContentManager {
     private static NewsContentManager INSTANCE = null;
-
     private NewsContentManager() {
     }
-
     public static NewsContentManager getNewsContentManager() {
         if (INSTANCE == null) {
             INSTANCE = new NewsContentManager();
@@ -23,8 +21,7 @@ public class NewsContentManager {
 
     public String getContent(String id) {
         String url = "https://covid-dashboard-api.aminer.cn/event/" + id;
-        String jsonString = HttpUtil.getServerHttpResponse().getResponse(url);
-        return jsonString;
+        return HttpUtil.getServerHttpResponse().getResponse(url);
     }
 
     /**
@@ -36,7 +33,19 @@ public class NewsContentManager {
         try {
             JSONObject jsonObject = new JSONObject(json);
             JSONObject data = jsonObject.getJSONObject("data");
+            oneNews = getNewsItemFromJsonObject(data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return oneNews;
+    }
 
+    /**
+     * 从JSONObject构造一个NewsItem
+     */
+    public NewsItem getNewsItemFromJsonObject(JSONObject data) {
+        NewsItem oneNews = null;
+        try {
             String _id = data.getString("_id");
             String category = data.getString("category");
             String content = data.getString("content");
