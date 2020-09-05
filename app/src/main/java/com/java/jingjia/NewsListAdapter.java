@@ -2,6 +2,7 @@ package com.java.jingjia;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,14 +50,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (viewType == TYPE_ITEM) {
             view = inflater.inflate(R.layout.item_news, parent, false);
             return new ViewHolder(view);
-        } else return null; // TODO: delete "return null"
-//        else if (viewType == TYPE_HEADER) {
-//            view = inflater.inflate(R.layout.item_news_header, parent, false);
-//            return new ViewHolder(view);
-//        } else {    // TYPE_FOOTER
-//            view = inflater.inflate(R.layout.item_news_footer, parent, false);
-//            return new ViewHolder(view);
-//        }
+        } else if (viewType == TYPE_HEADER) {
+            view = inflater.inflate(R.layout.item_news_header, parent, false);
+            return new HeadViewHolder(view);
+        } else {    // TYPE_FOOTER
+            view = inflater.inflate(R.layout.item_news_footer, parent, false);
+            return new FootViewHolder(view);
+        }
     }
 
     @Override
@@ -64,7 +64,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         NewsItem item = mNewsItems.get(position);
         if (holder instanceof ViewHolder) {
             ViewHolder vHolder = (ViewHolder) holder;
-            if (item != null) {
+            if (item != null) { // !
                 vHolder.title.setText(item.getTitle());
                 vHolder.source.setText(item.getSource());
                 vHolder.time.setText(item.getTime());
@@ -108,13 +108,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return TYPE_HEADER;
-        } else if (position + 1 == getItemCount()) {
-            return TYPE_FOOTER;
-        } else {
-            return TYPE_ITEM;
-        }
+        return TYPE_ITEM;
+//        if (position == 0) {
+//            return TYPE_HEADER;
+//        } else if (position + 1 == getItemCount()) {
+//            return TYPE_FOOTER;
+//        } else {
+//            return TYPE_ITEM;
+//        }
     }
 
     public void setLoadState(int loadState) {

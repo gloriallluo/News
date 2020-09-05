@@ -68,7 +68,6 @@ public class AllNewsFragment extends Fragment {
      */
     private void initTabs() {
         for (String cat: catIndicators) {
-            Log.d(TAG, "initTabs: " + cat);
             mTabLayout.addTab(mTabLayout.newTab());
         }
         mTabLayout.setupWithViewPager(mViewPager);

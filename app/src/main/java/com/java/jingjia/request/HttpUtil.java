@@ -72,14 +72,11 @@ public class HttpUtil {
                 result.append(line);
             }
             in.close();
-            System.out.println("*****" + result + "*****");
             Log.d(TAG, "getHttpResponse: " + result);
             return result.toString();
         } catch (SocketException e) {
-            Log.d(TAG, "getHttpResponse: aaaaaaaaaaa");
             return null;
         } catch (Exception e) {
-            Log.d(TAG, "getHttpResponse: !!!!!!!!!!!!");
             e.printStackTrace();
         } finally {
             try {
