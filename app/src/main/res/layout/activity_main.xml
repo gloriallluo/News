@@ -55,6 +55,18 @@
                 android:button="@null" />
 
             <RadioButton
+                android:id="@+id/tab_scholar"
+                android:text="@string/tab_scholar"
+                android:textSize="16sp"
+                android:textColor="@drawable/tab_text"
+                android:background="@drawable/tab_background"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:button="@null" />
+
+            <RadioButton
                 android:id="@+id/tab_user"
                 android:text="@string/tab_user"
                 android:textSize="16sp"

@@ -2,6 +2,7 @@
     <string name="app_name">News</string>
     <string name="tab_news">news</string>
     <string name="tab_data">data</string>
+    <string name="tab_scholar">scholar</string>
     <string name="tab_user">user</string>
     <string name="btn_like">like</string>
     <string name="btn_collect">collect</string>

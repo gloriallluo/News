@@ -11,8 +11,10 @@ import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.android.material.tabs.TabLayout;
 import com.java.jingjia.R;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
     private List<Fragment> mFragments;
+    private Fragment fgNews;
+    private Fragment fgData;
+    private Fragment fgScholar;
+    private Fragment fgUser;
     private FragmentManager fgManager;
     private FragmentPagerAdapter mFgAdapter;
 
@@ -33,12 +39,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: 1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mFragments = new LinkedList<>();
         bindViews();
         initFragments();
         fgManager = getSupportFragmentManager();
         mFgAdapter = new MainFragmentPagerAdapter(fgManager, mFragments);
-        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mFgAdapter);
         setListeners();
     }
@@ -58,11 +63,14 @@ public class MainActivity extends AppCompatActivity {
      * which are the news page, covid-data page and the user page
      */
     private void initFragments() {
-        Fragment fgNews = new NewsFragment(MainActivity.this);
-        Fragment fgData = new DataFragment(MainActivity.this);
-        Fragment fgUser = new UserFragment(MainActivity.this);
+        mFragments = new ArrayList<>();
+        fgNews = new NewsFragment(MainActivity.this);
+        fgData = new DataFragment(MainActivity.this);
+        fgScholar = new ScholarFragment(MainActivity.this);
+        fgUser = new UserFragment(MainActivity.this);
         mFragments.add(fgNews);
         mFragments.add(fgData);
+        mFragments.add(fgScholar);
         mFragments.add(fgUser);
     }
 
@@ -90,14 +98,13 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.tab_news:
-                        mViewPager.setCurrentItem(0);
-                        break;
+                        mViewPager.setCurrentItem(0); break;
                     case R.id.tab_data:
-                        mViewPager.setCurrentItem(1);
-                        break;
+                        mViewPager.setCurrentItem(1); break;
+                    case R.id.tab_scholar:
+                        mViewPager.setCurrentItem(2); break;
                     case R.id.tab_user:
-                        mViewPager.setCurrentItem(2);
-                        break;
+                        mViewPager.setCurrentItem(3); break;
                     default:
                         break;
                 }
