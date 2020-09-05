@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/main_vp"
+        <FrameLayout
+            android:id="@+id/main_fl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/tabs_rg"
@@ -39,8 +39,7 @@
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:button="@null"
-                android:checked="true" />
+                android:button="@null" />
 
             <RadioButton
                 android:id="@+id/tab_data"

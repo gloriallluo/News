@@ -3,20 +3,15 @@ package com.java.jingjia.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.google.android.material.tabs.TabLayout;
 import com.java.jingjia.R;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Main page of the News App.
@@ -24,15 +19,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private String TAG = "MainActivity";
-    private ViewPager mViewPager;
+    private FrameLayout mFrameLayout;
     private RadioGroup mRadioGroup;
-    private List<Fragment> mFragments;
     private Fragment fgNews;
     private Fragment fgData;
     private Fragment fgScholar;
     private Fragment fgUser;
     private FragmentManager fgManager;
-    private FragmentPagerAdapter mFgAdapter;
+//    private FragmentPagerAdapter mFgAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,99 +34,78 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bindViews();
-        initFragments();
         fgManager = getSupportFragmentManager();
-        mFgAdapter = new MainFragmentPagerAdapter(fgManager, mFragments);
-        mViewPager.setOffscreenPageLimit(3);
-        mViewPager.setAdapter(mFgAdapter);
         setListeners();
+        RadioButton btnNews = findViewById(R.id.tab_news);
+        btnNews.setChecked(true);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
+    /**
+     * 绑定组件
+     */
     private void bindViews() {
-        mViewPager = findViewById(R.id.main_vp);
+        mFrameLayout = findViewById(R.id.main_fl);
         mRadioGroup = findViewById(R.id.tabs_rg);
     }
 
     /**
-     * Create three Fragments,
-     * which are the news page, covid-data page and the user page
-     */
-    private void initFragments() {
-        mFragments = new ArrayList<>();
-        fgNews = new NewsFragment(MainActivity.this);
-        fgData = new DataFragment(MainActivity.this);
-        fgScholar = new ScholarFragment(MainActivity.this);
-        fgUser = new UserFragment(MainActivity.this);
-        mFragments.add(fgNews);
-        mFragments.add(fgData);
-        mFragments.add(fgScholar);
-        mFragments.add(fgUser);
-    }
-
-    /**
-     * Set OnPageChangeListener to the ViewPager and
-     * OnCheckedChangeListener to the RadioGroup
+     * Set OnCheckedChangeListener to the RadioGroup
+     * 点击某个RadioButton时显示对应Fragment
      */
     private void setListeners() {
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
-
-            @Override
-            public void onPageSelected(int position) {
-                RadioButton r = (RadioButton) mRadioGroup.getChildAt(position);
-                r.setChecked(true);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) { }
-        });
-
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                FragmentTransaction fgTransaction = fgManager.beginTransaction();
+                hideAllFragments(fgTransaction);
                 switch (checkedId) {
                     case R.id.tab_news:
-                        mViewPager.setCurrentItem(0); break;
+                        Log.d(TAG, "onCheckedChanged: news");
+                        if (fgNews == null) {
+                            fgNews = new AllNewsFragment(MainActivity.this);
+                            fgTransaction.add(R.id.main_fl, fgNews);
+                        } else {
+                            fgTransaction.show(fgNews);
+                        } break;
                     case R.id.tab_data:
-                        mViewPager.setCurrentItem(1); break;
+                        Log.d(TAG, "onCheckedChanged: data");
+                        if (fgData == null) {
+                            fgData = new DataFragment(MainActivity.this);
+                            fgTransaction.add(R.id.main_fl, fgData);
+                        } else {
+                            fgTransaction.show(fgData);
+                        } break;
                     case R.id.tab_scholar:
-                        mViewPager.setCurrentItem(2); break;
+                        Log.d(TAG, "onCheckedChanged: scholar");
+                        if (fgScholar == null) {
+                            fgScholar = new ScholarFragment(MainActivity.this);
+                            fgTransaction.add(R.id.main_fl, fgScholar);
+                        } else {
+                            fgTransaction.show(fgScholar);
+                        } break;
                     case R.id.tab_user:
-                        mViewPager.setCurrentItem(3); break;
+                        Log.d(TAG, "onCheckedChanged: user");
+                        if (fgUser == null) {
+                            fgUser = new UserFragment(MainActivity.this);
+                            fgTransaction.add(R.id.main_fl, fgUser);
+                        } else {
+                            fgTransaction.show(fgUser);
+                        } break;
                     default:
                         break;
                 }
+                fgTransaction.commit();
         }});
     }
 
     /**
-     * Inner class MainFragmentPagerAdapter
-     * to manage the Fragments
+     * 私有方法，将所有Fragment隐藏
+     * 为之后的show()方法作准备
      */
-    private class MainFragmentPagerAdapter extends FragmentPagerAdapter {
-        private List<Fragment> mFragments;
-
-        public MainFragmentPagerAdapter(FragmentManager manager, List<Fragment> fragments) {
-            super(manager);
-            mFragments = fragments;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (mFragments != null) return mFragments.get(position);
-            else return null;
-        }
-
-        @Override
-        public int getCount() {
-            if (mFragments != null) return mFragments.size();
-            else return 0;
-        }
-    }   /* inner class mainFragmentPagerAdapter */
+    private void hideAllFragments(FragmentTransaction fgTransaction) {
+        if (fgNews != null) fgTransaction.hide(fgNews);
+        if (fgData != null) fgTransaction.hide(fgData);
+        if (fgScholar != null) fgTransaction.hide(fgScholar);
+        if (fgUser != null) fgTransaction.hide(fgUser);
+    }
 }
