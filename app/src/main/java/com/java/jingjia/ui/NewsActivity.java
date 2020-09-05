@@ -33,6 +33,7 @@ public class NewsActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
         bindViews();
+        mContent.setVerticalScrollBarEnabled(true);
 
         Intent intent = getIntent();
         String mItemId = intent.getStringExtra("news");

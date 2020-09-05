@@ -51,7 +51,7 @@ public class AllNewsFragment extends Fragment {
         mViewPager.setAdapter(mFgAdapter);
         initTabs();
         setListeners();
-        mTabLayout.getTabAt(1).select();
+        mTabLayout.getTabAt(0).select();
         return view;
     }
 
