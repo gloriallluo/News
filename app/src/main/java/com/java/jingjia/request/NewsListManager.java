@@ -1,6 +1,7 @@
 package com.java.jingjia.request;
 
 import android.icu.text.ListFormatter;
+import android.util.Log;
 
 import com.java.jingjia.NewsItem;
 
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsListManager {
+
+    private String TAG = "NewsListManager";
     private static NewsListManager INSTANCE = null;
 
     private NewsListManager() {
@@ -48,6 +51,7 @@ public class NewsListManager {
      */
     public ArrayList<NewsItem> getNewsList(String type) {
         String json = getLatestJson(type);
+        Log.d(TAG, "getNewsList: " + json);
         ArrayList<NewsItem> newsList = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(json);

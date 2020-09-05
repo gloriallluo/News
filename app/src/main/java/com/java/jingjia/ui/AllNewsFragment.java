@@ -82,9 +82,9 @@ public class AllNewsFragment extends Fragment {
      */
     private void initFragments() {
         mFragments = new ArrayList<>();
-        NewsFragment a = new NewsFragment(mActivity);
-        NewsFragment b = new NewsFragment(mActivity);
-        NewsFragment c = new NewsFragment(mActivity);
+        NewsFragment a = new NewsFragment(mActivity, NewsFragment.ALL);
+        NewsFragment b = new NewsFragment(mActivity, NewsFragment.NEWS);
+        NewsFragment c = new NewsFragment(mActivity, NewsFragment.PAPER);
         mFragments.add(a);
         mFragments.add(b);
         mFragments.add(c);

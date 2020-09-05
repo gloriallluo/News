@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private Fragment fgScholar;
     private Fragment fgUser;
     private FragmentManager fgManager;
-//    private FragmentPagerAdapter mFgAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

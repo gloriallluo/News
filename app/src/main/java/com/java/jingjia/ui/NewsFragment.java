@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.java.jingjia.NewsItem;
 import com.java.jingjia.NewsListAdapter;
 import com.java.jingjia.R;
+import com.java.jingjia.request.NewsListManager;
 import com.java.jingjia.util.MyScrollListener;
 
 import java.util.ArrayList;
@@ -28,15 +29,22 @@ import java.util.List;
  */
 public class NewsFragment extends Fragment {
 
+    public static final String ALL = "all";
+    public static final String NEWS = "news";
+    public static final String PAPER = "paper";
+
     private String TAG = "NewsFragment";
+    private String type;
     private Activity mActivity;
+    private NewsListManager manager;
     private NewsListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private List<NewsItem> mNewsItems;
 
-    public NewsFragment(Activity activity) {
+    public NewsFragment(Activity activity, String type) {
         mActivity = activity;
         mNewsItems = new ArrayList<>();
+        this.type = type;
     }
 
     @Nullable
@@ -44,6 +52,8 @@ public class NewsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: 1");
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+        manager = NewsListManager.getNewsListManager();
+        initNewsItems();
         mAdapter = new NewsListAdapter(mActivity, mNewsItems);
         mRecyclerView = view.findViewById(R.id.news_rv);
         mRecyclerView.setAdapter(mAdapter);
@@ -54,7 +64,10 @@ public class NewsFragment extends Fragment {
     }
 
     private void initNewsItems() {
-
+        ArrayList<NewsItem> items = manager.getNewsList(type);
+        for (NewsItem item: items) {
+            mNewsItems.add(item);
+        }
     }
 
     private void setListeners() {
