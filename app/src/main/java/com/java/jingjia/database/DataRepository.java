@@ -7,35 +7,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class NewsRepository {
+public class DataRepository {
 
     /**
-     * 此类不应该是单例模式
-     * 因为我会用到此类的两个对象
-     * 一个对象操作新闻界面的news
-     * 一个对象操作用户转发的news
+     * 此类应该是单例模式?
      * */
 
-    private final NewsDao newsDao;
-//    private final AppDB appDB;
+    private final DataDao dataDao;
 
-    NewsRepository(NewsDao newsDB){
-        this.newsDao = newsDB;
+    DataRepository(DataDao dataDao){
+        this.dataDao = dataDao;
     }
 
     /**
-     * insert news to database
+     * insert data to database
      * */
-    public void insertNews(News... news){
-        InsertNewsTask insertNewsTask = new InsertNewsTask();
-        insertNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
+    public void insertData(Data... data){
+        DataRepository.InsertDataTask insertDataTask = new DataRepository.InsertDataTask();
+        insertDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
     }
 
-    private class InsertNewsTask extends AsyncTask<News, Void, Void>{
-
+    private class InsertDataTask extends AsyncTask<Data, Void, Void>{
         @Override
-        protected Void doInBackground(News... news){
-            newsDao.insertNews(news);
+        protected Void doInBackground(Data... data){
+            dataDao.insertData(data);
             return null;
         }
     }
@@ -43,10 +38,10 @@ public class NewsRepository {
     /**
      *get all news from database
      */
-    public ArrayList<News> getAllNews(){
+    public ArrayList<News> getAllData(){
         try {
-            GetAllNewsTask getAllNewsTask = new GetAllNewsTask();
-            return new ArrayList<>(Arrays.asList(getAllNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get()));
+            DataRepository.GetAllDataTask getAllDataTask = new DataRepository.GetAllDataTask();
+            return new ArrayList<>(Arrays.asList(getAllDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get()));
         }catch(ExecutionException e){
             e.printStackTrace();
         }catch(InterruptedException e){
@@ -55,11 +50,10 @@ public class NewsRepository {
         return null;
     }
 
-    private class GetAllNewsTask extends AsyncTask<Integer, Void, News[]>{
-
+    private class GetAllDataTask extends AsyncTask<Integer, Void, News[]>{
         @Override
         protected  News[] doInBackground(Integer... params){
-            return newsDao.loadAllNews();
+            return dataDao.loadAllData();
         }
     }
 
@@ -89,17 +83,16 @@ public class NewsRepository {
     /**
      * delete news
      * */
-    public void deleteNews(News... news){
-        DeleteNewsTask deleteNewsTask = new DeleteNewsTask();
-        deleteNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
+    public void deleteData(Data... data){
+        DataRepository.DeleteDataTask deleteNewsTask = new DataRepository.DeleteDataTask();
+        deleteNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
 
     }
 
-    private class DeleteNewsTask extends AsyncTask<News, Void, Void>{
-
+    private class DeleteDataTask extends AsyncTask<Data, Void, Void>{
         @Override
-        protected Void doInBackground(News... news){
-            newsDao.deleteNews(news);
+        protected Void doInBackground(Data... data){
+            dataDao.deleteData(data);
             return null;
         }
     }
@@ -124,8 +117,8 @@ public class NewsRepository {
     /**
      * clear the table
      */
-    public void clearNews(){
-        ClearNewsTask clearNewsTask = new ClearNewsTask();
+    public void clearData(){
+        DataRepository.ClearNewsTask clearNewsTask = new DataRepository.ClearNewsTask();
         clearNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0);
     }
 
@@ -133,7 +126,7 @@ public class NewsRepository {
 
         @Override
         protected Void doInBackground(Integer... params){
-            newsDao.deleteAllNews();
+            dataDao.deleteAllData();
             return null;
         }
     }
@@ -145,7 +138,7 @@ public class NewsRepository {
      */
     public List<String> getAllNewsID(){
         try{
-            GetAllNewsIDTask getAllNewsIDTask = new GetAllNewsIDTask();
+            DataRepository.GetAllNewsIDTask getAllNewsIDTask = new DataRepository.GetAllNewsIDTask();
             return getAllNewsIDTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0).get();
         }catch(ExecutionException e){
             e.printStackTrace();
@@ -157,21 +150,21 @@ public class NewsRepository {
 
     private class GetAllNewsIDTask extends AsyncTask<Integer, Void, List<String>> {
         @Override
-        protected List<String> doInBackground(Integer... params){return newsDao.getAllNewsID();}
+        protected List<String> doInBackground(Integer... params){return dataDao.getAllPlace();}
     }
 
     /**
      * Update news
      * */
-    public void updateNews(News...news){
-        UpdateNewsTask updateNewsTask = new UpdateNewsTask();
-        updateNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
+    public void updateNews(Data...data){
+        DataRepository.UpdateNewsTask updateNewsTask = new DataRepository.UpdateNewsTask();
+        updateNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
     }
 
-    private class UpdateNewsTask extends AsyncTask<News, Void, Void>{
+    private class UpdateNewsTask extends AsyncTask<Data, Void, Void>{
         @Override
-        protected Void doInBackground(News...news){
-            newsDao.updateNews(news);
+        protected Void doInBackground(Data...data){
+            dataDao.updateData(data);
             return null;
         }
     }
@@ -179,14 +172,14 @@ public class NewsRepository {
     /**
      *
      * */
-    public News getNewsByNewsID(String...newsID){
+    public Data getDataByNewsID(String...newsID){
         try{
-            GetNewsByNewsID getNewsByNewsID = new GetNewsByNewsID();
-            List<News> _news = getNewsByNewsID.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,newsID).get();
-            if(_news==null || _news.size() == 0){
+            DataRepository.GetDataByPlaceTask getDataByPlace = new DataRepository.GetDataByPlaceTask();
+            List<Data> _data = getDataByPlace.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,newsID).get();
+            if(_data==null || _data.size() == 0){
                 return null;
             }
-            return _news.get(0);
+            return _data.get(0);
         }catch (ExecutionException e){
             e.printStackTrace();
         }catch (InterruptedException e){
@@ -195,12 +188,10 @@ public class NewsRepository {
         return null;
     }
 
-    private class GetNewsByNewsID extends AsyncTask<String, Void, List<News>> {
+    private class GetDataByPlaceTask extends AsyncTask<String, Void, List<Data>> {
         @Override
-        protected List<News> doInBackground(String...newsID){
-            return newsDao.findNewsWithId(newsID);
+        protected List<Data> doInBackground(String...place){
+            return dataDao.findDataWithPlace(place);
         }
     }
-
-
 }
