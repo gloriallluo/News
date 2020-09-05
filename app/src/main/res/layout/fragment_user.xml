@@ -3,11 +3,56 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/user_icon"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/tab_user"
-        android:textSize="40sp"
-        android:gravity="center" />
+        android:layout_height="80dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/yd_grey" />
+
+    <TextView
+        android:id="@+id/user_collection"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/user_collection"
+        android:textSize="20sp"
+        android:paddingHorizontal="20dp"
+        android:gravity="center_vertical"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/yd_grey" />
+
+    <TextView
+        android:id="@+id/user_downloads"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/user_downloads"
+        android:textSize="20sp"
+        android:paddingHorizontal="20dp"
+        android:gravity="center_vertical" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/yd_grey" />
+
+    <TextView
+        android:id="@+id/user_history"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/user_history"
+        android:textSize="20sp"
+        android:paddingHorizontal="20dp"
+        android:gravity="center_vertical" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/yd_grey" />
 
 </LinearLayout>
