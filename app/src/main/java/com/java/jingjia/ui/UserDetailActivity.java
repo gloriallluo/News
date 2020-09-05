@@ -10,8 +10,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.java.jingjia.NewsItem;
 import com.java.jingjia.NewsListAdapter;
 import com.java.jingjia.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * class UserDetailActivity
@@ -23,6 +27,7 @@ public class UserDetailActivity extends AppCompatActivity {
     private NewsListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private TextView mTextView;
+    private List<NewsItem> mNewsItems;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +35,8 @@ public class UserDetailActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
         setContentView(R.layout.activity_userdetail);
+        mNewsItems = new ArrayList<>();
+
         Intent intent = getIntent();
         bindViews();
         int type = intent.getIntExtra("user", 0);
@@ -43,7 +50,7 @@ public class UserDetailActivity extends AppCompatActivity {
             default:
                 break;
         }
-        mAdapter = new NewsListAdapter(UserDetailActivity.this);
+        mAdapter = new NewsListAdapter(UserDetailActivity.this, mNewsItems);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(

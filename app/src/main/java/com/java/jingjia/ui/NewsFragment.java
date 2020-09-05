@@ -14,8 +14,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.java.jingjia.NewsItem;
 import com.java.jingjia.NewsListAdapter;
 import com.java.jingjia.R;
+import com.java.jingjia.util.MyScrollListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * class NewsFragment
@@ -27,10 +32,11 @@ public class NewsFragment extends Fragment {
     private Activity mActivity;
     private NewsListAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private List<NewsItem> mNewsItems;
 
     public NewsFragment(Activity activity) {
         mActivity = activity;
-        Log.d(TAG, "NewsFragment: 1");
+        mNewsItems = new ArrayList<>();
     }
 
     @Nullable
@@ -38,12 +44,27 @@ public class NewsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: 1");
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        mAdapter = new NewsListAdapter(mActivity);
+        mAdapter = new NewsListAdapter(mActivity, mNewsItems);
         mRecyclerView = view.findViewById(R.id.news_rv);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.addItemDecoration(
                 new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL));
         return view;
+    }
+
+    private void initNewsItems() {
+
+    }
+
+    private void setListeners() {
+        mRecyclerView.addOnScrollListener(new MyScrollListener() {
+            @Override
+            public void onLoadMore() {
+                mAdapter.setLoadState(mAdapter.LOADING);
+                // TODO: finish this function
+            }
+        });
+
     }
 }
