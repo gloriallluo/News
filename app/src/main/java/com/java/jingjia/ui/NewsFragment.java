@@ -1,4 +1,4 @@
-package com.java.jingjia;
+package com.java.jingjia.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.java.jingjia.NewsListAdapter;
+import com.java.jingjia.R;
 
 /**
  * class NewsFragment

@@ -1,4 +1,4 @@
-package com.java.jingjia;
+package com.java.jingjia.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,16 +6,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.java.jingjia.R;
+
 public class UserFragment extends Fragment {
 
     private String TAG = "UserFragment";
-    private TextView userCollection, userDownloads, userHistory;
+    private Button userCollection, userDownloads, userHistory;
     private Activity mActivity;
 
     public UserFragment(Activity activity) {
@@ -32,9 +34,9 @@ public class UserFragment extends Fragment {
     }
     
     private void bindViews(View view) {
-        userCollection = view.findViewById(R.id.user_collection);
-        userDownloads = view.findViewById(R.id.user_downloads);
-        userHistory = view.findViewById(R.id.user_history);
+        userCollection = view.findViewById(R.id.btn_user_collection);
+        userDownloads = view.findViewById(R.id.btn_user_downloads);
+        userHistory = view.findViewById(R.id.btn_user_history);
     }
     
     private void setListeners() {
