@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="4dp">
 
     <TextView
         android:id="@+id/news_page_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
-        android:textSize="20sp"
+        android:textSize="16sp"
+        android:textColor="@color/black"
         android:paddingVertical="8dp"
-        android:paddingHorizontal="12dp"
-        android:layout_alignParentTop="true"/>
+        android:paddingHorizontal="12dp" />
 
     <TextView
         android:id="@+id/news_page_source"
@@ -19,8 +19,7 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:textSize="12sp"
-        android:padding="8dp"
-        android:layout_below="@id/news_page_title"/>
+        android:padding="2dp" />
 
     <TextView
         android:id="@+id/news_page_time"
@@ -28,22 +27,22 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:textSize="12sp"
-        android:padding="8dp"
-        android:layout_below="@id/news_page_source"/>
+        android:padding="2dp" />
 
     <TextView
         android:id="@+id/news_page_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/black"
         android:scrollbars="vertical"
         android:orientation="vertical"
-        android:padding="4dp"/>
+        android:layout_margin="4dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
         android:padding="4dp">
         <Button
             android:id="@+id/news_page_btn_like"
@@ -75,4 +74,4 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

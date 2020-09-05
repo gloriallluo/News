@@ -127,11 +127,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * Inner static class ViewHolder
      */
     private class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView image;
         public TextView title, source, time;
         public ViewHolder(View view) {
             super(view);
-            image = view.findViewById(R.id.news_item_image);
             title = view.findViewById(R.id.news_item_title);
             source = view.findViewById(R.id.news_item_source);
             time = view.findViewById(R.id.news_item_time);
