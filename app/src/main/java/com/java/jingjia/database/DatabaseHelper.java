@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_LAND = "create table Land ("
             //primary key设置为主键，autoincrement关键字表示该列是自增长的

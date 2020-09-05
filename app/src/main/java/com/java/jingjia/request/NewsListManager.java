@@ -28,7 +28,7 @@ public class NewsListManager {
     }
 
     /**
-     * 获得指定type的最新10条消息的json。参数type可以为"all"或"news"或"paper"，默认为all，
+     * 获得指定type的最新10条消息的json字符串。参数type可以为"all"或"news"或"paper"，默认为all，
      * 如果是paper，接口返回的内容并没有按照时间顺序排列，之后再做处理。
      */
     public String getLatestJson(String type) {
@@ -42,6 +42,7 @@ public class NewsListManager {
                 break;
             case "paper":
                 url = "https://covid-dashboard.aminer.cn/api/events/list?type=paper&page=1&size=10";
+                break;
         }
         return HttpUtil.getServerHttpResponse().getResponse(url);
     }
