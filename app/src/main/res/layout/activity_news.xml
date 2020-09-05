@@ -31,21 +31,13 @@
         android:padding="8dp"
         android:layout_below="@id/news_page_source"/>
 
-    <ScrollView
+    <TextView
+        android:id="@+id/news_page_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:fadingEdge="vertical"
-        android:layout_below="@id/news_page_time">
-        <LinearLayout
-            android:id="@+id/news_page_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"
-            android:orientation="vertical"
-            android:padding="4dp"/>
-    </ScrollView>
-
+        android:orientation="vertical"
+        android:padding="4dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

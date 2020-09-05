@@ -13,14 +13,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.java.jingjia.NewsItem;
 import com.java.jingjia.R;
+import com.java.jingjia.request.NewsContentManager;
 
+/**
+ * 新闻详情页Activity
+ */
 public class NewsActivity extends AppCompatActivity {
 
     private String TAG = "NewsActivity";
     private NewsItem mItem;
-    private TextView mTitle, mSource, mTime;
-    private LinearLayout mContent;
+    private TextView mTitle, mSource, mTime, mContent;
     private Button mBtnLike, mBtnCollect, mBtnWb, mBtnWx;
+    private NewsContentManager manager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,13 +33,18 @@ public class NewsActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
-        Intent intent = getIntent();
-        mItem = (NewsItem) intent.getSerializableExtra("news");
         bindViews();
+
+        Intent intent = getIntent();
+        String mItemId = intent.getStringExtra("news");
+        manager = NewsContentManager.getNewsContentManager();
+        mItem = manager.getNewsItem(mItemId);
+
         setListeners();
         mTitle.setText(mItem.getTitle());
         mSource.setText(mItem.getSource());
         mTime.setText(mItem.getTime());
+        mContent.setText(mItem.getContent());
     }
 
     private void bindViews() {

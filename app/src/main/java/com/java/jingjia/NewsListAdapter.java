@@ -45,13 +45,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
         mActivity = activity;
         // just for displaying
         mNewsItems = new ArrayList<NewsItem>();
-        NewsItem item1 = new NewsItem(1, "Hello World!");
+        NewsItem item1 = new NewsItem("1");
         mNewsItems.add(item1);
-        NewsItem item2 = new NewsItem(2, "Hello Java!");
+        NewsItem item2 = new NewsItem("2");
         mNewsItems.add(item2);
-        NewsItem item3 = new NewsItem(3, "Hello Android!");
+        NewsItem item3 = new NewsItem("3");
         mNewsItems.add(item3);
-        NewsItem item4 = new NewsItem(4, "Hello News App!");
+        NewsItem item4 = new NewsItem("4");
         mNewsItems.add(item4);
     }
 
@@ -67,7 +67,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, NewsActivity.class);
-                intent.putExtra("news", mNewsItems.get(position));
+                intent.putExtra("news", mNewsItems.get(position).getId());
                 mActivity.startActivity(intent);
             }
         });

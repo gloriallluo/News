@@ -19,7 +19,7 @@ import com.java.jingjia.R;
 
 /**
  * class NewsFragment
- * show the news list
+ * 展示新闻列表
  */
 public class NewsFragment extends Fragment {
 
