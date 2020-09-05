@@ -1,6 +1,7 @@
 package com.java.jingjia.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,18 +45,27 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: click collection");
+                Intent intent = new Intent(mActivity, UserDetailActivity.class);
+                intent.putExtra("user", 1);
+                mActivity.startActivity(intent);
             }
         });
         userDownloads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: click downloads");
+                Intent intent = new Intent(mActivity, UserDetailActivity.class);
+                intent.putExtra("user", 2);
+                mActivity.startActivity(intent);
             }
         });
         userHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: click history");
+                Intent intent = new Intent(mActivity, UserDetailActivity.class);
+                intent.putExtra("user", 3);
+                mActivity.startActivity(intent);
             }
         });
     }

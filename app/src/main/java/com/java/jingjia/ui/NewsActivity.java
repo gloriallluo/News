@@ -26,6 +26,8 @@ public class NewsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: 2");
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
         Intent intent = getIntent();
         mItem = (NewsItem) intent.getSerializableExtra("news");
