@@ -1,6 +1,7 @@
 package com.java.jingjia.request;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 public class HttpUtil {
 
+    private final String TAG = "HttpUtil";
     private static HttpUtil INSTANCE = null;
 
     private HttpUtil() {
@@ -70,10 +72,14 @@ public class HttpUtil {
                 result.append(line);
             }
             in.close();
+            System.out.println("*****" + result + "*****");
+            Log.d(TAG, "getHttpResponse: " + result);
             return result.toString();
         } catch (SocketException e) {
+            Log.d(TAG, "getHttpResponse: aaaaaaaaaaa");
             return null;
         } catch (Exception e) {
+            Log.d(TAG, "getHttpResponse: !!!!!!!!!!!!");
             e.printStackTrace();
         } finally {
             try {
