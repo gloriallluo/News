@@ -1,6 +1,10 @@
 package com.java.jingjia.database;
 
+import android.app.Application;
 import android.os.AsyncTask;
+
+import androidx.lifecycle.LiveData;
+import androidx.room.RoomDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,52 +14,84 @@ import java.util.concurrent.ExecutionException;
 public class DataRepository {
 
     /**
-     * 此类应该是单例模式?
+     * 此类应该是单例模式吗?
      * */
 
-    private final DataDao dataDao;
+    private final DataDao mDataDao;
+    private LiveData<List<Data>> mAllData;
 
-    DataRepository(DataDao dataDao){
-        this.dataDao = dataDao;
+    // Note that in order to unit test the WordRepository, you have to remove the Application
+    // dependency. This adds complexity and much more code, and this sample is not about testing.
+    // See the BasicSample in the android-architecture-components repository at
+    // https://github.com/googlesamples
+    DataRepository(Application application, DataDao dataDao){
+        DataRoomDatabase db = DataRoomDatabase.getDatabase(application);
+        mDataDao = db.dataDao();
+        mAllData = mDataDao.getDataAll();
     }
+
+    // Room executes all queries on a separate thread.
+    // Observed LiveData will notify the observer when the data has changed.
+    LiveData<List<Data>> getAllData() {
+        return mAllData;
+    }
+
 
     /**
-     * insert data to database
+     * insert data to database (Official Way)
+     * */
+    // You must call this on a non-UI thread or your app will throw an exception. Room ensures
+    // that you're not doing any long running operations on the main thread, blocking the UI.
+    public void insert(final Data data) {
+        DataRoomDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDataDao.insert(data);
+            }
+        });
+    }
+    /**
+     * insert data to database (XueZhang Way)
      * */
     public void insertData(Data... data){
-        DataRepository.InsertDataTask insertDataTask = new DataRepository.InsertDataTask();
+        DataRepository.InsertAsyncTask insertDataTask = new DataRepository.InsertAsyncTask(mDataDao);
         insertDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
     }
+    private static class InsertAsyncTask extends AsyncTask<Data, Void, Void> {
+        private DataDao mAsyncDao;
 
-    private class InsertDataTask extends AsyncTask<Data, Void, Void>{
+        InsertAsyncTask(DataDao dataDao) {
+            this.mAsyncDao = dataDao;
+        }
+
         @Override
-        protected Void doInBackground(Data... data){
-            dataDao.insertData(data);
+        protected Void doInBackground(Data... data) {
+            mAsyncDao.insert(data[0]);
             return null;
         }
     }
 
-    /**
-     *get all news from database
-     */
-    public ArrayList<News> getAllData(){
-        try {
-            DataRepository.GetAllDataTask getAllDataTask = new DataRepository.GetAllDataTask();
-            return new ArrayList<>(Arrays.asList(getAllDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get()));
-        }catch(ExecutionException e){
-            e.printStackTrace();
-        }catch(InterruptedException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    /**
+//     *get all news from database
+//     */
+//    public ArrayList<News> getAllData(){
+//        try {
+//            DataRepository.GetAllDataTask getAllDataTask = new DataRepository.GetAllDataTask();
+//            return new ArrayList<>(Arrays.asList(getAllDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get()));
+//        }catch(ExecutionException e){
+//            e.printStackTrace();
+//        }catch(InterruptedException e){
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
-    private class GetAllDataTask extends AsyncTask<Integer, Void, News[]>{
-        @Override
-        protected  News[] doInBackground(Integer... params){
-            return dataDao.loadAllData();
-        }
-    }
+//    private class GetAllDataTask extends AsyncTask<Integer, Void, News[]>{
+//        @Override
+//        protected  Data[] doInBackground(Integer... params){
+//            return mDataDao.loadAllData();
+//        }
+//    }
 
 
     /**
@@ -92,7 +128,7 @@ public class DataRepository {
     private class DeleteDataTask extends AsyncTask<Data, Void, Void>{
         @Override
         protected Void doInBackground(Data... data){
-            dataDao.deleteData(data);
+            mDataDao.deleteData(data);
             return null;
         }
     }
@@ -126,7 +162,7 @@ public class DataRepository {
 
         @Override
         protected Void doInBackground(Integer... params){
-            dataDao.deleteAllData();
+            mDataDao.deleteAllData();
             return null;
         }
     }
@@ -150,7 +186,7 @@ public class DataRepository {
 
     private class GetAllNewsIDTask extends AsyncTask<Integer, Void, List<String>> {
         @Override
-        protected List<String> doInBackground(Integer... params){return dataDao.getAllPlace();}
+        protected List<String> doInBackground(Integer... params){return mDataDao.getAllPlace();}
     }
 
     /**
@@ -164,7 +200,7 @@ public class DataRepository {
     private class UpdateNewsTask extends AsyncTask<Data, Void, Void>{
         @Override
         protected Void doInBackground(Data...data){
-            dataDao.updateData(data);
+            mDataDao.updateData(data);
             return null;
         }
     }
@@ -191,7 +227,7 @@ public class DataRepository {
     private class GetDataByPlaceTask extends AsyncTask<String, Void, List<Data>> {
         @Override
         protected List<Data> doInBackground(String...place){
-            return dataDao.findDataWithPlace(place);
+            return mDataDao.findDataWithPlace(place);
         }
     }
 }
