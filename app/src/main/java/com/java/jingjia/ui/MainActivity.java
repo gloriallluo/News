@@ -1,4 +1,4 @@
-package com.java.jingjia;
+package com.java.jingjia.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import com.java.jingjia.R;
 
 import java.util.LinkedList;
 import java.util.List;

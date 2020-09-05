@@ -1,4 +1,4 @@
-package com.java.jingjia;
+package com.java.jingjia.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.java.jingjia.NewsItem;
+import com.java.jingjia.R;
 
 public class NewsActivity extends AppCompatActivity {
 
@@ -23,6 +26,8 @@ public class NewsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: 2");
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
         Intent intent = getIntent();
         mItem = (NewsItem) intent.getSerializableExtra("news");

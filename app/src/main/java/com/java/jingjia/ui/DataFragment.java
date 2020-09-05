@@ -1,4 +1,4 @@
-package com.java.jingjia;
+package com.java.jingjia.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.java.jingjia.R;
 
 public class DataFragment extends Fragment {
 
