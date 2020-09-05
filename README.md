@@ -1,4 +1,4 @@
-# CovidNews 科维德新闻
+# CovidNews 科维德纽斯
 一个安卓新冠疫情新闻的App。
 
 ## 应用介绍
