@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,22 +76,32 @@ public class NewsFragment extends Fragment {
         }
     }
 
-    private void addNewsItems(ArrayList<NewsItem> items) {
+    private boolean addNewsItemsAtStart(ArrayList<NewsItem> items) {
+        if (items.size() == 0) return false;
+        ArrayList<NewsItem> temp = new ArrayList<>();
+        temp.addAll(mNewsItems);
+        mNewsItems.clear();
+        mNewsItems.addAll(items);
+        mNewsItems.addAll(temp);
+        mAdapter.updateNewsItems(mNewsItems);
+        return true;
+    }
 
+    private boolean addNewsItemsAtEnd(ArrayList<NewsItem> items) {
+        if (items.size() == 0) return false;
+        mNewsItems.addAll(items);
+        mAdapter.updateNewsItems(mNewsItems);
+        return true;
     }
 
     private void setListeners() {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        final ArrayList<NewsItem> items = manager.getLatestNewsList(
-                                type, mNewsItems.get(0).getId());
-                        addNewsItems(items);
-                    }
-                }, 1000);
+                ArrayList<NewsItem> items = manager.getLatestNewsList(
+                        type, mNewsItems.get(0).getId());
+                if (!addNewsItemsAtStart(items))
+                    Toast.makeText(getContext(), "No more news", Toast.LENGTH_LONG).show();
                 mAdapter.notifyDataSetChanged();
                 mRefreshLayout.setRefreshing(false);
             }

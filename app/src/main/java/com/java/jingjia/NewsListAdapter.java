@@ -134,6 +134,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return TYPE_ITEM;
     }
 
+    public void updateNewsItems(List<NewsItem> items) {
+        mNewsItems = items;
+    }
+
     /**
      * 外部设置刷新状态
      */
