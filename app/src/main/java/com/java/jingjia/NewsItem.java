@@ -5,6 +5,8 @@ import android.widget.LinearLayout;
 import java.io.Serializable;
 
 public class NewsItem implements Serializable {
+
+    private final String TAG = "NewsItem";
     LinearLayout mLayout;
     String id;
     /**

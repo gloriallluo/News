@@ -72,7 +72,6 @@ public class HttpUtil {
                 result.append(line);
             }
             in.close();
-            Log.d(TAG, "getHttpResponse: " + result);
             return result.toString();
         } catch (SocketException e) {
             return null;

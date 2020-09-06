@@ -19,7 +19,7 @@ import com.java.jingjia.request.NewsContentManager;
  */
 public class NewsActivity extends AppCompatActivity {
 
-    private String TAG = "NewsActivity";
+    private final String TAG = "NewsActivity";
     private NewsItem mItem;
     private TextView mTitle, mSource, mTime, mContent;
     private Button mBtnLike, mBtnCollect, mBtnWb, mBtnWx;

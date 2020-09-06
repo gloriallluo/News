@@ -15,7 +15,7 @@ import com.java.jingjia.R;
 
 public class ScholarFragment extends Fragment {
 
-    private String TAG = "ScholarFragment";
+    private final String TAG = "ScholarFragment";
     private Activity mActivity;
 
     public ScholarFragment(Activity activity) {

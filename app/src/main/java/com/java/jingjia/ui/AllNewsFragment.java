@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class AllNewsFragment extends Fragment {
 
-    private String TAG = "AllNewsFragment";
+    private final String TAG = "AllNewsFragment";
     private Activity mActivity;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;

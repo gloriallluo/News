@@ -17,7 +17,7 @@ import com.java.jingjia.R;
 
 public class UserFragment extends Fragment {
 
-    private String TAG = "UserFragment";
+    private final String TAG = "UserFragment";
     private Button userCollection, userDownloads, userHistory;
     private Activity mActivity;
 

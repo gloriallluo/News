@@ -29,11 +29,11 @@ import java.util.List;
  */
 public class NewsFragment extends Fragment {
 
+    private final String TAG = "NewsFragment";
     public static final String ALL = "all";
     public static final String NEWS = "news";
     public static final String PAPER = "paper";
-
-    private String TAG = "NewsFragment";
+    
     private String type;
     private Activity mActivity;
     private NewsListManager manager;
@@ -50,7 +50,7 @@ public class NewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: 1");
+        // Log.d(TAG, "onCreateView: 1");
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         manager = NewsListManager.getNewsListManager();
         initNewsItems();
@@ -58,6 +58,7 @@ public class NewsFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.news_rv);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        setListeners();
         mRecyclerView.addItemDecoration(
                 new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL));
         return view;
@@ -73,9 +74,9 @@ public class NewsFragment extends Fragment {
     private void setListeners() {
         mRecyclerView.addOnScrollListener(new MyScrollListener() {
             @Override
-            public void onLoadMore() {
-                mAdapter.setLoadState(mAdapter.LOADING);
-                // TODO: finish this function
+            public void onRefresh() {   // 顶部下拉刷新
+                mAdapter.setRefreshState(mAdapter.REFRESHING);
+                Log.d(TAG, "onRefresh: REFRESH!!!");
             }
         });
 

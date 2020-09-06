@@ -15,7 +15,7 @@ import com.java.jingjia.R;
 
 public class DataFragment extends Fragment {
 
-    private String TAG = "DataFragment";
+    private final String TAG = "DataFragment";
     private Activity mActivity;
 
     public DataFragment(Activity activity) {

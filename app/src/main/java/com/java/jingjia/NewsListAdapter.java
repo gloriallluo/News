@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,17 +24,32 @@ import java.util.List;
  */
 public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private String TAG = "NewsListAdapter";
+    private final String TAG = "NewsListAdapter";
     private Activity mActivity;
     private List<NewsItem> mNewsItems;
 
-    private int loadState = 2;
-    private final int TYPE_ITEM = 1;        // 普通布局
-    private final int TYPE_HEADER = 2;      // 头布局
-    private final int TYPE_FOOTER = 3;      // 脚布局
-    public final int LOADING = 1;           // 正在加载
-    public final int LOADING_COMPLETE = 2;  // 加载完成
-    public final int LOADING_END = 3;       // 已到最底端
+    private int refreshState = 2;   // 现在的刷新状态
+    private int loadState = 4;      // 现在的加载状态
+
+    /**
+     * 布局分类
+     */
+    private final int TYPE_ITEM = -1;        // 普通布局
+    private final int TYPE_HEADER = -2;      // 头布局
+    private final int TYPE_FOOTER = -3;      // 脚布局
+
+    /**
+     * 下拉刷新的相关变量
+     */
+    public final int REFRESHING = 1;           // 正在刷新
+    public final int REFRESH_COMPLETE = 2;  // 刷新完成
+
+    /**
+     * 上拉加载的相关变量
+     */
+    public final int LOADING = 3;           // 正在加载
+    public final int LOAD_COMPLETE = 4;  // 加载完成
+    public final int LOAD_END = 5;       // 无更多内容
 
     public NewsListAdapter(Activity activity, List<NewsItem> items) {
         mActivity = activity;
@@ -61,8 +75,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        NewsItem item = mNewsItems.get(position);
-        if (holder instanceof ViewHolder) {
+        if (getItemViewType(position) == TYPE_ITEM) {
+            NewsItem item = mNewsItems.get(position - 1);
             ViewHolder vHolder = (ViewHolder) holder;
             if (item != null) { // !
                 vHolder.title.setText(item.getTitle());
@@ -77,21 +91,29 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     mActivity.startActivity(intent);
                 }
             });
+        } else if (getItemViewType(position) == TYPE_HEADER) {
+            HeadViewHolder hHolder = (HeadViewHolder) holder;
+            switch (refreshState) {
+                case REFRESHING:
+                    hHolder.progressBar.setVisibility(View.VISIBLE); break;
+                case REFRESH_COMPLETE:
+                    hHolder.progressBar.setVisibility(View.GONE); break;
+                default:
+                    break;
+            }
         }
-//        else if (holder instanceof HeadViewHolder) {
-//            HeadViewHolder hHolder = (HeadViewHolder) holder;
-//        } else if (holder instanceof FootViewHolder) {
+//      else if (holder instanceof FootViewHolder) {
 //            FootViewHolder fHolder = (FootViewHolder) holder;
 //            switch (loadState) {
 //                case LOADING:
 //                    fHolder.progressBar.setVisibility(View.VISIBLE);
 //                    fHolder.mLinearLayout.setVisibility(View.GONE);
 //                    break;
-//                case LOADING_COMPLETE:
+//                case LOAD_COMPLETE:
 //                    fHolder.progressBar.setVisibility(View.INVISIBLE);
 //                    fHolder.mLinearLayout.setVisibility(View.GONE);
 //                    break;
-//                case LOADING_END:
+//                case LOAD_END:
 //                    fHolder.progressBar.setVisibility(View.GONE);
 //                    fHolder.mLinearLayout.setVisibility(View.VISIBLE);
 //                    break;
@@ -103,29 +125,34 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return mNewsItems.size();   // TODO: change it to +2
+        return mNewsItems.size() + 1;   // TODO: change it to +2
     }
 
     @Override
     public int getItemViewType(int position) {
-        return TYPE_ITEM;
-//        if (position == 0) {
-//            return TYPE_HEADER;
-//        } else if (position + 1 == getItemCount()) {
-//            return TYPE_FOOTER;
-//        } else {
-//            return TYPE_ITEM;
-//        }
+        if (position == 0) {
+            return TYPE_HEADER;
+        } else {
+            return TYPE_ITEM;
+        }
     }
 
+    /**
+     * 外部设置刷新状态
+     */
+    public void setRefreshState(int refreshState) {
+        this.refreshState = refreshState;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 外部设置加载状态
+     */
     public void setLoadState(int loadState) {
         this.loadState = loadState;
         notifyDataSetChanged();
     }
 
-    /**
-     * Inner static class ViewHolder
-     */
     private class ViewHolder extends RecyclerView.ViewHolder {
         public TextView title, source, time;
         public ViewHolder(View view) {
@@ -137,8 +164,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private class HeadViewHolder extends RecyclerView.ViewHolder {
+        ProgressBar progressBar;
         HeadViewHolder(View view) {
             super(view);
+            progressBar = view.findViewById(R.id.footer_progress_bar);
         }
     }
 

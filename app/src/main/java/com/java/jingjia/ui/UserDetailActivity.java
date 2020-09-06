@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class UserDetailActivity extends AppCompatActivity {
 
-    private String TAG = "UserDetailActivity";
+    private final String TAG = "UserDetailActivity";
     private NewsListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private TextView mTextView;

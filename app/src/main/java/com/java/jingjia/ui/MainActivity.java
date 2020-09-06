@@ -18,7 +18,7 @@ import com.java.jingjia.R;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private String TAG = "MainActivity";
+    private final String TAG = "MainActivity";
     private FrameLayout mFrameLayout;
     private RadioGroup mRadioGroup;
     private Fragment fgNews;
