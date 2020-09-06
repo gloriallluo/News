@@ -175,7 +175,7 @@ public class NewsRepository {
 
     private class GetAllNewsIDTask extends AsyncTask<Integer, Void, List<String>> {
         @Override
-        protected List<String> doInBackground(Integer... params){return newsDao.getAllNewsID();}
+        protected List<String> doInBackground(Integer... params){return mNewsDao.getAllNewsID();}
     }
 
     /**
