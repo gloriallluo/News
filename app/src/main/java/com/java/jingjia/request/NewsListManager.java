@@ -127,9 +127,9 @@ public class NewsListManager {
 
     /**
      * getMoreNewsList(String type, String id)
-     * 返回更多的比id旧的十条NewItem类的ArrayList。
+     * 返回更多的比id旧的[10,20]个NewItem类的ArrayList。
      */
-    public ArrayList<NewsItem> getMoreNewsList(String type, String id) {
+    public ArrayList<NewsItem> getMoreNewsList(String type, String id) throws JSONException {
         ArrayList<NewsItem> newsList = new ArrayList<>();
         boolean find = false;
         while(find == false){
@@ -158,6 +158,22 @@ public class NewsListManager {
             }
             pageDown++;
         }
+        //再读10条
+        String json = getJson(type, pageDown);
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray data = jsonObject.getJSONArray("data");
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject oneJsonObject = data.getJSONObject(i);
+                NewsItem oneNews = NewsContentManager.getNewsContentManager().
+                        getNewsItemFromJsonObject(oneJsonObject);
+                newsList.add(oneNews);
+                insert(oneNews);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        pageDown++;
         return newsList;
     }
 }
