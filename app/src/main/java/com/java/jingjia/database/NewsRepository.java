@@ -22,7 +22,7 @@ public class NewsRepository {
      * */
 
     private NewsDao mNewsDao;
-    private LiveData<List<NewsItem>> mAllNews;
+    private List<NewsItem> mAllNews;
 
     public NewsRepository(Application application){
         NewsRoomDatabase db = NewsRoomDatabase.getDatabase(application);
@@ -33,18 +33,18 @@ public class NewsRepository {
     /**
      * insert news to database
      * */
-    public void insertNews(NewsItem... news){
-        InsertNewsTask insertNewsTask = new InsertNewsTask();
-        insertNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
-    }
-
-    private class InsertNewsTask extends AsyncTask<NewsItem, Void, Void>{
-        @Override
-        protected Void doInBackground(NewsItem... news){
-            mNewsDao.insert(news);
-            return null;
-        }
-    }
+//    public void insertNews(NewsItem... news){
+//        InsertNewsTask insertNewsTask = new InsertNewsTask();
+//        insertNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
+//    }
+//
+//    private class InsertNewsTask extends AsyncTask<NewsItem, Void, Void>{
+//        @Override
+//        protected Void doInBackground(NewsItem... news){
+//            mNewsDao.insert(news);
+//            return null;
+//        }
+//    }
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
     // that you're not doing any long running operations on the main thread, blocking the UI.
     public void insert(NewsItem news) {
@@ -70,8 +70,12 @@ public class NewsRepository {
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
 
-    public LiveData<List<NewsItem>> getAllNews() {
+    public List<NewsItem> getAllNews() {
         return mAllNews;
+    }
+
+    public List<NewsItem> getAllNewsByVisitedOrNot(boolean visited) {
+        return mNewsDao.getAllNewsByVisitedOrNot(visited);
     }
 
 //    private class GetAllNewsTask extends AsyncTask<Integer, Void, NewsItem[]>{

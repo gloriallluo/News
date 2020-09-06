@@ -26,7 +26,7 @@ public class NewsListManager {
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
-    private LiveData<List<NewsItem>> mAllNews;
+    private List<NewsItem> mAllNews;
 
     private static NewsListManager INSTANCE = null;
     private NewsListManager(Application application) {
@@ -129,7 +129,7 @@ public class NewsListManager {
      * getMoreNewsList(String type, String id)
      * 返回更多的比id旧的[10,20]个NewItem类的ArrayList。
      */
-    public ArrayList<NewsItem> getMoreNewsList(String type, String id) throws JSONException {
+    public ArrayList<NewsItem> getMoreNewsList(String type, String id) {
         ArrayList<NewsItem> newsList = new ArrayList<>();
         boolean find = false;
         while(find == false){
@@ -175,4 +175,21 @@ public class NewsListManager {
         }
         return newsList;
     }
+
+    /**
+     * getHistoryNewsList
+     * 返回所有数据库中的News（在首页出现过的News）
+     */
+    public List<NewsItem> getHistoryNewsList(String type) {
+        return this.mAllNews;
+    }
+
+    /**
+     * getVisitedNewsList
+     * 返回所有数据库中被看过的的News
+     */
+    public List<NewsItem> getVisitedNewsList(String type) {
+        return this.mRepository.getAllNewsByVisitedOrNot(true);
+    }
+
 }

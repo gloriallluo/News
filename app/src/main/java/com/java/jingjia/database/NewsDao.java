@@ -30,13 +30,16 @@ public interface NewsDao {
     NewsItem[] loadAllNews();
 
     @Query("SELECT * from news_table ORDER BY time ASC")
-    LiveData<List<NewsItem>> getAllNews();
+    List<NewsItem> getAllNews();
 
     @Query("SELECT id FROM news_table")
     List<String> getAllNewsID();
 
     @Query("SELECT * FROM news_table WHERE id LIKE :search")
     List<NewsItem> findNewsWithId(String[] search);
+
+    @Query("SELECT * FROM news_table WHERE visited LIKE :search")
+    List<NewsItem> getAllNewsByVisitedOrNot(Boolean search);
 
 //    @Query("SELECT * FROM news WHERE age > :minAge")
 //    public News[] loadAllUsersOlderThan(int minAge);

@@ -19,7 +19,7 @@ public class NewsItem implements Serializable {
     private final String TAG = "NewsItem";
     @Ignore
     LinearLayout mLayout;
-    @Ignore
+
     Boolean visited;
 
     @PrimaryKey //每个实体必须将至少 1 个字段定义为主键。
