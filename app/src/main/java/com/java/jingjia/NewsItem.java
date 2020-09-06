@@ -20,8 +20,10 @@ public class NewsItem implements Serializable {
     @Ignore
     LinearLayout mLayout;
 
-    public Boolean visited;
-
+    Boolean visited;
+    /**
+     * 是否被读过
+     */
     @PrimaryKey //每个实体必须将至少 1 个字段定义为主键。
     @NonNull
     String id;
@@ -57,10 +59,9 @@ public class NewsItem implements Serializable {
      * 种类news或paper
      */
 
-    @Ignore
-    public NewsItem(String id) {
-        this.id = id;
-    }
+
+
+//    public NewsItem() { }
 
     public NewsItem(
             String id,     /* 用于请求新闻正文的id */
@@ -70,7 +71,8 @@ public class NewsItem implements Serializable {
             String language,/* 语言 */
             String source,  /* 来源 */
             String time,     /* 时间 */
-            String type) {
+            String type,
+            Boolean visited) {
         this.id = id;
         this.category = category;
         this.content = content;
@@ -79,7 +81,7 @@ public class NewsItem implements Serializable {
         this.source = source;
         this.time = time;
         this.type = type;
-        this.visited = false;
+        this.visited = visited;
     }
 
     public String getId(){

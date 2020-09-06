@@ -54,7 +54,8 @@ public class NewsContentManager {
             String time = data.getString("time");
             String type = data.getString("type");
             String source = data.getString("source");
-            oneNews = new NewsItem(_id, category, content, title, language, source, time, type);
+            Boolean visited = false;
+            oneNews = new NewsItem(_id, category, content, title, language, source, time, type, visited);
         } catch (JSONException e) {
             e.printStackTrace();
         }
