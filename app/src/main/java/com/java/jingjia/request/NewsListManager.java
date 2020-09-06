@@ -1,9 +1,12 @@
 package com.java.jingjia.request;
 
-import android.icu.text.ListFormatter;
+import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import com.java.jingjia.NewsItem;
+import com.java.jingjia.database.NewsRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,14 +18,21 @@ import java.util.List;
 public class NewsListManager {
 
     private String TAG = "NewsListManager";
+    private NewsRepository mRepository;
+    // Using LiveData and caching what getAllNews returns has several benefits:
+    // - We can put an observer on the data (instead of polling for changes) and only update the
+    //   the UI when the data actually changes.
+    // - Repository is completely separated from the UI through the ViewModel.
+    private LiveData<List<NewsItem>> mAllNews;
+
     private static NewsListManager INSTANCE = null;
-
-    private NewsListManager() {
+    private NewsListManager(Application application) {
+        mRepository = new NewsRepository(application);
+        mAllNews = mRepository.getAllNews();
     }
-
-    public static NewsListManager getNewsListManager() {
+    public static NewsListManager getNewsListManager(Application application) {
         if (INSTANCE == null) {
-            INSTANCE = new NewsListManager();
+            INSTANCE = new NewsListManager(application);
         }
         return INSTANCE;
     }

@@ -1,5 +1,6 @@
 package com.java.jingjia.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -7,30 +8,35 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.java.jingjia.NewsItem;
+
 import java.util.List;
 
 @Dao
 public interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertNews(News... news);
+    void insert(NewsItem... news);
 
     @Update
-    void updateNews(News... news);
+    void update(NewsItem... news);
 
     @Delete
-    void deleteNews(News... news);
+    void deleteNews(NewsItem... news);
 
     @Delete
-    void deleteAllNews(News... news);
+    void deleteAllNews(NewsItem... news);
 
-    @Query("SELECT * FROM news")
-    News[] loadAllNews();
+    @Query("SELECT * FROM news_table")
+    NewsItem[] loadAllNews();
 
-    @Query("SELECT id FROM news")
+    @Query("SELECT * from news_table ORDER BY time ASC")
+    LiveData<List<NewsItem>> getAllNews();
+
+    @Query("SELECT id FROM news_table")
     List<String> getAllNewsID();
 
-    @Query("SELECT * FROM news WHERE id LIKE :search")
-    List<News> findNewsWithId(String[] search);
+    @Query("SELECT * FROM news_table WHERE id LIKE :search")
+    List<NewsItem> findNewsWithId(String[] search);
 
 //    @Query("SELECT * FROM news WHERE age > :minAge")
 //    public News[] loadAllUsersOlderThan(int minAge);
