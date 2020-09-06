@@ -100,4 +100,5 @@ public class NewsItem implements Serializable {
     public String getType(){
         return this.type;
     }
+    public String getContent() {return this.content;}
 }
