@@ -3,14 +3,55 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
-    android:gravity="right">
+    android:background="@color/transparent">
 
     <LinearLayout
-        android:id="@+id/edit_tab_ll"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white"/>
+        android:layout_weight="1"
+        android:background="@color/transparent_black" />
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="@string/tab_edit_selected"
+            android:textSize="14sp"
+            android:textColor="@color/yd_grey" />
+
+        <GridView
+            android:id="@+id/tab_selected_gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="@string/tab_edit_unselected"
+            android:textSize="14sp"
+            android:textColor="@color/yd_grey" />
+
+        <GridView
+            android:id="@+id/tab_unselected_gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp" />
+
+    </LinearLayout>
 </LinearLayout>

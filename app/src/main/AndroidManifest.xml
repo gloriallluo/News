@@ -33,7 +33,7 @@
 
         <activity
             android:name=".ui.EditTabActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.ALL_APPS" />
                 <category android:name="android.intent.category.DEFAULT" />

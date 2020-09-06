@@ -17,17 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.java.jingjia.NewsItem;
-import com.java.jingjia.NewsListAdapter;
+import com.java.jingjia.util.NewsListAdapter;
 import com.java.jingjia.R;
 import com.java.jingjia.request.NewsListManager;
 import com.java.jingjia.util.MyScrollListener;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * class NewsFragment

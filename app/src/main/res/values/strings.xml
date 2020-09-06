@@ -8,12 +8,13 @@
     <string name="top_tab_all">all</string>
     <string name="top_tab_news">news</string>
     <string name="top_tab_paper">paper</string>
-    <string name="top_tab_edit">+</string>
+    <string name="top_tab_plus">+</string>
+    <string name="top_tab_cross">x</string>
+    <string name="tab_edit_selected">selected</string>
+    <string name="tab_edit_unselected">unselected</string>
     <string name="btn_like">like</string>
     <string name="btn_collect">collect</string>
     <string name="btn_wb">weibo</string>
     <string name="btn_wx">wechat</string>
-    <string name="user_collection">我的收藏</string>
-    <string name="user_downloads">本地缓存</string>
     <string name="user_history">我的足迹</string>
 </resources>

@@ -2,20 +2,16 @@ package com.java.jingjia.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.java.jingjia.NewsItem;
-import com.java.jingjia.NewsListAdapter;
+import com.java.jingjia.util.NewsListAdapter;
 import com.java.jingjia.R;
 import com.java.jingjia.request.NewsListManager;
-import com.java.jingjia.util.MyScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +37,8 @@ public class UserDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_userdetail);
         manager = NewsListManager.getNewsListManager(getApplication());
         mNewsItems = new ArrayList<>();
-        List<NewsItem> items = manager.getVisitedNewsList("");
-        mNewsItems.addAll(items);
+//        List<NewsItem> items = manager.getVisitedNewsList("");
+//        mNewsItems.addAll(items);
 
         Intent intent = getIntent();
         bindViews();
@@ -53,20 +49,20 @@ public class UserDetailActivity extends AppCompatActivity {
             default:
                 break;
         }
-        mAdapter = new NewsListAdapter(UserDetailActivity.this, mNewsItems);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addOnScrollListener(new MyScrollListener() {
-            @Override
-            public void onLoadMore() {
-                mAdapter.setLoadState(mAdapter.LOADING);
-                Log.d(TAG, "onLoadMore: 111");
-                // TODO: get data from database
-                mAdapter.setLoadState(mAdapter.LOAD_COMPLETE);
-            }
-        });
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+//        mAdapter = new NewsListAdapter(UserDetailActivity.this, mNewsItems);
+//        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mRecyclerView.addOnScrollListener(new MyScrollListener() {
+//            @Override
+//            public void onLoadMore() {
+//                mAdapter.setLoadState(mAdapter.LOADING);
+//                Log.d(TAG, "onLoadMore: 111");
+//                // TODO: get data from database
+//                mAdapter.setLoadState(mAdapter.LOAD_COMPLETE);
+//            }
+//        });
+//        mRecyclerView.addItemDecoration(
+//                new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
     }
 
     private void bindViews() {

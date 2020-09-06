@@ -19,7 +19,7 @@
             android:id="@+id/all_news_edit"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:text="@string/top_tab_edit"
+            android:text="@string/top_tab_plus"
             android:background="@null" />
 
     </LinearLayout>
