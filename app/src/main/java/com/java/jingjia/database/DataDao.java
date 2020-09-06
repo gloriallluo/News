@@ -1,5 +1,6 @@
 package com.java.jingjia.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface DataDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertData(Data... data);
+    void insert(Data... data);
 
     @Update
     void updateData(Data... data);
@@ -24,14 +25,20 @@ public interface DataDao {
     @Delete
     void deleteAllData(Data... data);
 
-    @Query("SELECT * FROM data")
-    News[] loadAllData();
+//    @Query("SELECT * FROM data_table")
+//    Data[] loadAllData();
 
-    @Query("SELECT place FROM data")
+    @Query("SELECT * from data_table order by place asc")
+    LiveData<List<Data>> getDataAll();
+
+    @Query("SELECT place FROM data_table")
     List<String> getAllPlace();
 
-    @Query("SELECT * FROM data WHERE place LIKE :search")
+    @Query("SELECT * FROM data_table WHERE place LIKE :search")
     List<Data> findDataWithPlace(String[] search);
+
+    @Query("DELETE FROM data_table")
+    void deleteAll();
 
 //    @Query("SELECT * FROM news WHERE age > :minAge")
 //    public News[] loadAllUsersOlderThan(int minAge);
