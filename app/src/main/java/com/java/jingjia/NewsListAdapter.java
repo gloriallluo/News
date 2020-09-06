@@ -76,9 +76,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == TYPE_ITEM) {
-            NewsItem item = mNewsItems.get(position - 1);
+            NewsItem item = mNewsItems.get(position);
             ViewHolder vHolder = (ViewHolder) holder;
-            if (item != null) { // !
+            if (item != null) {
                 vHolder.title.setText(item.getTitle());
                 vHolder.source.setText(item.getSource());
                 vHolder.time.setText(item.getTime());
@@ -91,17 +91,18 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     mActivity.startActivity(intent);
                 }
             });
-        } else if (getItemViewType(position) == TYPE_HEADER) {
-            HeadViewHolder hHolder = (HeadViewHolder) holder;
-            switch (refreshState) {
-                case REFRESHING:
-                    hHolder.progressBar.setVisibility(View.VISIBLE); break;
-                case REFRESH_COMPLETE:
-                    hHolder.progressBar.setVisibility(View.GONE); break;
-                default:
-                    break;
-            }
         }
+//        else if (getItemViewType(position) == TYPE_HEADER) {
+//            HeadViewHolder hHolder = (HeadViewHolder) holder;
+//            switch (refreshState) {
+//                case REFRESHING:
+//                    hHolder.progressBar.setVisibility(View.VISIBLE); break;
+//                case REFRESH_COMPLETE:
+//                    hHolder.progressBar.setVisibility(View.GONE); break;
+//                default:
+//                    break;
+//            }
+//        }
 //      else if (holder instanceof FootViewHolder) {
 //            FootViewHolder fHolder = (FootViewHolder) holder;
 //            switch (loadState) {
@@ -125,16 +126,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return mNewsItems.size() + 1;   // TODO: change it to +2
+        return mNewsItems.size();   // TODO: change it to +2
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return TYPE_HEADER;
-        } else {
-            return TYPE_ITEM;
-        }
+        return TYPE_ITEM;
     }
 
     /**

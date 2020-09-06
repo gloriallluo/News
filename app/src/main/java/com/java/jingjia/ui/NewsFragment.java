@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.java.jingjia.NewsItem;
 import com.java.jingjia.NewsListAdapter;
@@ -22,6 +23,8 @@ import com.java.jingjia.util.MyScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * class NewsFragment
@@ -38,6 +41,7 @@ public class NewsFragment extends Fragment {
     private Activity mActivity;
     private NewsListManager manager;
     private NewsListAdapter mAdapter;
+    private SwipeRefreshLayout mRefreshLayout;
     private RecyclerView mRecyclerView;
     private List<NewsItem> mNewsItems;
 
@@ -50,11 +54,11 @@ public class NewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Log.d(TAG, "onCreateView: 1");
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         manager = NewsListManager.getNewsListManager();
         initNewsItems();
         mAdapter = new NewsListAdapter(mActivity, mNewsItems);
+        mRefreshLayout = view.findViewById(R.id.news_srl);
         mRecyclerView = view.findViewById(R.id.news_rv);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -71,14 +75,41 @@ public class NewsFragment extends Fragment {
         }
     }
 
+    private void addNewsItems(ArrayList<NewsItem> items) {
+
+    }
+
     private void setListeners() {
-        mRecyclerView.addOnScrollListener(new MyScrollListener() {
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh() {   // 顶部下拉刷新
-                mAdapter.setRefreshState(mAdapter.REFRESHING);
-                Log.d(TAG, "onRefresh: REFRESH!!!");
+            public void onRefresh() {
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        final ArrayList<NewsItem> items = manager.getLatestNewsList(
+                                type, mNewsItems.get(0).getId());
+                        addNewsItems(items);
+                    }
+                }, 1000);
+                mAdapter.notifyDataSetChanged();
+                mRefreshLayout.setRefreshing(false);
             }
         });
+//        mRecyclerView.addOnScrollListener(new MyScrollListener() {
+//            @Override
+//            public void onRefresh() {   // 顶部下拉刷新
+//                mAdapter.setRefreshState(mAdapter.REFRESHING);
+//                new Timer().schedule(new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        final ArrayList<NewsItem> items = manager.getLatestNewsList(
+//                                type, mNewsItems.get(0).getId());
+//                        addNewsItems(items);
+//                    }
+//                }, 2000);   // 加载限时2秒
+//                mAdapter.setRefreshState(mAdapter.REFRESH_COMPLETE);
+//            }
+//        });
 
     }
 }

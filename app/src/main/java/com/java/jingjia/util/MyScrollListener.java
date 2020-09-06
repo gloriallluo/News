@@ -15,7 +15,7 @@ public abstract class MyScrollListener extends RecyclerView.OnScrollListener {
     private boolean isSlidingUpward = false;        // 向上滑动
     private boolean isSlidingDownward = false;      // 向下滑动
 
-    public abstract void onRefresh();   // 刷新接口
+    // public abstract void onRefresh();   // 刷新接口
     // public abstract void onLoadMore();  // 加载接口
 
     @Override
@@ -34,8 +34,8 @@ public abstract class MyScrollListener extends RecyclerView.OnScrollListener {
         // 不滑动时
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
             int firstItemPosition = manager.findFirstCompletelyVisibleItemPosition();
-            if (firstItemPosition == 0 && isSlidingDownward)
-                onRefresh();
+//            if (firstItemPosition == 0 && isSlidingDownward)
+//                onRefresh();
             isSlidingUpward = false;
             isSlidingDownward = false;
         }

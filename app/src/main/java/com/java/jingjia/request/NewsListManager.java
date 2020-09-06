@@ -52,7 +52,6 @@ public class NewsListManager {
      */
     public ArrayList<NewsItem> getNewsList(String type) {
         String json = getLatestJson(type);
-        Log.d(TAG, "getNewsList: " + json);
         ArrayList<NewsItem> newsList = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(json);

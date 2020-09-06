@@ -1,11 +1,14 @@
 package com.java.jingjia.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
@@ -21,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private FrameLayout mFrameLayout;
     private RadioGroup mRadioGroup;
-    private Fragment fgNews;
-    private Fragment fgData;
-    private Fragment fgGraph;
-    private Fragment fgScholar;
-    private Fragment fgUser;
+    private AllNewsFragment fgNews;
+    private DataFragment fgData;
+    private GraphFragment fgGraph;
+    private ScholarFragment fgScholar;
+    private UserFragment fgUser;
     private FragmentManager fgManager;
 
     @Override
