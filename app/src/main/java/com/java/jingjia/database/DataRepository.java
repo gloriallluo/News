@@ -125,6 +125,10 @@ public class DataRepository {
 
     }
 
+//    public List<Data> getChinaAccumulatedata() {
+//        return this.mDataDao.getChinaAccumulatedata();
+//    }
+
     private class DeleteDataTask extends AsyncTask<Data, Void, Void>{
         @Override
         protected Void doInBackground(Data... data){
@@ -172,22 +176,22 @@ public class DataRepository {
      * get all newsID
      * @return
      */
-    public List<String> getAllNewsID(){
-        try{
-            DataRepository.GetAllNewsIDTask getAllNewsIDTask = new DataRepository.GetAllNewsIDTask();
-            return getAllNewsIDTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0).get();
-        }catch(ExecutionException e){
-            e.printStackTrace();
-        }catch(InterruptedException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private class GetAllNewsIDTask extends AsyncTask<Integer, Void, List<String>> {
-        @Override
-        protected List<String> doInBackground(Integer... params){return mDataDao.getAllPlace();}
-    }
+//    public List<String> getAllNewsID(){
+//        try{
+//            DataRepository.GetAllNewsIDTask getAllNewsIDTask = new DataRepository.GetAllNewsIDTask();
+//            return getAllNewsIDTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0).get();
+//        }catch(ExecutionException e){
+//            e.printStackTrace();
+//        }catch(InterruptedException e){
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+//
+//    private class GetAllNewsIDTask extends AsyncTask<Integer, Void, List<String>> {
+//        @Override
+//        protected List<String> doInBackground(Integer... params){return mDataDao.getAllPlace();}
+//    }
 
     /**
      * Update news
@@ -208,26 +212,26 @@ public class DataRepository {
     /**
      *
      * */
-    public Data getDataByNewsID(String...newsID){
-        try{
-            DataRepository.GetDataByPlaceTask getDataByPlace = new DataRepository.GetDataByPlaceTask();
-            List<Data> _data = getDataByPlace.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,newsID).get();
-            if(_data==null || _data.size() == 0){
-                return null;
-            }
-            return _data.get(0);
-        }catch (ExecutionException e){
-            e.printStackTrace();
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private class GetDataByPlaceTask extends AsyncTask<String, Void, List<Data>> {
-        @Override
-        protected List<Data> doInBackground(String...place){
-            return mDataDao.findDataWithPlace(place);
-        }
-    }
+//    public Data getDataByNewsID(String...newsID){
+//        try{
+//            DataRepository.GetDataByPlaceTask getDataByPlace = new DataRepository.GetDataByPlaceTask();
+//            List<Data> _data = getDataByPlace.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,newsID).get();
+//            if(_data==null || _data.size() == 0){
+//                return null;
+//            }
+//            return _data.get(0);
+//        }catch (ExecutionException e){
+//            e.printStackTrace();
+//        }catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+//
+//    private class GetDataByPlaceTask extends AsyncTask<String, Void, List<Data>> {
+//        @Override
+//        protected List<Data> doInBackground(String...place){
+//            return mDataDao.findDataWithPlace(place);
+//        }
+//    }
 }

@@ -28,14 +28,16 @@ public interface DataDao {
 //    @Query("SELECT * FROM data_table")
 //    Data[] loadAllData();
 
-    @Query("SELECT * from data_table order by place asc")
+    @Query("SELECT * from data_table order by country asc")
     LiveData<List<Data>> getDataAll();
 
-    @Query("SELECT place FROM data_table")
-    List<String> getAllPlace();
+//    @Query("SELECT country,province,county FROM data_table")
+//    List<String> getAllPlace();
 
-    @Query("SELECT * FROM data_table WHERE place LIKE :search")
-    List<Data> findDataWithPlace(String[] search);
+    @Query("SELECT * FROM data_table WHERE country LIKE :country " +
+            "AND province LIKE :province " +
+            "AND county LIKE :county")
+    List<Data> findDataWithPlace(String country, String province, String county);
 
     @Query("DELETE FROM data_table")
     void deleteAll();

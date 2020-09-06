@@ -112,13 +112,9 @@ public class NewsFragment extends Fragment {
                 mAdapter.setLoadState(mAdapter.LOADING);
                 Log.d(TAG, "onLoadMore: 111");
                 boolean flag = true;
-                try {
-                    ArrayList<NewsItem> items = manager.getMoreNewsList(
-                            type, mNewsItems.get(mNewsItems.size() - 1).getId());
-                    flag = addNewsItemsAtEnd(items);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                ArrayList<NewsItem> items = manager.getMoreNewsList(
+                        type, mNewsItems.get(mNewsItems.size() - 1).getId());
+                flag = addNewsItemsAtEnd(items);
                 mAdapter.notifyDataSetChanged();
                 if (flag) mAdapter.setLoadState(mAdapter.LOAD_COMPLETE);
                 else mAdapter.setLoadState(mAdapter.LOAD_END);

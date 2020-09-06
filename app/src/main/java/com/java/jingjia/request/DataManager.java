@@ -74,4 +74,8 @@ public class DataManager {
             e.printStackTrace();
         }
     }
+
+//    public List<Data> getChinaAccumulatedata(){
+//        return this.mRepository.getChinaAccumulatedata();
+//    }
 }
