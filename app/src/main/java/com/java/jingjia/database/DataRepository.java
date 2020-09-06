@@ -24,15 +24,15 @@ public class DataRepository {
     // dependency. This adds complexity and much more code, and this sample is not about testing.
     // See the BasicSample in the android-architecture-components repository at
     // https://github.com/googlesamples
-    DataRepository(Application application, DataDao dataDao){
+    public DataRepository(Application application){
         DataRoomDatabase db = DataRoomDatabase.getDatabase(application);
-        mDataDao = db.dataDao();
-        mAllData = mDataDao.getDataAll();
+        this.mDataDao = db.dataDao();
+        this.mAllData = mDataDao.getDataAll();
     }
 
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
-    LiveData<List<Data>> getAllData() {
+    public LiveData<List<Data>> getAllData() {
         return mAllData;
     }
 
@@ -53,23 +53,23 @@ public class DataRepository {
     /**
      * insert data to database (XueZhang Way)
      * */
-    public void insertData(Data... data){
-        DataRepository.InsertAsyncTask insertDataTask = new DataRepository.InsertAsyncTask(mDataDao);
-        insertDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
-    }
-    private static class InsertAsyncTask extends AsyncTask<Data, Void, Void> {
-        private DataDao mAsyncDao;
-
-        InsertAsyncTask(DataDao dataDao) {
-            this.mAsyncDao = dataDao;
-        }
-
-        @Override
-        protected Void doInBackground(Data... data) {
-            mAsyncDao.insert(data[0]);
-            return null;
-        }
-    }
+//    public void insertData(Data... data){
+//        DataRepository.InsertAsyncTask insertDataTask = new DataRepository.InsertAsyncTask(mDataDao);
+//        insertDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
+//    }
+//    private static class InsertAsyncTask extends AsyncTask<Data, Void, Void> {
+//        private DataDao mAsyncDao;
+//
+//        InsertAsyncTask(DataDao dataDao) {
+//            this.mAsyncDao = dataDao;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Data... data) {
+//            mAsyncDao.insert(data[0]);
+//            return null;
+//        }
+//    }
 
 //    /**
 //     *get all news from database

@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import com.java.jingjia.NewsItem;
+import com.java.jingjia.database.Data;
 import com.java.jingjia.database.NewsRepository;
 
 import org.json.JSONArray;
@@ -37,6 +38,10 @@ public class NewsListManager {
         return INSTANCE;
     }
 
+    void insert(NewsItem news) {
+        mRepository.insert(news);
+    }
+
     /**
      * 获得指定type的最新10条消息的json字符串。参数type可以为"all"或"news"或"paper"，默认为all，
      * 如果是paper，接口返回的内容并没有按照时间顺序排列，之后再做处理。
@@ -60,7 +65,7 @@ public class NewsListManager {
     /**
      * getNewsList用于返回最新的十个对应初始化好的NewItem类的ArrayList
      */
-    public ArrayList<NewsItem> getNewsList(String type) {
+    private ArrayList<NewsItem> getNewsList(String type) {
         String json = getLatestJson(type);
         ArrayList<NewsItem> newsList = new ArrayList<>();
         try {
@@ -71,6 +76,7 @@ public class NewsListManager {
                 NewsItem oneNews = NewsContentManager.getNewsContentManager().
                         getNewsItemFromJsonObject(oneJsonObject);
                 newsList.add(oneNews);
+                insert(oneNews);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -79,9 +85,34 @@ public class NewsListManager {
     }
 
     /**
-     * getLatestNewsList用于返回比id新的NewItem类的ArrayList
+     * 如果参数id = ""就是第一次刷新，返回最新的十条NewItem类的ArrayList。
+     * 否则返回比id新的NewItem类的ArrayList。
      */
     public ArrayList<NewsItem> getLatestNewsList(String type, String id) {
-        return getNewsList(type);
+        if(id == ""){
+            return getNewsList(type);
+        }
+        ArrayList<NewsItem> newsList = new ArrayList<>();
+        while(true){
+            String json = getLatestJson(type);
+            try {
+                JSONObject jsonObject = new JSONObject(json);
+                JSONArray data = jsonObject.getJSONArray("data");
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject oneJsonObject = data.getJSONObject(i);
+                    String thisId = oneJsonObject.getString("_id");
+                    if(!thisId.equals(id)){ //还没有到id那一条
+                        NewsItem oneNews = NewsContentManager.getNewsContentManager().
+                                getNewsItemFromJsonObject(oneJsonObject);
+                        newsList.add(oneNews);
+                        insert(oneNews);
+                    }else{
+                        return newsList;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
