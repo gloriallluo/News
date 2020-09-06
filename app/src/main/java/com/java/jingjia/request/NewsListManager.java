@@ -31,7 +31,7 @@ public class NewsListManager {
     private static NewsListManager INSTANCE = null;
     private NewsListManager(Application application) {
         this.mRepository = new NewsRepository(application);
-        this.mAllNews = mRepository.getAllNews();
+//        this.mAllNews = mRepository.getAllNews();
         this.pageDown = 1;
     }
     public static NewsListManager getNewsListManager(Application application) {
@@ -192,6 +192,10 @@ public class NewsListManager {
         return this.mRepository.getAllNewsByVisitedOrNot(true);
     }
 
+    /**
+     * SetVisitedNews
+     * 将id对应的news设置为已读
+     */
     public void SetVisitedNews(String id){
         this.mRepository.setVisitedById(id);
     }
