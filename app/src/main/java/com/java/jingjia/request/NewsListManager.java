@@ -173,7 +173,6 @@ public class NewsListManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        pageDown++;
         return newsList;
     }
 }
