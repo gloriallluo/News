@@ -54,7 +54,6 @@ public class DataManager {
     public void getData() {
         String url = "https://covid-dashboard.aminer.cn/api/dist/epidemic.json";
         String jsonString = HttpUtil.getServerHttpResponse().getResponse(url);
-
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             Iterator<String> it = jsonObject.keys();
