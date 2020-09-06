@@ -38,7 +38,7 @@ public interface NewsDao {
     @Query("SELECT * FROM news_table WHERE id LIKE :search")
     List<NewsItem> findNewsWithId(String[] search);
 
-    @Query("SELECT * FROM news_table WHERE visited LIKE :search")
+    @Query("SELECT * FROM news_table WHERE visitedStatus LIKE :search")
     List<NewsItem> getAllNewsByVisitedOrNot(Boolean search);
 
 //    @Query("SELECT * FROM news WHERE age > :minAge")
