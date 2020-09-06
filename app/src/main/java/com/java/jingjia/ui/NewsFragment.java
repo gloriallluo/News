@@ -22,6 +22,8 @@ import com.java.jingjia.R;
 import com.java.jingjia.request.NewsListManager;
 import com.java.jingjia.util.MyScrollListener;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -70,10 +72,8 @@ public class NewsFragment extends Fragment {
     }
 
     private void initNewsItems() {
-        ArrayList<NewsItem> items = manager.getNewsList(type);
-        for (NewsItem item: items) {
-            mNewsItems.add(item);
-        }
+        ArrayList<NewsItem> items = manager.getLatestNewsList(type, "");
+        mNewsItems.addAll(items);
     }
 
     private boolean addNewsItemsAtStart(ArrayList<NewsItem> items) {
@@ -111,8 +111,17 @@ public class NewsFragment extends Fragment {
             public void onLoadMore() {
                 mAdapter.setLoadState(mAdapter.LOADING);
                 Log.d(TAG, "onLoadMore: 111");
-                // TODO: get data from database
-                mAdapter.setLoadState(mAdapter.LOAD_COMPLETE);
+                boolean flag = true;
+                try {
+                    ArrayList<NewsItem> items = manager.getMoreNewsList(
+                            type, mNewsItems.get(mNewsItems.size() - 1).getId());
+                    flag = addNewsItemsAtEnd(items);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mAdapter.notifyDataSetChanged();
+                if (flag) mAdapter.setLoadState(mAdapter.LOAD_COMPLETE);
+                else mAdapter.setLoadState(mAdapter.LOAD_END);
             }
         });
 
