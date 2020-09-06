@@ -192,4 +192,8 @@ public class NewsListManager {
         return this.mRepository.getAllNewsByVisitedOrNot(true);
     }
 
+    public void SetVisitedNews(String id){
+        this.mRepository.setVisitedById(id);
+    }
+
 }

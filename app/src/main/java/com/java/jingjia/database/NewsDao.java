@@ -41,6 +41,9 @@ public interface NewsDao {
     @Query("SELECT * FROM news_table WHERE visited LIKE :search")
     List<NewsItem> getAllNewsByVisitedOrNot(Boolean search);
 
+    @Query("UPDATE news_table SET visited= :v WHERE id = :i")
+    public abstract int setVisitedById(String i, boolean v);
+
 //    @Query("SELECT * FROM news WHERE age > :minAge")
 //    public News[] loadAllUsersOlderThan(int minAge);
 

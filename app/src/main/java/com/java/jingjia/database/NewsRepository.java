@@ -77,7 +77,9 @@ public class NewsRepository {
     public List<NewsItem> getAllNewsByVisitedOrNot(boolean visited) {
         return mNewsDao.getAllNewsByVisitedOrNot(visited);
     }
-
+    public void setVisitedById(String id) {
+        mNewsDao.setVisitedById(id, true);
+    }
 //    private class GetAllNewsTask extends AsyncTask<Integer, Void, NewsItem[]>{
 //        @Override
 //        protected  NewsItem[] doInBackground(Integer... params){
@@ -116,6 +118,7 @@ public class NewsRepository {
         deleteNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
 
     }
+
 
     private class DeleteNewsTask extends AsyncTask<NewsItem, Void, Void>{
 
