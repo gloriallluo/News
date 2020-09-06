@@ -13,18 +13,13 @@ public abstract class MyScrollListener extends RecyclerView.OnScrollListener {
 
     private final String TAG = "MyScrollListener";
     private boolean isSlidingUpward = false;        // 向上滑动
-    private boolean isSlidingDownward = false;      // 向下滑动
 
-    // public abstract void onRefresh();   // 刷新接口
-    // public abstract void onLoadMore();  // 加载接口
+    public abstract void onLoadMore();  // 加载接口
 
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
         isSlidingUpward = dy > 0;
-        isSlidingDownward = dy < 0;
-        if (isSlidingDownward)
-            Log.d(TAG, "onScrolled: 1");
     }
 
     @Override
@@ -33,11 +28,11 @@ public abstract class MyScrollListener extends RecyclerView.OnScrollListener {
         LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
         // 不滑动时
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-            int firstItemPosition = manager.findFirstCompletelyVisibleItemPosition();
-//            if (firstItemPosition == 0 && isSlidingDownward)
-//                onRefresh();
-            isSlidingUpward = false;
-            isSlidingDownward = false;
+            int lastItemPos = manager.findLastCompletelyVisibleItemPosition();
+            int itemCount = manager.getItemCount();
+            if ((lastItemPos == itemCount - 1) && isSlidingUpward)
+                onLoadMore();
+            // isSlidingUpward = false;
         }
     }
 }

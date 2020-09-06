@@ -106,21 +106,15 @@ public class NewsFragment extends Fragment {
                 mRefreshLayout.setRefreshing(false);
             }
         });
-//        mRecyclerView.addOnScrollListener(new MyScrollListener() {
-//            @Override
-//            public void onRefresh() {   // 顶部下拉刷新
-//                mAdapter.setRefreshState(mAdapter.REFRESHING);
-//                new Timer().schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        final ArrayList<NewsItem> items = manager.getLatestNewsList(
-//                                type, mNewsItems.get(0).getId());
-//                        addNewsItems(items);
-//                    }
-//                }, 2000);   // 加载限时2秒
-//                mAdapter.setRefreshState(mAdapter.REFRESH_COMPLETE);
-//            }
-//        });
+        mRecyclerView.addOnScrollListener(new MyScrollListener() {
+            @Override
+            public void onLoadMore() {
+                mAdapter.setLoadState(mAdapter.LOADING);
+                Log.d(TAG, "onLoadMore: 111");
+                // TODO: get data from database
+                mAdapter.setLoadState(mAdapter.LOAD_COMPLETE);
+            }
+        });
 
     }
 }
