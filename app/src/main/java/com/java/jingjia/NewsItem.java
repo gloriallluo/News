@@ -79,7 +79,7 @@ public class NewsItem implements Serializable {
         this.source = source;
         this.time = time;
         this.type = type;
-        this.visited = false;
+        this.visitedStatus = false;
     }
 
     public String getId(){
