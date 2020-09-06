@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup mRadioGroup;
     private Fragment fgNews;
     private Fragment fgData;
+    private Fragment fgGraph;
     private Fragment fgScholar;
     private Fragment fgUser;
     private FragmentManager fgManager;
@@ -74,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             fgTransaction.show(fgData);
                         } break;
+                    case R.id.tab_graph:
+                        Log.d(TAG, "onCheckedChanged: graph");
+                        if (fgGraph == null) {
+                            fgGraph = new GraphFragment(MainActivity.this);
+                            fgTransaction.add(R.id.main_fl, fgGraph);
+                        } else {
+                            fgTransaction.show(fgGraph);
+                        } break;
                     case R.id.tab_scholar:
                         Log.d(TAG, "onCheckedChanged: scholar");
                         if (fgScholar == null) {
@@ -104,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
     private void hideAllFragments(FragmentTransaction fgTransaction) {
         if (fgNews != null) fgTransaction.hide(fgNews);
         if (fgData != null) fgTransaction.hide(fgData);
+        if (fgGraph != null) fgTransaction.hide(fgGraph);
         if (fgScholar != null) fgTransaction.hide(fgScholar);
         if (fgUser != null) fgTransaction.hide(fgUser);
     }
