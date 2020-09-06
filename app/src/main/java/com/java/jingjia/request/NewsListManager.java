@@ -1,6 +1,7 @@
 package com.java.jingjia.request;
 
 import android.app.Application;
+import android.graphics.pdf.PdfDocument;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -20,6 +21,7 @@ public class NewsListManager {
 
     private String TAG = "NewsListManager";
     private NewsRepository mRepository;
+    private Integer pageDown;
     // Using LiveData and caching what getAllNews returns has several benefits:
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
@@ -28,8 +30,9 @@ public class NewsListManager {
 
     private static NewsListManager INSTANCE = null;
     private NewsListManager(Application application) {
-        mRepository = new NewsRepository(application);
-        mAllNews = mRepository.getAllNews();
+        this.mRepository = new NewsRepository(application);
+        this.mAllNews = mRepository.getAllNews();
+        this.pageDown = 1;
     }
     public static NewsListManager getNewsListManager(Application application) {
         if (INSTANCE == null) {
@@ -46,7 +49,7 @@ public class NewsListManager {
      * 获得指定type的最新10条消息的json字符串。参数type可以为"all"或"news"或"paper"，默认为all，
      * 如果是paper，接口返回的内容并没有按照时间顺序排列，之后再做处理。
      */
-    public String getLatestJson(String type) {
+    private String getLatestJson(String type) {
         String url = "https://covid-dashboard.aminer.cn/api/events/list?type=all&page=1&size=10";
         switch (type) {
             case "all":
@@ -59,6 +62,12 @@ public class NewsListManager {
                 url = "https://covid-dashboard.aminer.cn/api/events/list?type=paper&page=1&size=10";
                 break;
         }
+        return HttpUtil.getServerHttpResponse().getResponse(url);
+    }
+
+    private String getJson(String type, Integer page){
+        String url = "https://covid-dashboard.aminer.cn/api/events/list?type="+type
+                +"&page="+page+"&size=10";
         return HttpUtil.getServerHttpResponse().getResponse(url);
     }
 
@@ -114,5 +123,41 @@ public class NewsListManager {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * getMoreNewsList(String type, String id)
+     * 返回更多的比id旧的十条NewItem类的ArrayList。
+     */
+    public ArrayList<NewsItem> getMoreNewsList(String type, String id) {
+        ArrayList<NewsItem> newsList = new ArrayList<>();
+        boolean find = false;
+        while(find == false){
+            String json = getJson(type, pageDown);
+            try {
+                JSONObject jsonObject = new JSONObject(json);
+                JSONArray data = jsonObject.getJSONArray("data");
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject oneJsonObject = data.getJSONObject(i);
+                    String thisId = oneJsonObject.getString("_id");
+                    if(find == false){
+                        if(thisId.equals(id)){ //到id那一条
+                            find = true;
+                        }else{
+                            continue;
+                        }
+                    }else{
+                        NewsItem oneNews = NewsContentManager.getNewsContentManager().
+                                getNewsItemFromJsonObject(oneJsonObject);
+                        newsList.add(oneNews);
+                        insert(oneNews);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            pageDown++;
+        }
+        return newsList;
     }
 }
