@@ -20,7 +20,7 @@ public class NewsItem implements Serializable {
     @Ignore
     LinearLayout mLayout;
 
-    Boolean visitedStatus;
+    public Boolean visited;
 
     @PrimaryKey //每个实体必须将至少 1 个字段定义为主键。
     @NonNull
@@ -79,7 +79,7 @@ public class NewsItem implements Serializable {
         this.source = source;
         this.time = time;
         this.type = type;
-        this.visitedStatus = false;
+        this.visited = false;
     }
 
     public String getId(){
@@ -104,7 +104,8 @@ public class NewsItem implements Serializable {
         return this.type;
     }
     public String getContent() {return this.content;}
-    public Boolean getVisited() {return this.visitedStatus;}
 
-    public void setVisited() {this.visitedStatus = true;}
+    public Boolean getVisited() {return this.visited;}
+
+    public void setVisiteds() {this.visited = true;}
 }
