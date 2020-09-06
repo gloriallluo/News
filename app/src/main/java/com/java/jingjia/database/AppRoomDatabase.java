@@ -1,36 +1,39 @@
 package com.java.jingjia.database;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.room.Database;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
+import com.java.jingjia.NewsItem;
+
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Data.class}, version=1, exportSchema = false)
-public abstract class DataRoomDatabase extends RoomDatabase {
+@Database(entities = {NewsItem.class, Data.class}, version = 1, exportSchema = false)
+public abstract class AppRoomDatabase extends RoomDatabase {
 
     abstract DataDao dataDao();
+    abstract NewsDao mNewsDao();
 
     // marking the instance as volatile to ensure atomic access to the variable
-    private static volatile DataRoomDatabase INSTANCE;
+    private static volatile AppRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    static DataRoomDatabase getDatabase(final Context context) {
+    static AppRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
-            synchronized (DataRoomDatabase.class) {
+            synchronized (AppRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            DataRoomDatabase.class, "data_database")
+                            AppRoomDatabase.class, "app_database")
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
@@ -64,6 +67,22 @@ public abstract class DataRoomDatabase extends RoomDatabase {
 //                dao.insert(word);
 //            }
 //            );
+            // If you want to keep data through app restarts,
+            // comment out the following block
+//            databaseWriteExecutor.execute(() -> {
+//                // Populate the database in the background.
+//                // If you want to start with more words, just add them.
+//                NewsDao dao = INSTANCE.mNewsDao();
+//                dao.deleteAll();
+//
+//                Word word = new Word("Hello");
+//                dao.insert(word);
+//                word = new Word("World");
+//                dao.insert(word);
+//            });
         }
     };
+
+
+
 }
