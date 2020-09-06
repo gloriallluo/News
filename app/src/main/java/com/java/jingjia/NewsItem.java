@@ -104,8 +104,6 @@ public class NewsItem implements Serializable {
         return this.type;
     }
     public String getContent() {return this.content;}
-
     public Boolean getVisited() {return this.visited;}
 
-    public void setVisiteds() {this.visited = true;}
 }

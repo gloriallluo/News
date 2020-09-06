@@ -22,12 +22,10 @@ public class NewsRepository {
      * */
 
     private NewsDao mNewsDao;
-    private List<NewsItem> mAllNews;
 
     public NewsRepository(Application application){
         NewsRoomDatabase db = NewsRoomDatabase.getDatabase(application);
         this.mNewsDao = db.mNewsDao();
-        this.mAllNews = mNewsDao.getAllNews();
     }
 
     /**
@@ -49,7 +47,7 @@ public class NewsRepository {
     // that you're not doing any long running operations on the main thread, blocking the UI.
     public void insert(NewsItem news) {
         NewsRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mNewsDao.insert(news);
+//            mNewsDao.insert(news);
         });
     }
 
@@ -70,14 +68,16 @@ public class NewsRepository {
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
 
-    public List<NewsItem> getAllNews() {
-        return mAllNews;
-    }
+//    public List<NewsItem> getAllNews() {
+//        return mAllNews;
+//    }
 
     public List<NewsItem> getAllNewsByVisitedOrNot(boolean visited) {
         return mNewsDao.getAllNewsByVisitedOrNot(visited);
     }
-
+    public void setVisitedById(String id) {
+        mNewsDao.setVisitedById(id, true);
+    }
 //    private class GetAllNewsTask extends AsyncTask<Integer, Void, NewsItem[]>{
 //        @Override
 //        protected  NewsItem[] doInBackground(Integer... params){
@@ -116,6 +116,7 @@ public class NewsRepository {
         deleteNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
 
     }
+
 
     private class DeleteNewsTask extends AsyncTask<NewsItem, Void, Void>{
 
