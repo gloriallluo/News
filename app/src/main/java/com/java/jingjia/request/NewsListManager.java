@@ -68,4 +68,11 @@ public class NewsListManager {
         }
         return newsList;
     }
+
+    /**
+     * getLatestNewsList用于返回比id新的NewItem类的ArrayList
+     */
+    public ArrayList<NewsItem> getLatestNewsList(String type, String id) {
+        return getNewsList(type);
+    }
 }
