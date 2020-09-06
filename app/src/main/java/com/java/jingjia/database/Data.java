@@ -1,16 +1,17 @@
 package com.java.jingjia.database;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Fts4;
-import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Fts4
-@Entity(tableName ="data_table")
+@Entity(tableName = "data_table",
+        indices = {@Index(value = {"place"}, unique = true)})
 public class Data {
     @PrimaryKey //每个实体必须将至少 1 个字段定义为主键。
-    @NonNull
+    @NonNull    //主键不能为空
+    @ColumnInfo(name= "place")
     private String place;/**地区*/
 
     private Integer confirmed;/**确诊病例*/

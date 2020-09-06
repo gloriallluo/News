@@ -25,10 +25,10 @@ public interface DataDao {
     @Delete
     void deleteAllData(Data... data);
 
-    @Query("SELECT * FROM data_table")
-    Data[] loadAllData();
+//    @Query("SELECT * FROM data_table")
+//    Data[] loadAllData();
 
-    @Query("select * from data_table order by data_table asc")
+    @Query("SELECT * from data_table order by place asc")
     LiveData<List<Data>> getDataAll();
 
     @Query("SELECT place FROM data_table")

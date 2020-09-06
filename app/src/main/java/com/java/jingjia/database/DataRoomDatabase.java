@@ -14,7 +14,7 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Data.class}, version=1)
+@Database(entities = {Data.class}, version=1, exportSchema = false)
 public abstract class DataRoomDatabase extends RoomDatabase {
 
     abstract DataDao dataDao();
