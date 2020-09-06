@@ -67,6 +67,10 @@ public class NewsFragment extends Fragment {
         return view;
     }
 
+    public String getType() {
+        return type;
+    }
+
     private void initNewsItems() {
         ArrayList<NewsItem> items = manager.getLatestNewsList(type, "");
         mNewsItems.addAll(items);
@@ -116,6 +120,5 @@ public class NewsFragment extends Fragment {
                 else mAdapter.setLoadState(mAdapter.LOAD_END);
             }
         });
-
     }
 }

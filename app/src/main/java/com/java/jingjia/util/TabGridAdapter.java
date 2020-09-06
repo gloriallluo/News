@@ -65,8 +65,22 @@ public class TabGridAdapter extends BaseAdapter {
     }
 
     public void insertItem(long id, TabItem item) {
-        mItemIds.add(id);
-        mTabItems.add(item);
+        if (id == TabItem.ALL_ID) {
+            mItemIds.add(0, id);
+            mTabItems.add(0, item);
+        } else if (id == TabItem.PAPER_ID) {
+            mItemIds.add(id);
+            mTabItems.add(item);
+        } else {
+            if (mItemIds.size() > 0 &&
+                    mItemIds.get(0) == TabItem.ALL_ID) {
+                mItemIds.add(1, id);
+                mTabItems.add(1, item);
+            } else {
+                mItemIds.add(id);
+                mTabItems.add(item);
+            }
+        }
         notifyDataSetChanged();
     }
 
