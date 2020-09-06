@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import androidx.annotation.Nullable;
@@ -27,21 +29,6 @@ public class EditTabActivity extends Activity {
     private SharedPreferences sharedPreferences;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-//        super.onCreate(savedInstanceState, persistentState);
-//        setContentView(R.layout.activity_edittab);
-//        bindViews();
-//        Intent intent = getIntent();
-//        initData();
-//        selectedAdapter = new TabGridAdapter(
-//                EditTabActivity.this, selectedItems, selectedIds, "x");
-//        unselectedAdapter = new TabGridAdapter(
-//                EditTabActivity.this, unselectedItems, unselectedIds, "+");
-//        mSelectedGv.setAdapter(selectedAdapter);
-//        mUnselectedGv.setAdapter(unselectedAdapter);
-    }
-
-    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edittab);
@@ -59,6 +46,21 @@ public class EditTabActivity extends Activity {
     private void bindViews() {
         mSelectedGv = findViewById(R.id.tab_selected_gv);
         mUnselectedGv = findViewById(R.id.tab_unselected_gv);
+    }
+
+    private void setListeners() {
+        mSelectedGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+        mUnselectedGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
     private void initData() {

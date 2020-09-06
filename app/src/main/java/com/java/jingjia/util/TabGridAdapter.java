@@ -64,6 +64,5 @@ public class TabGridAdapter extends BaseAdapter {
         ViewHolder(View view) {
             mText = view.findViewById(R.id.item_tab_tv);
         }
-
     }
 }
