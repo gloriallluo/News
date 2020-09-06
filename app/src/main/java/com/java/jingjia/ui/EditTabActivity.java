@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -41,6 +42,7 @@ public class EditTabActivity extends Activity {
                 EditTabActivity.this, unselectedItems, unselectedIds, "+");
         mSelectedGv.setAdapter(selectedAdapter);
         mUnselectedGv.setAdapter(unselectedAdapter);
+        setListeners();
     }
 
     private void bindViews() {
@@ -52,13 +54,26 @@ public class EditTabActivity extends Activity {
         mSelectedGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
             }
         });
-        mUnselectedGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mSelectedGv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "onItemLongClick: selected");
+                TabItem item = selectedAdapter.removeItem(position);
+                unselectedAdapter.insertItem(id, item);
+                updateData(item.getType(), false);
+                return false;
+            }
+        });
+        mUnselectedGv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "onItemLongClick: unselected");
+                TabItem item = unselectedAdapter.removeItem(position);
+                selectedAdapter.insertItem(id, item);
+                updateData(item.getType(), true);
+                return false;
             }
         });
     }

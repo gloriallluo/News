@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.java.jingjia.R;
@@ -55,8 +54,20 @@ public class TabGridAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.mText.setText(((TabItem) getItem(position)).getType());
-        holder.mText.setTextColor(R.color.yd_navy_blue);
         return convertView;
+    }
+
+    public TabItem removeItem(int position) {
+        TabItem item = mTabItems.remove(position);
+        mItemIds.remove(position);
+        notifyDataSetChanged();
+        return item;
+    }
+
+    public void insertItem(long id, TabItem item) {
+        mItemIds.add(id);
+        mTabItems.add(item);
+        notifyDataSetChanged();
     }
 
     private class ViewHolder {
