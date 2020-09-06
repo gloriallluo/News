@@ -26,12 +26,12 @@ public class NewsListManager {
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
-    private List<NewsItem> mAllNews;
+//    private List<NewsItem> mAllNews;
 
     private static NewsListManager INSTANCE = null;
     private NewsListManager(Application application) {
         this.mRepository = new NewsRepository(application);
-//        this.mAllNews = mRepository.getAllNews();
+//        this.mAllNews =  mRepository.getAllNews();
         this.pageDown = 1;
     }
     public static NewsListManager getNewsListManager(Application application) {
@@ -98,6 +98,7 @@ public class NewsListManager {
      * 否则返回比id新的NewItem类的ArrayList。
      */
     public ArrayList<NewsItem> getLatestNewsList(String type, String id) {
+//        Log.e(TAG, "getLatestNewsList: "+ type + " "+ id);
         if(id == ""){
             return getNewsList(type);
         }
@@ -113,6 +114,9 @@ public class NewsListManager {
                     if(!thisId.equals(id)){ //还没有到id那一条
                         NewsItem oneNews = NewsContentManager.getNewsContentManager().
                                 getNewsItemFromJsonObject(oneJsonObject);
+                        if(oneNews == null){
+                            Log.e(TAG, "getLatestNewsList: oneNews == null");
+                        }
                         newsList.add(oneNews);
                         insert(oneNews);
                     }else{
@@ -132,7 +136,7 @@ public class NewsListManager {
     public ArrayList<NewsItem> getMoreNewsList(String type, String id) {
         ArrayList<NewsItem> newsList = new ArrayList<>();
         boolean find = false;
-        while(find == false){
+        while(!find){
             String json = getJson(type, pageDown);
             try {
                 JSONObject jsonObject = new JSONObject(json);
@@ -140,11 +144,9 @@ public class NewsListManager {
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject oneJsonObject = data.getJSONObject(i);
                     String thisId = oneJsonObject.getString("_id");
-                    if(find == false){
+                    if(!find){
                         if(thisId.equals(id)){ //到id那一条
                             find = true;
-                        }else{
-                            continue;
                         }
                     }else{
                         NewsItem oneNews = NewsContentManager.getNewsContentManager().
@@ -181,7 +183,7 @@ public class NewsListManager {
      * 返回所有数据库中的News（在首页出现过的News）
      */
     public List<NewsItem> getHistoryNewsList(String type) {
-        return this.mAllNews;
+        return this.mRepository.getAllNews();
     }
 
     /**

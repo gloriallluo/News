@@ -7,13 +7,12 @@ import androidx.lifecycle.LiveData;
 
 import com.java.jingjia.NewsItem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class NewsRepository {
 
+    private static final String TAG = "NewsRepository";
     /**
      * 此类不应该是单例模式?
      * 因为我会用到此类的两个对象
@@ -22,16 +21,19 @@ public class NewsRepository {
      * */
 
     private NewsDao mNewsDao;
+//    private List<NewsItem> mAllNews;
 
     public NewsRepository(Application application){
         NewsRoomDatabase db = NewsRoomDatabase.getDatabase(application);
         this.mNewsDao = db.mNewsDao();
+//        this.mAllNews = mNewsDao.getAllNews();
     }
 
     /**
      * insert news to database
      * */
-//    public void insertNews(NewsItem... news){
+//    public void insert(NewsItem... news){
+//        Log.e(TAG, "insert: " + news.getVisited() + " " + news.getId() + " " + news.getType());
 //        InsertNewsTask insertNewsTask = new InsertNewsTask();
 //        insertNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
 //    }
@@ -43,11 +45,13 @@ public class NewsRepository {
 //            return null;
 //        }
 //    }
+
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
     // that you're not doing any long running operations on the main thread, blocking the UI.
     public void insert(NewsItem news) {
         NewsRoomDatabase.databaseWriteExecutor.execute(() -> {
-//            mNewsDao.insert(news);
+//            Log.e(TAG, "insert: " + news.getVisited() + " " + news.getId() + " " + news.getType());
+            mNewsDao.insert(news);
         });
     }
 
@@ -65,12 +69,19 @@ public class NewsRepository {
 //        }
 //        return null;
 //    }
+    //    private class GetAllNewsTask extends AsyncTask<Integer, Void, NewsItem[]>{
+//        @Override
+//        protected  NewsItem[] doInBackground(Integer... params){
+//            return mNewsDao.loadAllNews();
+//        }
+//    }
+
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
 
-//    public List<NewsItem> getAllNews() {
-//        return mAllNews;
-//    }
+    public List<NewsItem> getAllNews() {
+        return mNewsDao.getAllNews();
+    }
 
     public List<NewsItem> getAllNewsByVisitedOrNot(boolean visited) {
         return mNewsDao.getAllNewsByVisitedOrNot(visited);
@@ -78,35 +89,6 @@ public class NewsRepository {
     public void setVisitedById(String id) {
         mNewsDao.setVisitedById(id, true);
     }
-//    private class GetAllNewsTask extends AsyncTask<Integer, Void, NewsItem[]>{
-//        @Override
-//        protected  NewsItem[] doInBackground(Integer... params){
-//            return mNewsDao.loadAllNews();
-//        }
-//    }
-
-
-    /**
-     * get news by email
-     */
-//    public ArrayList<News> getNewsByEmail(String... email){
-//        try{
-//            GetNewsByEmailTask getNewsByEmailTask = new GetNewsByEmailTask();
-//            return new ArrayList(Arrays.asList(getNewsByEmailTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,email).get()));
-//        }catch (ExecutionException e){
-//            e.printStackTrace();
-//        }catch (InterruptedException e){
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-//
-//    private class GetNewsByEmailTask extends AsyncTask<String, Void, News[]>{
-//        @Override
-//        protected News[] doInBackground(String... email){
-//            return newsDao.getNewsByEmail(email);
-//        }
-//    }
 
     /**
      * delete news
@@ -117,7 +99,6 @@ public class NewsRepository {
 
     }
 
-
     private class DeleteNewsTask extends AsyncTask<NewsItem, Void, Void>{
 
         @Override
@@ -126,40 +107,24 @@ public class NewsRepository {
             return null;
         }
     }
-    /****/
 
-    /**
-     * delte news by email
-     * */
-//    public void deleteNewsByEmail(String... email){
-//        DeleteNewsByEmailTask deleteNewsByEmailTask = new DeleteNewsByEmailTask();
-//        deleteNewsByEmailTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,email);
-//    }
-//
-//    private class DeleteNewsByEmailTask extends AsyncTask<String, Void, Void>{
-//        @Override
-//        protected Void doInBackground(String... email){
-//            newsDao.deleteNewsByEmail(email[0]);
-//            return null;
-//        }
-//    }
 
     /**
      * clear the table
      */
-    public void clearNews(){
-        ClearNewsTask clearNewsTask = new ClearNewsTask();
-        clearNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0);
-    }
-
-    private class ClearNewsTask extends AsyncTask<Integer, Void, Void>{
-
-        @Override
-        protected Void doInBackground(Integer... params){
-            mNewsDao.deleteAllNews();
-            return null;
-        }
-    }
+//    public void clearNews(){
+//        ClearNewsTask clearNewsTask = new ClearNewsTask();
+//        clearNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0);
+//    }
+//
+//    private class ClearNewsTask extends AsyncTask<Integer, Void, Void>{
+//
+//        @Override
+//        protected Void doInBackground(Integer... params){
+//            mNewsDao.deleteAllNews();
+//            return null;
+//        }
+//    }
 
 
     /**
@@ -186,17 +151,17 @@ public class NewsRepository {
     /**
      * Update news
      * */
-    public void updateNews(NewsItem...news){
-        UpdateNewsTask updateNewsTask = new UpdateNewsTask();
-        updateNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
-    }
-    private class UpdateNewsTask extends AsyncTask<NewsItem, Void, Void>{
-        @Override
-        protected Void doInBackground(NewsItem...news){
-            mNewsDao.update(news);
-            return null;
-        }
-    }
+//    public void updateNews(NewsItem...news){
+//        UpdateNewsTask updateNewsTask = new UpdateNewsTask();
+//        updateNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
+//    }
+//    private class UpdateNewsTask extends AsyncTask<NewsItem, Void, Void>{
+//        @Override
+//        protected Void doInBackground(NewsItem...news){
+//            mNewsDao.update(news);
+//            return null;
+//        }
+//    }
 
     /**
      *
