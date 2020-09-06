@@ -5,4 +5,5 @@
     <color name="yd_grey">#7788aa</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="transparent">#30FFFFFF</color>
 </resources>

@@ -10,38 +10,6 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/yd_grey" />
-
-    <Button
-        android:id="@+id/btn_user_collection"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/user_collection"
-        android:textSize="20sp"
-        android:textColor="@drawable/user_fg_text"
-        android:paddingHorizontal="20dp"
-        android:gravity="center_vertical"
-        android:background="@null"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/yd_grey" />
-
-    <Button
-        android:id="@+id/btn_user_downloads"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/user_downloads"
-        android:textSize="20sp"
-        android:textColor="@drawable/user_fg_text"
-        android:paddingHorizontal="20dp"
-        android:gravity="center_vertical"
-        android:background="@null"/>
-
-    <View
-        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/yd_grey" />
 
@@ -50,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="@string/user_history"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textColor="@drawable/user_fg_text"
         android:paddingHorizontal="20dp"
         android:gravity="center_vertical"

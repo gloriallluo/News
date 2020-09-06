@@ -27,21 +27,20 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final String TAG = "NewsListAdapter";
     private Activity mActivity;
     private List<NewsItem> mNewsItems;
-    private int loadState = -5;     // 现在的加载状态
+    private int loadState = -4;     // 现在的加载状态
 
     /**
      * 布局分类
      */
     private final int TYPE_ITEM = -1;       // 普通布局
-    private final int TYPE_HEADER = -2;     // 头布局
-    private final int TYPE_FOOTER = -3;     // 脚布局
+    private final int TYPE_FOOTER = -2;     // 脚布局
 
     /**
      * 上拉加载的相关变量
      */
-    public final int LOADING = -4;          // 正在加载
-    public final int LOAD_COMPLETE = -5;    // 加载完成
-    public final int LOAD_END = -6;         // 无更多内容
+    public final int LOADING = -3;          // 正在加载
+    public final int LOAD_COMPLETE = -4;    // 加载完成
+    public final int LOAD_END = -5;         // 无更多内容
 
     public NewsListAdapter(Activity activity, List<NewsItem> items) {
         mActivity = activity;
@@ -71,6 +70,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 vHolder.title.setText(item.getTitle());
                 vHolder.source.setText(item.getSource());
                 vHolder.time.setText(item.getTime());
+                if (item.getVisited())
+                    vHolder.title.setTextColor(R.color.yd_grey);
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

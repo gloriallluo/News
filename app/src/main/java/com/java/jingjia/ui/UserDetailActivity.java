@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.java.jingjia.NewsItem;
 import com.java.jingjia.NewsListAdapter;
 import com.java.jingjia.R;
+import com.java.jingjia.request.NewsListManager;
 import com.java.jingjia.util.MyScrollListener;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class UserDetailActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private TextView mTextView;
     private List<NewsItem> mNewsItems;
+    private NewsListManager manager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,17 +39,16 @@ public class UserDetailActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
         setContentView(R.layout.activity_userdetail);
+        manager = NewsListManager.getNewsListManager(getApplication());
         mNewsItems = new ArrayList<>();
+        List<NewsItem> items = manager.getVisitedNewsList("");
+        mNewsItems.addAll(items);
 
         Intent intent = getIntent();
         bindViews();
-        int type = intent.getIntExtra("user", 0);
+        int type = intent.getIntExtra("user", -1);
         switch (type) {
-            case 1:
-                mTextView.setText(R.string.user_collection); break;
-            case 2:
-                mTextView.setText(R.string.user_downloads); break;
-            case 3:
+            case 0:
                 mTextView.setText(R.string.user_history); break;
             default:
                 break;

@@ -3,11 +3,26 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/all_news_tabs"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp" />
+        android:orientation="horizontal">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/all_news_tabs"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:padding="4dp" />
+
+        <Button
+            android:id="@+id/all_news_edit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="@string/top_tab_edit"
+            android:background="@null" />
+
+    </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/all_news_vp"

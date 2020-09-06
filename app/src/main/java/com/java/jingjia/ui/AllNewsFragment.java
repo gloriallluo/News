@@ -1,11 +1,13 @@
 package com.java.jingjia.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +31,7 @@ public class AllNewsFragment extends Fragment {
     private final String TAG = "AllNewsFragment";
     private Activity mActivity;
     private TabLayout mTabLayout;
+    private Button mBtnEdit;
     private ViewPager mViewPager;
     private String[] catIndicators = {"all", "news", "paper"};
     private FragmentManager fgManager;
@@ -60,6 +63,7 @@ public class AllNewsFragment extends Fragment {
      */
     private void bindViews(View view) {
         mTabLayout = view.findViewById(R.id.all_news_tabs);
+        mBtnEdit = view.findViewById(R.id.all_news_edit);
         mViewPager = view.findViewById(R.id.all_news_vp);
     }
 
@@ -123,6 +127,14 @@ public class AllNewsFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) { }
+        });
+
+        mBtnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, EditTabActivity.class);
+                startActivity(intent);
+            }
         });
     }
 
