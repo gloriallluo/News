@@ -55,7 +55,7 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        manager = NewsListManager.getNewsListManager();
+        manager = NewsListManager.getNewsListManager(mActivity.getApplication());
         initNewsItems();
         mAdapter = new NewsListAdapter(mActivity, mNewsItems);
         mRefreshLayout = view.findViewById(R.id.news_srl);
