@@ -90,7 +90,7 @@ public class DataRepository {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.i(TAG, "getProvinceAllCountyAccumulatedData: return List<Data> size: " + AllCounty.size());
+//        Log.i(TAG, "getProvinceAllCountyAccumulatedData: return List<Data> size: " + AllCounty.size());
         return AllCounty;
     }
 
@@ -99,9 +99,8 @@ public class DataRepository {
         @SuppressLint("LongLogTag")
         @Override
         protected List<Data> doInBackground(String... province) {
-            List<Data> returnData = mDataDao.getProvinceAllCountyData(province[0]);
-            Log.i(TAG, "doInBackground: returnData size " + returnData.size());
-            return returnData;
+            //            Log.i(TAG, "doInBackground: returnData size " + returnData.size());
+            return mDataDao.getProvinceAllCountyData(province[0]);
         }
     }
 
@@ -116,7 +115,7 @@ public class DataRepository {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.i(TAG, "getCountryAllProvinceAccumulatedData: return List<Data> size: " + AllProvince.size());
+//        Log.i(TAG, "getCountryAllProvinceAccumulatedData: return List<Data> size: " + AllProvince.size());
         return AllProvince;
     }
     public class getCountryAllProvinceAccumulatedDataTask extends AsyncTask<String, Void, List<Data>> {
@@ -124,20 +123,18 @@ public class DataRepository {
         @SuppressLint("LongLogTag")
         @Override
         protected List<Data> doInBackground(String... country) {
-            List<Data> returnData = mDataDao.getCountryAllProvincecData(country[0]);
-            Log.i(TAG, "doInBackground: returnData size " + returnData.size());
-            return returnData;
+            //            Log.i(TAG, "doInBackground: returnData size " + returnData.size());
+            return mDataDao.getCountryAllProvincecData(country[0]);
         }
     }
 
     public List<Data> getChinaAllProvinceAccumulatedData(){
-        Log.i(TAG, "getChinaAllProvinceAccumulatedData: ");
+//        Log.i(TAG, "getChinaAllProvinceAccumulatedData: ");
         try {
             DataRepository.getChinaAllProvinceAccumulatedDataTask task =
                     new DataRepository.getChinaAllProvinceAccumulatedDataTask();
-            List<Data> AllPro = task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get();
-            Log.i(TAG, "getChinaAllProvinceAccumulatedData: return List<Data> size: " + AllPro.size());
-            return AllPro;
+            //            Log.i(TAG, "getChinaAllProvinceAccumulatedData: return List<Data> size: " + AllPro.size());
+            return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get();
         }catch(ExecutionException e){
             e.printStackTrace();
         }catch(InterruptedException e){
@@ -152,9 +149,8 @@ public class DataRepository {
             @SuppressLint("LongLogTag")
             @Override
         protected  List<Data> doInBackground(Integer... params){
-            List<Data> returnData = mDataDao.findDataWithCountry("China");
-            Log.i(TAG, "doInBackground: returnData size " +returnData.size());
-            return returnData;
+                //            Log.i(TAG, "doInBackground: returnData size " +returnData.size());
+            return mDataDao.findDataWithCountry("China");
         }
     }
 
@@ -167,8 +163,7 @@ public class DataRepository {
         try {
             DataRepository.getGlobalAllCountryAccumulatedDataTask task =
                     new DataRepository.getGlobalAllCountryAccumulatedDataTask();
-            List<Data> AllPro = task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get();
-            return AllPro;
+            return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get();
         }catch(ExecutionException e){
             e.printStackTrace();
         }catch(InterruptedException e){
@@ -179,8 +174,7 @@ public class DataRepository {
     private class getGlobalAllCountryAccumulatedDataTask extends AsyncTask<Integer, Void, List<Data>>{
         @Override
         protected  List<Data> doInBackground(Integer... params){
-            List<Data> returnData = mDataDao.findAllCountryData();
-            return returnData;
+            return mDataDao.findAllCountryData();
         }
 
     }

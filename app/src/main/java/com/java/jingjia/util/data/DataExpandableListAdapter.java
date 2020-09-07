@@ -77,7 +77,6 @@ public class DataExpandableListAdapter extends BaseExpandableListAdapter {
             groupHolder.suspected = convertView.findViewById(R.id.data_item_suspected);
             groupHolder.cured = convertView.findViewById(R.id.data_item_cured);
             groupHolder.dead = convertView.findViewById(R.id.data_item_dead);
-            expand = (ImageView) convertView.findViewById(R.id.expend);
             convertView.setTag(groupHolder);
         }else{
             groupHolder = (ParentViewHolder) convertView.getTag();
