@@ -1,20 +1,18 @@
 package com.java.jingjia.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.java.jingjia.R;
+import com.java.jingjia.ui.data.AllDataFragment;
+import com.java.jingjia.ui.data.DataFragment;
 
 /**
  * Main page of the News App.
@@ -25,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mFrameLayout;
     private RadioGroup mRadioGroup;
     private AllNewsFragment fgNews;
-    private DataFragment fgData;
+    private AllDataFragment fgData;
     private GraphFragment fgGraph;
     private ScholarFragment fgScholar;
     private UserFragment fgUser;
@@ -73,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.tab_data:
                         Log.d(TAG, "onCheckedChanged: data");
                         if (fgData == null) {
-                            fgData = new DataFragment(MainActivity.this);
+                            fgData = new AllDataFragment(MainActivity.this);
                             fgTransaction.add(R.id.main_fl, fgData);
                         } else {
                             fgTransaction.show(fgData);

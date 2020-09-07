@@ -88,7 +88,7 @@ public class NewsListManager {
                 insert(oneNews);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "getNewsList: JSONException e");
         }
         return newsList;
     }

@@ -17,4 +17,10 @@
     <string name="btn_wb">weibo</string>
     <string name="btn_wx">wechat</string>
     <string name="user_history">我的足迹</string>
+    <string name="place">Place</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="cured">Cured</string>
+    <string name="dead">Dead</string>
+    <string name="suspected">Suspected</string>
+    <string name="todo">TODO</string>
 </resources>

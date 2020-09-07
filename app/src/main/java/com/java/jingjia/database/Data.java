@@ -1,5 +1,7 @@
 package com.java.jingjia.database;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -15,6 +17,7 @@ import java.util.List;
         indices = {@Index(value = {"country", "province", "county"}, unique = true)})
 public class Data {
 
+    private static final String TAG = "Data";
     @NonNull
     private String country;/**国家*/
     @NonNull
@@ -40,12 +43,16 @@ public class Data {
     }
 
     public Data(String place, Integer confirmed, Integer suspected, Integer cured, Integer dead){
-        String[] p = place.split("|");
+//        Log.i(TAG, "Data: " + place);
+        String[] p = place.split("\\|");
+//        Log.i(TAG, "Data: p.length " + p.length);
         if(p.length == 1){
+//            Log.i(TAG, "Data: COUNTRY " + p[0]);
             this.country = p[0];
             this.province = "";
             this.county = "";
         }else if(p.length == 2){
+//            Log.i(TAG, "Data: COUNTRY " + p[0] + " PROVINCE " + p[1]);
             this.country = p[0];
             this.province = p[1];
             this.county = "";
@@ -80,5 +87,16 @@ public class Data {
     }
     public Integer getDead(){
         return this.dead;
+    }
+
+    @Ignore
+    public String getPlace() {
+        if(!this.county.equals("")){
+            return this.county;
+        }else if(!this.province.equals("")){
+            return this.province;
+        }else{
+            return this.country;
+        }
     }
 }

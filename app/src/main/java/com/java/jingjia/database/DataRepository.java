@@ -1,18 +1,25 @@
 package com.java.jingjia.database;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.RoomDatabase;
 
+import com.java.jingjia.NewsItem;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class DataRepository {
 
+    private static final String TAG = "DataRepository";
     /**
      * 此类应该是单例模式吗?
      * */
@@ -42,14 +49,16 @@ public class DataRepository {
      * */
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
     // that you're not doing any long running operations on the main thread, blocking the UI.
-    public void insert(final Data data) {
-        DataRoomDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mDataDao.insert(data);
-            }
+    public void insert(Data data) {
+        DataRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mDataDao.insert(data);
+//            Log.i(TAG, "insert: "
+//                    + data.getCountry() + "-"
+//                    + data.getProvince() + "-"
+//                    + data.getCounty());
         });
     }
+
     /**
      * insert data to database (XueZhang Way)
      * */
@@ -70,8 +79,121 @@ public class DataRepository {
 //            return null;
 //        }
 //    }
+    public List<Data> getProvinceAllCountyAccumulatedData(String province) {
+        DataRepository.getProvinceAllCountyAccumulatedDataTask task =
+                new DataRepository.getProvinceAllCountyAccumulatedDataTask();
+        List<Data> AllCounty = null;
+        try {
+            AllCounty = task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, province).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, "getProvinceAllCountyAccumulatedData: return List<Data> size: " + AllCounty.size());
+        return AllCounty;
+    }
 
-//    /**
+    private class getProvinceAllCountyAccumulatedDataTask extends AsyncTask<String, Void, List<Data>> {
+        private static final String TAG = "getProvinceAllCountyAccumulatedDataTask";
+        @SuppressLint("LongLogTag")
+        @Override
+        protected List<Data> doInBackground(String... province) {
+            List<Data> returnData = mDataDao.getProvinceAllCountyData(province[0]);
+            Log.i(TAG, "doInBackground: returnData size " + returnData.size());
+            return returnData;
+        }
+    }
+
+    public List<Data> getCountryAllProvinceAccumulatedData(String country) {
+        DataRepository.getCountryAllProvinceAccumulatedDataTask task =
+                new DataRepository.getCountryAllProvinceAccumulatedDataTask();
+        List<Data> AllProvince = null;
+        try {
+            AllProvince = task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, country).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, "getCountryAllProvinceAccumulatedData: return List<Data> size: " + AllProvince.size());
+        return AllProvince;
+    }
+    public class getCountryAllProvinceAccumulatedDataTask extends AsyncTask<String, Void, List<Data>> {
+        private static final String TAG = "getCountryAllProvinceAccumulatedDataTask";
+        @SuppressLint("LongLogTag")
+        @Override
+        protected List<Data> doInBackground(String... country) {
+            List<Data> returnData = mDataDao.getCountryAllProvincecData(country[0]);
+            Log.i(TAG, "doInBackground: returnData size " + returnData.size());
+            return returnData;
+        }
+    }
+
+    public List<Data> getChinaAllProvinceAccumulatedData(){
+        Log.i(TAG, "getChinaAllProvinceAccumulatedData: ");
+        try {
+            DataRepository.getChinaAllProvinceAccumulatedDataTask task =
+                    new DataRepository.getChinaAllProvinceAccumulatedDataTask();
+            List<Data> AllPro = task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get();
+            Log.i(TAG, "getChinaAllProvinceAccumulatedData: return List<Data> size: " + AllPro.size());
+            return AllPro;
+        }catch(ExecutionException e){
+            e.printStackTrace();
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private class getChinaAllProvinceAccumulatedDataTask extends AsyncTask<Integer, Void, List<Data>>{
+            private static final String TAG = "getChinaAllProvinceAccumulatedDataTask";
+
+            @SuppressLint("LongLogTag")
+            @Override
+        protected  List<Data> doInBackground(Integer... params){
+            List<Data> returnData = mDataDao.findDataWithCountry("China");
+            Log.i(TAG, "doInBackground: returnData size " +returnData.size());
+            return returnData;
+        }
+    }
+
+//    public List<Data> getChinaAllProvinceAccumulatedData() {
+//        NewsRoomDatabase.databaseWriteExecutor.execute(() -> {
+//            return mDataDao.findDataWithCountry("China");
+//        });
+//    }
+    public List<Data> getGlobalAllCountryAccumulatedData(){
+        try {
+            DataRepository.getGlobalAllCountryAccumulatedDataTask task =
+                    new DataRepository.getGlobalAllCountryAccumulatedDataTask();
+            List<Data> AllPro = task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get();
+            return AllPro;
+        }catch(ExecutionException e){
+            e.printStackTrace();
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    private class getGlobalAllCountryAccumulatedDataTask extends AsyncTask<Integer, Void, List<Data>>{
+        @Override
+        protected  List<Data> doInBackground(Integer... params){
+            List<Data> returnData = mDataDao.findAllCountryData();
+            return returnData;
+        }
+
+    }
+//    public List<Data> getGlobleAllCountryAccumulatedData() {
+//        List<Data> allCountry = new ArrayList<>();
+//        List<String> allCountryStr = mDataDao.getAllCountry();
+//        for(String country : allCountryStr){
+//            allCountry.addAll(this.mDataDao.findDataWithPlace(country,"",""));
+//        }
+//        return allCountry;
+//    }
+
+    //    /**
 //     *get all news from database
 //     */
 //    public ArrayList<News> getAllData(){
@@ -122,13 +244,7 @@ public class DataRepository {
     public void deleteData(Data... data){
         DataRepository.DeleteDataTask deleteNewsTask = new DataRepository.DeleteDataTask();
         deleteNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
-
     }
-
-//    public List<Data> getChinaAccumulatedata() {
-//        return this.mDataDao.getChinaAccumulatedata();
-//    }
-
     private class DeleteDataTask extends AsyncTask<Data, Void, Void>{
         @Override
         protected Void doInBackground(Data... data){
@@ -136,6 +252,10 @@ public class DataRepository {
             return null;
         }
     }
+
+
+
+
     /****/
 
     /**
@@ -157,19 +277,19 @@ public class DataRepository {
     /**
      * clear the table
      */
-    public void clearData(){
-        DataRepository.ClearNewsTask clearNewsTask = new DataRepository.ClearNewsTask();
-        clearNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0);
-    }
-
-    private class ClearNewsTask extends AsyncTask<Integer, Void, Void>{
-
-        @Override
-        protected Void doInBackground(Integer... params){
-            mDataDao.deleteAllData();
-            return null;
-        }
-    }
+//    public void clearData(){
+//        DataRepository.ClearNewsTask clearNewsTask = new DataRepository.ClearNewsTask();
+//        clearNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0);
+//    }
+//
+//    private class ClearNewsTask extends AsyncTask<Integer, Void, Void>{
+//
+//        @Override
+//        protected Void doInBackground(Integer... params){
+//            mDataDao.deleteAllData();
+//            return null;
+//        }
+//    }
 
 
     /**
@@ -196,18 +316,18 @@ public class DataRepository {
     /**
      * Update news
      * */
-    public void updateNews(Data...data){
-        DataRepository.UpdateNewsTask updateNewsTask = new DataRepository.UpdateNewsTask();
-        updateNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
-    }
-
-    private class UpdateNewsTask extends AsyncTask<Data, Void, Void>{
-        @Override
-        protected Void doInBackground(Data...data){
-            mDataDao.updateData(data);
-            return null;
-        }
-    }
+//    public void updateNews(Data...data){
+//        DataRepository.UpdateNewsTask updateNewsTask = new DataRepository.UpdateNewsTask();
+//        updateNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
+//    }
+//
+//    private class UpdateNewsTask extends AsyncTask<Data, Void, Void>{
+//        @Override
+//        protected Void doInBackground(Data...data){
+//            mDataDao.updateData(data);
+//            return null;
+//        }
+//    }
 
     /**
      *

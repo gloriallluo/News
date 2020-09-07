@@ -1,13 +1,12 @@
 package com.java.jingjia.request;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.java.jingjia.NewsItem;
 import com.java.jingjia.database.Data;
 import com.java.jingjia.database.DataRepository;
-import com.java.jingjia.database.NewsRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +22,7 @@ import java.util.List;
  */
 public class DataManager {
 
+    private static final String TAG = "DataManager";
     private DataRepository mRepository;
     // Using LiveData and caching what getAllNews returns has several benefits:
     // - We can put an observer on the data (instead of polling for changes) and only update the
@@ -63,11 +63,17 @@ public class DataManager {
                 String begin = value.getString("begin");
                 JSONArray data = value.getJSONArray("data");
                 JSONArray latestData = data.getJSONArray(data.length()-1);
+//                Log.i(TAG, "getData: latestData :" + latestData.toString());
+//                Log.i(TAG, "getData: latestData(0) :" + latestData.get(0)
+//                        + " latestData(1) :" + latestData.get(1)
+//                        + " latestData(2) :" + latestData.get(2)
+//                        + " latestData(3) :" + latestData.get(3))
+                ;
                 Data newData = new Data(key,
-                        latestData.getInt(0),
-                        latestData.getInt(1),
-                        latestData.getInt(2),
-                        latestData.getInt(3));
+                        (latestData.get(0).toString() == "null") ? 0: latestData.getInt(0),
+                        (latestData.get(1).toString() == "null") ? 0: latestData.getInt(1),
+                        (latestData.get(2).toString() == "null") ? 0: latestData.getInt(2),
+                        (latestData.get(3).toString() == "null") ? 0: latestData.getInt(3));
                 insert(newData);
             }
         } catch (JSONException e) {
@@ -75,7 +81,20 @@ public class DataManager {
         }
     }
 
-//    public List<Data> getChinaAccumulatedata(){
-//        return this.mRepository.getChinaAccumulatedata();
-//    }
+    public List<Data> getChinaAllProvinceAccumulatedData(){
+        getData();
+        return this.mRepository.getChinaAllProvinceAccumulatedData();
+    }
+    public List<Data> getGlobalAllCountryAccumulatedData(){
+        getData();
+        return this.mRepository.getGlobalAllCountryAccumulatedData();
+    }
+
+    public List<Data> getProvinceAllCountyAccumulatedData(String province) {
+        return this.mRepository.getProvinceAllCountyAccumulatedData(province);
+    }
+
+    public List<Data> getCountryAllProvinceAccumulatedData(String province) {
+        return this.mRepository.getCountryAllProvinceAccumulatedData(province);
+    }
 }
