@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +18,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -29,6 +29,8 @@ import com.java.jingjia.util.TabItem;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 解决编辑新闻类别后Tab和Fragment不对应的问题
+
 /**
  * 具有显示新闻分类功能的滑动列表
  */
@@ -36,6 +38,7 @@ public class AllNewsFragment extends Fragment {
 
     private final String TAG = "AllNewsFragment";
     private Activity mActivity;
+
     private SearchView mSearchView;
     private TabLayout mTabLayout;
     private Button mBtnEdit;
@@ -55,22 +58,22 @@ public class AllNewsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_allnews, container, false);
         bindViews(view);
-        initFragments();
         fgManager = getChildFragmentManager();
-        mFgAdapter = new AllNewsAdapter(fgManager, mFragments);
-        mViewPager.setOffscreenPageLimit(mFragments.size() - 1);
-        mViewPager.setAdapter(mFgAdapter);
-        initTabs();
-        setListeners();
-        if (mFragments.size() > 0)
-            mTabLayout.getTabAt(0).select();
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        checkSharedPreferencesState();
+        // moved from onCreateView
+        initFragments();
+        mFgAdapter = new AllNewsAdapter(fgManager, mFragments);
+        mViewPager.setOffscreenPageLimit(1);
+        mViewPager.setAdapter(mFgAdapter);
+        initTabs();
+        setListeners();
+        if (mFragments.size() > 0)
+            mTabLayout.getTabAt(0).select();
     }
 
     /**
@@ -102,10 +105,13 @@ public class AllNewsFragment extends Fragment {
             NewsFragment fragment = new NewsFragment(mActivity, NewsFragment.PAPER);
             mFragments.add(fragment);
         }
+        for (NewsFragment fragment: mFragments)
+            Log.d(TAG, "initFragments: " + fragment.getType());
     }
 
     /**
      * 初始化标签
+     * 应该initFragments之后调用本函数
      */
     private void initTabs() {
         for (int i = 0; i < mFragments.size(); i++)
@@ -186,78 +192,78 @@ public class AllNewsFragment extends Fragment {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    private void checkSharedPreferencesState() {
-        if (sharedPreferences == null)
-            sharedPreferences = mActivity.getSharedPreferences(
-                    "user_tab", Context.MODE_PRIVATE);
+//    private void checkSharedPreferencesState() {
+//        if (sharedPreferences == null)
+//            sharedPreferences = mActivity.getSharedPreferences(
+//                    "user_tab", Context.MODE_PRIVATE);
+//
+//        boolean allSelected = sharedPreferences.getBoolean("all", true);
+//        boolean newsSelected = sharedPreferences.getBoolean("news", true);
+//        boolean paperSelected = sharedPreferences.getBoolean("paper", true);
+//        boolean nowSelected[] = {allSelected, newsSelected, paperSelected};
+//        boolean preSelected[] = {false, false, false};
+//
+//        for (NewsFragment fragment: mFragments) {
+//            if (fragment.getType() == NewsFragment.ALL)
+//                preSelected[0] = true;
+//            if (fragment.getType() == NewsFragment.NEWS)
+//                preSelected[1] = true;
+//            if (fragment.getType() == NewsFragment.PAPER)
+//                preSelected[2] = true;
+//        }
+//
+//        for (int i = 0; i < 3; i++) {
+//            if (preSelected[i] && !nowSelected[i])
+//                removeNewsType(i);
+//            if (!preSelected[i] && nowSelected[i])
+//                insertNewsType(i);
+//        }
+//    }
 
-        boolean allSelected = sharedPreferences.getBoolean("all", true);
-        boolean newsSelected = sharedPreferences.getBoolean("news", true);
-        boolean paperSelected = sharedPreferences.getBoolean("paper", true);
-        boolean nowSelected[] = {allSelected, newsSelected, paperSelected};
-        boolean preSelected[] = {false, false, false};
+//    private void insertNewsType(int position) {
+//        String type = positionToType(position);
+//        NewsFragment fragment = new NewsFragment(mActivity, type);
+//        if (position == 0) {
+//            mFragments.add(0, fragment);
+//            mTabLayout.addTab(mTabLayout.newTab(), position);
+//        } else if (position == 2) {
+//            mFragments.add(fragment);
+//            mTabLayout.addTab(mTabLayout.newTab());
+//        } else {    // position == 1
+//            if (mFragments.size() > 0 &&
+//                    mFragments.get(0).getType() == TabItem.ALL) {
+//                mFragments.add(position, fragment);
+//                mTabLayout.addTab(mTabLayout.newTab(), position);
+//            } else {
+//                mFragments.add(fragment);
+//                mTabLayout.addTab(mTabLayout.newTab());
+//            }
+//        }
+//        mFgAdapter.updateFragments(mFragments);
+//    }
 
-        for (NewsFragment fragment: mFragments) {
-            if (fragment.getType() == NewsFragment.ALL)
-                preSelected[0] = true;
-            if (fragment.getType() == NewsFragment.NEWS)
-                preSelected[1] = true;
-            if (fragment.getType() == NewsFragment.PAPER)
-                preSelected[2] = true;
-        }
-
-        for (int i = 0; i < 3; i++) {
-            if (preSelected[i] && !nowSelected[i])
-                removeNewsType(i);
-            if (!preSelected[i] && nowSelected[i])
-                insertNewsType(i);
-        }
-    }
-
-    private void insertNewsType(int position) {
-        String type = positionToType(position);
-        NewsFragment fragment = new NewsFragment(mActivity, type);
-        if (position == 0) {
-            mFragments.add(0, fragment);
-            mTabLayout.addTab(mTabLayout.newTab(), position);
-        } else if (position == 2) {
-            mFragments.add(fragment);
-            mTabLayout.addTab(mTabLayout.newTab());
-        } else {    // position == 1
-            if (mFragments.size() > 0 &&
-                    mFragments.get(0).getType() == TabItem.ALL) {
-                mFragments.add(position, fragment);
-                mTabLayout.addTab(mTabLayout.newTab(), position);
-            } else {
-                mFragments.add(fragment);
-                mTabLayout.addTab(mTabLayout.newTab());
-            }
-        }
-        mFgAdapter.updateFragments(mFragments);
-    }
-
-    private void removeNewsType(int type) {
-        int position = -1;
-        if (type == 0) {
-            position = 0;
-        } else if (type == 2) {
-            position = mFragments.size() - 1;
-        } else {    // type == 1
-            if (mFragments.size() > 0 &&
-                    mFragments.get(0).getType() == TabItem.ALL) {
-                position = 1;
-            } else {
-                position = mFragments.size() - 1;
-            }
-        }
-        if (mViewPager.getCurrentItem() == position) {
-            if (position > 1)
-                mTabLayout.getTabAt(position - 1).select();
-        }
-        mTabLayout.removeTabAt(position);
-        mFragments.remove(position);
-        mFgAdapter.updateFragments(mFragments);
-    }
+//    private void removeNewsType(int type) {
+//        int position = -1;
+//        if (type == 0) {
+//            position = 0;
+//        } else if (type == 2) {
+//            position = mFragments.size() - 1;
+//        } else {    // type == 1
+//            if (mFragments.size() > 0 &&
+//                    mFragments.get(0).getType() == TabItem.ALL) {
+//                position = 1;
+//            } else {
+//                position = mFragments.size() - 1;
+//            }
+//        }
+//        if (mViewPager.getCurrentItem() == position) {
+//            if (position > 1)
+//                mTabLayout.getTabAt(position - 1).select();
+//        }
+//        mTabLayout.removeTabAt(position);
+//        mFragments.remove(position);
+//        mFgAdapter.updateFragments(mFragments);
+//    }
 
     private String positionToType(int position) {
         String ans = "";
@@ -274,24 +280,14 @@ public class AllNewsFragment extends Fragment {
         return ans;
     }
 
-    public class AllNewsAdapter extends FragmentPagerAdapter {
+    public class AllNewsAdapter extends FragmentStatePagerAdapter {
         private List<NewsFragment> mFragments;
 
         public AllNewsAdapter(FragmentManager manager, List<NewsFragment> fragments) {
             super(manager);
             mFragments = fragments;
-        }
-
-        @Override
-        public void notifyDataSetChanged() {
-            super.notifyDataSetChanged();
-            for (int i = 0; i < mTabLayout.getTabCount(); i++)
-                mTabLayout.getTabAt(i).setText(mFragments.get(i).getType());
-        }
-
-        public void updateFragments(List<NewsFragment> fragments) {
-            mFragments = fragments;
-            notifyDataSetChanged();
+            for (NewsFragment fragment: mFragments)
+                Log.d(TAG, "AllNewsAdapter: " + fragment.getType());
         }
 
         @Override
@@ -314,6 +310,11 @@ public class AllNewsFragment extends Fragment {
             if (mFragments != null)
                 return mFragments.size();
             else return 0;
+        }
+
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            return POSITION_NONE;
         }
     }
 }

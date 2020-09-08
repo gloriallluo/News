@@ -99,8 +99,11 @@ public class NewsFragment extends Fragment {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ArrayList<NewsItem> items = manager.getLatestNewsList(
-                        type, mNewsItems.get(0).getId());
+                ArrayList<NewsItem> items;
+                if (mNewsItems.size() > 0)
+                    items = manager.getLatestNewsList(type, mNewsItems.get(0).getId());
+                else
+                    items = manager.getLatestNewsList(type, "");
                 if (!addNewsItemsAtStart(items))
                     Toast.makeText(getContext(), "No more news", Toast.LENGTH_LONG).show();
                 mAdapter.notifyDataSetChanged();

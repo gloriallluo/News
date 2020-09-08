@@ -21,6 +21,8 @@ import com.java.jingjia.util.NewsListAdapter;
 
 import java.util.ArrayList;
 
+// TODO: 写历史搜索记录
+
 public class SearchActivity extends AppCompatActivity {
 
     private final String TAG = "SearchActivity";
