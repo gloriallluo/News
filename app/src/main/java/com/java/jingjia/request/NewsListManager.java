@@ -77,6 +77,7 @@ public class NewsListManager {
     private ArrayList<NewsItem> getNewsList(String type) {
         String json = getLatestJson(type);
         ArrayList<NewsItem> newsList = new ArrayList<>();
+        if (json == null) return newsList;
         try {
             JSONObject jsonObject = new JSONObject(json);
             JSONArray data = jsonObject.getJSONArray("data");
@@ -198,7 +199,7 @@ public class NewsListManager {
      * SetVisitedNews
      * 将id对应的news设置为已读
      */
-    public void SetVisitedNews(String id){
+    public void setVisitedNews(String id){
         this.mRepository.setVisitedById(id);
     }
 

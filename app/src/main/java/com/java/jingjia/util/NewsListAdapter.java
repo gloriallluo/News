@@ -54,7 +54,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (viewType == TYPE_ITEM) {
             view = inflater.inflate(R.layout.item_news, parent, false);
             return new ViewHolder(view);
-        } else {    // TYPE_FOOTER
+        } else {    //  TYPE_FOOTER
             view = inflater.inflate(R.layout.item_news_footer, parent, false);
             return new FootViewHolder(view);
         }
@@ -69,7 +69,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 vHolder.title.setText(item.getTitle());
                 vHolder.source.setText(item.getSource());
                 vHolder.time.setText(item.getTime());
-                if (item.getVisited())
+                if (item.getVisited())  // TODO: set visited news color grey
                     vHolder.title.setTextColor(R.color.yd_grey);
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {

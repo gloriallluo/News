@@ -1,11 +1,10 @@
-package com.java.jingjia.ui;
+package com.java.jingjia.ui.news;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -79,7 +78,8 @@ public class EditTabActivity extends Activity {
         selectedIds = new ArrayList<>();
         unselectedIds = new ArrayList<>();
         if (sharedPreferences == null)
-            sharedPreferences = getSharedPreferences("user_tab", Context.MODE_PRIVATE);
+            sharedPreferences = getSharedPreferences(
+                    "user_tab", Context.MODE_PRIVATE);
         TabItem all = new TabItem(TabItem.ALL);
         TabItem news = new TabItem(TabItem.NEWS);
         TabItem paper = new TabItem(TabItem.PAPER);

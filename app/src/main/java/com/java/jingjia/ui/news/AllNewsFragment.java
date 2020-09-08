@@ -1,17 +1,21 @@
-package com.java.jingjia.ui;
+package com.java.jingjia.ui.news;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -19,6 +23,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.java.jingjia.R;
+import com.java.jingjia.ui.MainActivity;
 import com.java.jingjia.util.TabItem;
 
 import java.util.ArrayList;
@@ -26,12 +31,12 @@ import java.util.List;
 
 /**
  * 具有显示新闻分类功能的滑动列表
- * TODO: 增加添加和删除功能
  */
 public class AllNewsFragment extends Fragment {
 
     private final String TAG = "AllNewsFragment";
     private Activity mActivity;
+    private SearchView mSearchView;
     private TabLayout mTabLayout;
     private Button mBtnEdit;
     private ViewPager mViewPager;
@@ -40,6 +45,7 @@ public class AllNewsFragment extends Fragment {
     private List<NewsFragment> mFragments;
     private SharedPreferences sharedPreferences;
 
+    public AllNewsFragment() { }
     public AllNewsFragment(Activity activity) {
         mActivity = activity;
     }
@@ -71,6 +77,7 @@ public class AllNewsFragment extends Fragment {
      * 绑定组件
      */
     private void bindViews(View view) {
+        mSearchView = view.findViewById(R.id.all_news_sv);
         mTabLayout = view.findViewById(R.id.all_news_tabs);
         mBtnEdit = view.findViewById(R.id.all_news_edit);
         mViewPager = view.findViewById(R.id.all_news_vp);
@@ -148,11 +155,41 @@ public class AllNewsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        mSearchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: onClick");
+                Intent intent = new Intent(mActivity, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Log.d(TAG, "onFocusChange: 111");
+                    Intent intent = new Intent(mActivity, SearchActivity.class);
+                    startActivity(intent);
+                    mSearchView.clearFocus();
+                } else {
+                    hideSoftInput(v);
+                }
+            }
+        });
+    }
+
+    private void hideSoftInput(View view) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private void checkSharedPreferencesState() {
         if (sharedPreferences == null)
-            sharedPreferences = mActivity.getSharedPreferences("user_tab", Context.MODE_PRIVATE);
+            sharedPreferences = mActivity.getSharedPreferences(
+                    "user_tab", Context.MODE_PRIVATE);
 
         boolean allSelected = sharedPreferences.getBoolean("all", true);
         boolean newsSelected = sharedPreferences.getBoolean("news", true);
@@ -217,8 +254,8 @@ public class AllNewsFragment extends Fragment {
             if (position > 1)
                 mTabLayout.getTabAt(position - 1).select();
         }
-        mFragments.remove(position);
         mTabLayout.removeTabAt(position);
+        mFragments.remove(position);
         mFgAdapter.updateFragments(mFragments);
     }
 

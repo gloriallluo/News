@@ -15,7 +15,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.java.jingjia.R;
-import com.java.jingjia.ui.NewsFragment;
 
 import java.util.ArrayList;
 import java.util.List;

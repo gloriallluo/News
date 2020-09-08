@@ -1,4 +1,4 @@
-package com.java.jingjia.ui;
+package com.java.jingjia.ui.news;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -44,6 +44,7 @@ public class NewsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<NewsItem> mNewsItems;
 
+    public NewsFragment() { }
     public NewsFragment(Activity activity, String type) {
         mActivity = activity;
         mNewsItems = new ArrayList<>();

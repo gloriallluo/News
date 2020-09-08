@@ -1,18 +1,25 @@
 package com.java.jingjia.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.java.jingjia.NewsItem;
 import com.java.jingjia.R;
 import com.java.jingjia.request.NewsContentManager;
+import com.java.jingjia.request.NewsListManager;
 
 /**
  * 新闻详情页Activity
@@ -20,10 +27,13 @@ import com.java.jingjia.request.NewsContentManager;
 public class NewsActivity extends AppCompatActivity {
 
     private final String TAG = "NewsActivity";
+    private final int MSG_SET_VISITED = 0x2000;
+
     private NewsItem mItem;
     private TextView mTitle, mSource, mTime, mContent;
     private Button mBtnLike, mBtnCollect, mBtnWb, mBtnWx;
-    private NewsContentManager manager;
+    private NewsListManager listManager;
+    private NewsContentManager contentManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,8 +47,11 @@ public class NewsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String mItemId = intent.getStringExtra("news");
-        manager = NewsContentManager.getNewsContentManager();
-        mItem = manager.getNewsItem(mItemId);
+        listManager = NewsListManager.getNewsListManager(getApplication());
+        contentManager = NewsContentManager.getNewsContentManager();
+        mItem = contentManager.getNewsItem(mItemId);
+        Message msg = new Message();
+        msg.what = MSG_SET_VISITED;
 
         setListeners();
         mTitle.setText(mItem.getTitle());

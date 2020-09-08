@@ -1,5 +1,8 @@
 package com.java.jingjia;
 
+import android.app.Application;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -7,6 +10,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import com.java.jingjia.request.NewsListManager;
 
 import java.io.Serializable;
 
@@ -107,5 +112,4 @@ public class NewsItem implements Serializable {
     }
     public String getContent() {return this.content;}
     public Boolean getVisited() {return this.visited;}
-
 }

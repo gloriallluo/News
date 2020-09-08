@@ -23,4 +23,5 @@
     <string name="dead">Dead</string>
     <string name="suspected">Suspected</string>
     <string name="todo">TODO</string>
+    <string name="search_query_hint">请输入关键字</string>
 </resources>

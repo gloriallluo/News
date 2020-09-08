@@ -6,13 +6,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.java.jingjia.R;
 import com.java.jingjia.ui.data.AllDataFragment;
-import com.java.jingjia.ui.data.DataFragment;
+import com.java.jingjia.ui.news.AllNewsFragment;
 
 /**
  * Main page of the News App.
@@ -39,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
         setListeners();
         RadioButton btnNews = findViewById(R.id.tab_news);
         btnNews.setChecked(true);
+    }
+
+    public void hideBottomBar() {
+        mRadioGroup.setVisibility(View.INVISIBLE);
+    }
+
+    public void showBottomBar() {
+        mRadioGroup.setVisibility(View.VISIBLE);
     }
 
     /**
