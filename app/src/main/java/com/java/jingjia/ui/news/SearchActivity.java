@@ -1,11 +1,13 @@
 package com.java.jingjia.ui.news;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,48 +20,60 @@ import com.java.jingjia.R;
 import com.java.jingjia.request.NewsListManager;
 import com.java.jingjia.util.MyScrollListener;
 import com.java.jingjia.util.NewsListAdapter;
+import com.java.jingjia.util.data.SearchHistoryAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
-
-// TODO: 写历史搜索记录
 
 public class SearchActivity extends AppCompatActivity {
 
     private final String TAG = "SearchActivity";
-    private final int MINIMUM_SIZE = 10;
     private final int SEARCH_LIMIT = 5;
-    private String mQuery;
-    private String lastSearchId;
+    private String lastId = "";
+
+    private ArrayList<NewsItem> mNewsItems;
+    private ArrayList<String> mSearchHistory;
 
     private SearchView mSearchView;
+    private ListView mListView;
     private RecyclerView mRecyclerView;
-
-    private NewsListAdapter mAdapter;
+    private SearchHistoryAdapter mHistoryAdapter;
+    private NewsListAdapter mNewsAdapter;
     private NewsListManager listManager;
-    private ArrayList<NewsItem> mNewsItems;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        sharedPreferences = getSharedPreferences("user_search_history", MODE_PRIVATE);
         listManager = NewsListManager.getNewsListManager(getApplication());
         mSearchView = findViewById(R.id.search_sv);
+        mListView = findViewById(R.id.search_lv);
         mRecyclerView = findViewById(R.id.search_rv);
+
         mNewsItems = new ArrayList<>();
-        mAdapter = new NewsListAdapter(SearchActivity.this, mNewsItems);
-        mRecyclerView.setAdapter(mAdapter);
+        mSearchHistory = new ArrayList<>();
+        initSearchHistory();
+        mNewsAdapter = new NewsListAdapter(SearchActivity.this, mNewsItems);
+        mHistoryAdapter = new SearchHistoryAdapter(SearchActivity.this, mSearchHistory);
+        mRecyclerView.setAdapter(mNewsAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+        mListView.setAdapter(mHistoryAdapter);
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d(TAG, "onQueryTextSubmit: " + query);
-                mQuery = query;
+                lastId = "";
+                mListView.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
                 hideSoftInput(getCurrentFocus());
                 mNewsItems = searchQuery(query);
-                mAdapter.updateNewsItems(mNewsItems);
-                mAdapter.notifyDataSetChanged();
+                mNewsAdapter.updateNewsItems(mNewsItems);
+                mNewsAdapter.notifyDataSetChanged();
+                mHistoryAdapter.insertHistoryAtFront(query);
+                mHistoryAdapter.notifyDataSetChanged();
+                addSharedPrefSearchHistory(query);
                 return false;
             }
             @Override
@@ -68,59 +82,97 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        mSearchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListView.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+            }
+        });
+
+        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    mListView.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int type = mHistoryAdapter.getItemViewType(position);
+                switch (type) {
+                    case SearchHistoryAdapter.HISTORY_KEYWORD:
+                        mSearchView.setQuery((String)
+                                mHistoryAdapter.getItem(position), false);
+                        break;
+                    case SearchHistoryAdapter.HISTORY_END:
+                        mHistoryAdapter.removeAllHistory();
+                        mHistoryAdapter.notifyDataSetChanged();
+                        clearSharedPrefSearchHistory();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
         mRecyclerView.addOnScrollListener(new MyScrollListener() {
             @Override
             public void onLoadMore() {
-                mAdapter.setLoadState(mAdapter.LOADING);
-                ArrayList<NewsItem> items = searchMore(mQuery, lastSearchId);
+                String query = (String) mSearchView.getQuery();
+                mNewsAdapter.setLoadState(mNewsAdapter.LOADING);
+                ArrayList<NewsItem> items = searchQuery(query);
                 mNewsItems.addAll(items);
-                mAdapter.notifyDataSetChanged();
-                if (items.size() == 0) mAdapter.setLoadState(mAdapter.LOAD_END);
-                else mAdapter.setLoadState(mAdapter.LOAD_COMPLETE);
+                mNewsAdapter.updateNewsItems(mNewsItems);
+                mNewsAdapter.notifyDataSetChanged();
+                mNewsAdapter.setLoadState(mNewsAdapter.LOAD_COMPLETE);
             }
         });
     }
 
     private ArrayList<NewsItem> searchQuery(String query) {
         ArrayList<NewsItem> mItems = new ArrayList<>();
-        List<NewsItem> newItems = listManager.getLatestNewsList("all", "");
+        ArrayList<NewsItem> newItems = listManager.getLatestNewsList("all", lastId);
         for (NewsItem item: newItems)
             if (item.getTitle().contains(query))
                 mItems.add(item);
-        int searchTime = 0; int lastSize = 0;
-        while (mItems.size() < MINIMUM_SIZE &&
-                mItems.size() != lastSize &&
-                searchTime < SEARCH_LIMIT) {
-            searchTime++; lastSize = mItems.size();
-            String lastId = newItems.get(newItems.size() - 1).getId();
+        for (int i = 0; i < SEARCH_LIMIT; i++) {
+            lastId = newItems.size() > 0? newItems.get(newItems.size() - 1).getId(): "";
             newItems = listManager.getMoreNewsList("all", lastId);
             for (NewsItem item: newItems)
                 if (item.getTitle().contains(query))
                     mItems.add(item);
         }
-        lastSearchId = newItems.get(newItems.size() - 1).getId();
         return mItems;
     }
 
-    private ArrayList<NewsItem> searchMore(String query, String lastId) {
-        ArrayList<NewsItem> mItems = new ArrayList<>();
-        ArrayList<NewsItem> newItems = new ArrayList<>();
-        int searchTime = 0; int lastSize = 0;
-        while (mItems.size() < MINIMUM_SIZE &&
-                mItems.size() != lastSize &&
-                searchTime < SEARCH_LIMIT) {
-            searchTime++;
-            lastSize = mItems.size();
-            if (mItems.size() > 0)
-                lastId = mItems.get(mItems.size() - 1).getId();
-            newItems = listManager.getMoreNewsList("all", lastId);
-            for (NewsItem item: newItems)
-                if (item.getTitle().contains(query))
-                    mItems.add(item);
+    private void initSearchHistory() {
+        int historySize = sharedPreferences.getInt("size", 0);
+        for (Integer i = historySize - 1; i >= 0; i--) {
+            String keyword = (String) sharedPreferences.getString(i.toString(), "");
+            mSearchHistory.add(keyword);
         }
-        if (newItems.size() > 0)
-            lastSearchId = newItems.get(newItems.size() - 1).getId();
-        return mItems;
+    }
+
+    private void addSharedPrefSearchHistory(String query) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Integer historySize = sharedPreferences.getInt("size", 0);
+        editor.putString(historySize.toString(), query);
+        editor.putInt("size", historySize + 1);
+        editor.commit();
+    }
+
+    private void clearSharedPrefSearchHistory() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Integer historySize = sharedPreferences.getInt("size", 0);
+        for (Integer i = 0; i < historySize; i++)
+            editor.remove(i.toString());
+        editor.putInt("size", 0);
+        editor.commit();
     }
 
     private void hideSoftInput(View view) {
