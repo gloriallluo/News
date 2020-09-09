@@ -54,6 +54,10 @@ public class DataManager {
     public void getData() {
         String url = "https://covid-dashboard.aminer.cn/api/dist/epidemic.json";
         String jsonString = HttpUtil.getServerHttpResponse().getResponse(url);
+        if(jsonString.equals("")){
+            Log.e(TAG, "getData: null or 空 jsonString");
+            return;
+        }
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             Iterator<String> it = jsonObject.keys();
@@ -68,12 +72,11 @@ public class DataManager {
 //                        + " latestData(1) :" + latestData.get(1)
 //                        + " latestData(2) :" + latestData.get(2)
 //                        + " latestData(3) :" + latestData.get(3))
-                ;
                 Data newData = new Data(key,
-                        (latestData.get(0).toString() == "null") ? 0: latestData.getInt(0),
-                        (latestData.get(1).toString() == "null") ? 0: latestData.getInt(1),
-                        (latestData.get(2).toString() == "null") ? 0: latestData.getInt(2),
-                        (latestData.get(3).toString() == "null") ? 0: latestData.getInt(3));
+                        (latestData.get(0).toString().equals("null")) ? 0: latestData.getInt(0),
+                        (latestData.get(1).toString().equals("null")) ? 0: latestData.getInt(1),
+                        (latestData.get(2).toString().equals("null")) ? 0: latestData.getInt(2),
+                        (latestData.get(3).toString().equals("null")) ? 0: latestData.getInt(3));
                 insert(newData);
             }
         } catch (JSONException e) {

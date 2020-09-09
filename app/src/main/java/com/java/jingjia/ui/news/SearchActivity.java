@@ -20,6 +20,7 @@ import com.java.jingjia.util.MyScrollListener;
 import com.java.jingjia.util.NewsListAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 // TODO: 写历史搜索记录
 
@@ -82,7 +83,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<NewsItem> searchQuery(String query) {
         ArrayList<NewsItem> mItems = new ArrayList<>();
-        ArrayList<NewsItem> newItems = listManager.getLatestNewsList("all", "");
+        List<NewsItem> newItems = listManager.getLatestNewsList("all", "");
         for (NewsItem item: newItems)
             if (item.getTitle().contains(query))
                 mItems.add(item);

@@ -2,11 +2,11 @@ package com.java.jingjia.database;
 
 import android.app.Application;
 import android.os.AsyncTask;
-
-import androidx.lifecycle.LiveData;
+import android.util.Log;
 
 import com.java.jingjia.NewsItem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -32,61 +32,100 @@ public class NewsRepository {
     /**
      * insert news to database
      * */
-//    public void insert(NewsItem... news){
-//        Log.e(TAG, "insert: " + news.getVisited() + " " + news.getId() + " " + news.getType());
-//        InsertNewsTask insertNewsTask = new InsertNewsTask();
-//        insertNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
-//    }
-//
-//    private class InsertNewsTask extends AsyncTask<NewsItem, Void, Void>{
-//        @Override
-//        protected Void doInBackground(NewsItem... news){
-//            mNewsDao.insert(news);
-//            return null;
-//        }
-//    }
+    public void insert(NewsItem... news){
+        InsertNewsTask insertNewsTask = new InsertNewsTask();
+        insertNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
+    }
+
+    private class InsertNewsTask extends AsyncTask<NewsItem, Void, Void>{
+        @Override
+        protected Void doInBackground(NewsItem... news){
+            mNewsDao.insert(news);
+            return null;
+        }
+    }
 
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
     // that you're not doing any long running operations on the main thread, blocking the UI.
-    public void insert(NewsItem news) {
-        NewsRoomDatabase.databaseWriteExecutor.execute(() -> mNewsDao.insert(news));
-    }
+//    public void insert(NewsItem news) {
+//        NewsRoomDatabase.databaseWriteExecutor.execute(() -> mNewsDao.insert(news));
+//    }
 
 //    /**
 //     *get all news from database
 //     */
-//    public ArrayList<NewsItem> getAllNews(){
-//        try {
-//            GetAllNewsTask getAllNewsTask = new GetAllNewsTask();
-//            return new ArrayList<>(Arrays.asList(getAllNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get()));
-//        }catch(ExecutionException e){
-//            e.printStackTrace();
-//        }catch(InterruptedException e){
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-    //    private class GetAllNewsTask extends AsyncTask<Integer, Void, NewsItem[]>{
-//        @Override
-//        protected  NewsItem[] doInBackground(Integer... params){
-//            return mNewsDao.loadAllNews();
-//        }
-//    }
+    public List<NewsItem> getAllNews(){
+        try {
+            GetAllNewsTask getAllNewsTask = new GetAllNewsTask();
+            return new ArrayList<>(getAllNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 0).get());
+        }catch(ExecutionException e){
+            e.printStackTrace();
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    private class GetAllNewsTask extends AsyncTask<Integer, Void, List<NewsItem>>{
+        @Override
+        protected  List<NewsItem> doInBackground(Integer... params){
+            return mNewsDao.getAllNews();
+        }
+    }
 
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
 
-    public List<NewsItem> getAllNews() {
-        return mNewsDao.getAllNews();
-    }
+//    public List<NewsItem> getAllNews() {
+//        return mNewsDao.getAllNews();
+//    }
 
     public List<NewsItem> getAllNewsByVisitedOrNot(boolean visited) {
-        return mNewsDao.getAllNewsByVisitedOrNot(visited);
+        GetAllNewsByVisitedOrNotTask getAllNewsByVisitedOrNotTask = new GetAllNewsByVisitedOrNotTask();
+        try {
+            return new ArrayList<>(getAllNewsByVisitedOrNotTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, visited).get());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-    public void setVisitedById(String id) {
-        mNewsDao.setVisitedById(id, true);
+    private class GetAllNewsByVisitedOrNotTask extends AsyncTask<Boolean, Void, List<NewsItem>>{
+        @Override
+        protected  List<NewsItem> doInBackground(Boolean... visited){
+            return mNewsDao.getAllNewsByVisitedOrNot(visited[0]);
+        }
     }
 
+    public void setVisitedById(String id) {
+        SetVisitedByIdTask setVisitedByIdTask = new SetVisitedByIdTask();
+        setVisitedByIdTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, id);
+    }
+    private class SetVisitedByIdTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... id){
+            mNewsDao.setVisitedById(id[0], true);
+            return null;
+        }
+    }
+
+    public List<NewsItem> getLastInsertNews(String type) {
+        GetLastInsertNewsTask getLastInsertNewsTask = new GetLastInsertNewsTask();
+        try {
+            return new ArrayList<>(getLastInsertNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, type).get());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    private class GetLastInsertNewsTask extends AsyncTask<String, Void, List<NewsItem>> {
+        @Override
+        protected List<NewsItem> doInBackground(String... type){
+            return mNewsDao.getLastInsertNews(type[0]);
+        }
+    }
     /**
      * delete news
      * */

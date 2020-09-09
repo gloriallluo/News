@@ -74,10 +74,10 @@ public class NewsListManager {
     /**
      * getNewsList用于返回最新的十个对应初始化好的NewItem类的ArrayList
      */
-    private ArrayList<NewsItem> getNewsList(String type) {
+    private List<NewsItem> getNewsList(String type) {
         String json = getLatestJson(type);
         ArrayList<NewsItem> newsList = new ArrayList<>();
-        if (json == null) return newsList;
+        if (json == null) return getLastInsertNews(type);
         try {
             JSONObject jsonObject = new JSONObject(json);
             JSONArray data = jsonObject.getJSONArray("data");
@@ -98,9 +98,9 @@ public class NewsListManager {
      * 如果参数id = ""就是第一次刷新，返回最新的十条NewItem类的ArrayList。
      * 否则返回比id新的NewItem类的ArrayList。
      */
-    public ArrayList<NewsItem> getLatestNewsList(String type, String id) {
+    public List<NewsItem> getLatestNewsList(String type, String id) {
 //        Log.e(TAG, "getLatestNewsList: "+ type + " "+ id);
-        if(id == ""){
+        if(id.equals("")){
             return getNewsList(type);
         }
         ArrayList<NewsItem> newsList = new ArrayList<>();
@@ -177,6 +177,14 @@ public class NewsListManager {
             e.printStackTrace();
         }
         return newsList;
+    }
+    /**
+     * getLastInsertNews
+     * 返回数据库中最后十条News
+     */
+    public List<NewsItem> getLastInsertNews(String type){
+        return this.mRepository.getLastInsertNews(type);
+
     }
 
     /**
