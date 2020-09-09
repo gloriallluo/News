@@ -14,6 +14,11 @@
         android:background="@drawable/view_search"
         app:iconifiedByDefault="false" />
 
+    <ListView
+        android:id="@+id/search_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_rv"
         android:layout_width="match_parent"

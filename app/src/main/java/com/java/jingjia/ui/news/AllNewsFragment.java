@@ -17,19 +17,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.java.jingjia.R;
-import com.java.jingjia.ui.MainActivity;
 import com.java.jingjia.util.TabItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
-// TODO: 解决编辑新闻类别后Tab和Fragment不对应的问题
 
 /**
  * 具有显示新闻分类功能的滑动列表
@@ -65,6 +61,7 @@ public class AllNewsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (mActivity == null) return;
         // moved from onCreateView
         initFragments();
         mFgAdapter = new AllNewsAdapter(fgManager, mFragments);
