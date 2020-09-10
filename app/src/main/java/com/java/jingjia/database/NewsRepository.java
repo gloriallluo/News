@@ -1,5 +1,6 @@
 package com.java.jingjia.database;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -82,6 +83,7 @@ public class NewsRepository {
     public List<NewsItem> getAllNewsByVisitedOrNot(boolean visited) {
         GetAllNewsByVisitedOrNotTask getAllNewsByVisitedOrNotTask = new GetAllNewsByVisitedOrNotTask();
         try {
+            Log.i(TAG, "getAllNewsByVisitedOrNot: ");
             return new ArrayList<>(getAllNewsByVisitedOrNotTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, visited).get());
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -91,20 +93,25 @@ public class NewsRepository {
         return null;
     }
     private class GetAllNewsByVisitedOrNotTask extends AsyncTask<Boolean, Void, List<NewsItem>>{
+        @SuppressLint("LongLogTag")
         @Override
         protected  List<NewsItem> doInBackground(Boolean... visited){
-            return mNewsDao.getAllNewsByVisitedOrNot(visited[0]);
+            List<NewsItem> v = mNewsDao.getAllNewsByVisitedOrNot(visited[0]);
+            Log.i(TAG + "GetAllNewsByVisitedOrNotTask", "doInBackground: visited size :" + v.size());
+            return v;
         }
     }
 
     public void setVisitedById(String id) {
         SetVisitedByIdTask setVisitedByIdTask = new SetVisitedByIdTask();
         setVisitedByIdTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, id);
+        Log.i(TAG, "setVisitedById: ID ：" + id);
     }
     private class SetVisitedByIdTask extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... id){
             mNewsDao.setVisitedById(id[0], true);
+            Log.i(TAG, "setVisitedById: " + mNewsDao.getNewsByID(id[0]).getVisited());
             return null;
         }
     }

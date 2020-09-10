@@ -42,4 +42,6 @@ public interface NewsDao {
     @Query("SELECT * FROM news_table WHERE type LIKE :type LIMIT 10")
     List<NewsItem> getLastInsertNews(String type);
 
+    @Query("SELECT * FROM news_table WHERE id LIKE :id")
+    NewsItem getNewsByID(String id);
 }
