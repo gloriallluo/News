@@ -32,7 +32,6 @@ public abstract class MyScrollListener extends RecyclerView.OnScrollListener {
             int itemCount = manager.getItemCount();
             if ((lastItemPos == itemCount - 1) && isSlidingUpward)
                 onLoadMore();
-            // isSlidingUpward = false;
         }
     }
 }

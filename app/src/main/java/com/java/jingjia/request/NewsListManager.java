@@ -45,6 +45,10 @@ public class NewsListManager {
         mRepository.insert(news);
     }
 
+    public void resetPageDown() {
+        pageDown = 1;
+    }
+
     /**
      * 获得指定type的最新10条消息的json字符串。参数type可以为"all"或"news"或"paper"，默认为all，
      * 如果是paper，接口返回的内容并没有按照时间顺序排列，之后再做处理。
@@ -112,15 +116,15 @@ public class NewsListManager {
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject oneJsonObject = data.getJSONObject(i);
                     String thisId = oneJsonObject.getString("_id");
-                    if(!thisId.equals(id)){ //还没有到id那一条
+                    if (!thisId.equals(id)){ //还没有到id那一条
                         NewsItem oneNews = NewsContentManager.getNewsContentManager().
                                 getNewsItemFromJsonObject(oneJsonObject);
-                        if(oneNews == null){
+                        if (oneNews == null) {
                             Log.e(TAG, "getLatestNewsList: oneNews == null");
                         }
                         newsList.add(oneNews);
                         insert(oneNews);
-                    }else{
+                    } else {
                         return newsList;
                     }
                 }
