@@ -61,11 +61,20 @@ public class ScholarManager {
                 //profile
                 JSONObject profile = oneScholar.getJSONObject("profile");
                 String affiliation = profile.getString("affiliation");
-                String affiliation_zh = profile.getString("affiliation_zh");
+                String affiliation_zh = "null";
+                if(!profile.isNull("affiliation_zh"))
+                    affiliation_zh = profile.getString("affiliation_zh");
+
                 String bio = profile.getString("bio");
-                String homepage = profile.getString("homepage");
-                String position = profile.getString("position");
-                String work = profile.getString("work");
+                String homepage = "";
+                if(!profile.isNull("homepage"))
+                    homepage = profile.getString("homepage");
+                String position = "null";
+                if(!profile.isNull("position"))
+                    position = profile.getString("position");
+                String work = "null";
+                if(!profile.isNull("work"))
+                    work = profile.getString("work");
 
                 Boolean is_passedaway = oneScholar.getBoolean("is_passedaway");
 

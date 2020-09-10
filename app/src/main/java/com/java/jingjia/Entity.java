@@ -33,4 +33,52 @@ public class Entity {
             this.forward = d;
         }
     }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getAbstractInfo() {
+        return abstractInfo;
+    }
+
+    public void setAbstractInfo(String abstractInfo) {
+        this.abstractInfo = abstractInfo;
+    }
+
+    public Map getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Map properties) {
+        this.properties = properties;
+    }
+
+    public List<Relation> getRelations() {
+        return relations;
+    }
+
+    public void setRelations(List<Relation> relations) {
+        this.relations = relations;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

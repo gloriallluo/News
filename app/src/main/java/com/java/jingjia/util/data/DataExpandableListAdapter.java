@@ -67,7 +67,6 @@ public class DataExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         ParentViewHolder groupHolder;
-        ImageView expand;
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(
                     R.layout.recycleview_item_parent, parent, false);

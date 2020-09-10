@@ -136,7 +136,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<NewsItem> searchQuery(String query) {
         ArrayList<NewsItem> mItems = new ArrayList<>();
-        ArrayList<NewsItem> newItems = listManager.getLatestNewsList("all", lastId);
+        ArrayList<NewsItem> newItems = (ArrayList<NewsItem>) listManager.getLatestNewsList("all", lastId);
         for (NewsItem item: newItems)
             if (item.getTitle().contains(query))
                 mItems.add(item);

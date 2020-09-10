@@ -54,7 +54,7 @@ public class DataManager {
     public void getData() {
         String url = "https://covid-dashboard.aminer.cn/api/dist/epidemic.json";
         String jsonString = HttpUtil.getServerHttpResponse().getResponse(url);
-        if(jsonString.equals("")){
+        if(jsonString.equals("") || jsonString == null){
             Log.e(TAG, "getData: null or 空 jsonString");
             return;
         }

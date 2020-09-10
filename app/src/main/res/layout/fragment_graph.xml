@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <com.arlib.floatingsearchview.FloatingSearchView-->
-<!--        android:id="@+id/floating_search_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"-->
-<!--        app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"-->
-<!--        app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"-->
-<!--        app:floatingSearch_searchHint="Search..."-->
-<!--        app:floatingSearch_suggestionsListAnimDuration="250"-->
-<!--        app:floatingSearch_showSearchKey="false"-->
-<!--        app:floatingSearch_leftActionMode="showHamburger"-->
-<!--        app:floatingSearch_menu="@menu/menu_main"-->
-<!--        app:floatingSearch_close_search_on_keyboard_dismiss="true"/>-->
-<!--    -->
-    <TextView
+    <com.arlib.floatingsearchview.FloatingSearchView
+        android:id="@+id/floating_search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/tab_graph"
-        android:textSize="40sp"
-        android:gravity="center" />
 
-</LinearLayout>
+        app:floatingSearch_searchHint="Search..."
+        app:floatingSearch_suggestionsListAnimDuration="250"
+        app:floatingSearch_showSearchKey="false"
+        app:floatingSearch_leftActionMode="noLeftAction"
+        app:floatingSearch_menu="@menu/menu_main"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"
+
+        app:floatingSearch_searchBarMarginLeft="2dp"
+        app:floatingSearch_searchBarMarginTop="3dp"
+        app:floatingSearch_searchBarMarginRight="2dp"
+        >
+    </com.arlib.floatingsearchview.FloatingSearchView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/entity_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp" />
+
+</RelativeLayout>

@@ -1,6 +1,8 @@
 package com.java.jingjia.request;
 
 
+import android.util.Log;
+
 import com.java.jingjia.Entity;
 
 import org.json.JSONArray;
@@ -19,10 +21,11 @@ import java.util.Map;
  */
 public class KnowledgeGraphManager {
 
+    private static final String TAG = "KnowledgeGraphManager";
     //单例模式
     private static KnowledgeGraphManager INSTANCE = null;
 
-    private KnowledgeGraphManager() { }
+    public KnowledgeGraphManager() { }
     /** 获得DataManager单例 */
     public static KnowledgeGraphManager getKnowledgeGraphManager() {
         if (INSTANCE == null) {
@@ -35,12 +38,13 @@ public class KnowledgeGraphManager {
      * 从url查询某个词
      */
     public ArrayList<Entity> query(String searchName) throws JSONException {
+
         String url = "https://innovaapi.aminer.cn/covid/api/v1/pneumonia/entityquery?entity=" + searchName;
         String jsonString = HttpUtil.getServerHttpResponse().getResponse(url);
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray data = jsonObject.getJSONArray("data");
         Integer hotNum = data.length();
-
+        Log.i(TAG, "query: "+ searchName +" has " + hotNum + " results.");
         ArrayList<Entity> retEntity = new ArrayList<>();
         for(int i = 0; i < hotNum; i++){
             JSONObject oneHot= data.getJSONObject(i);
@@ -52,14 +56,14 @@ public class KnowledgeGraphManager {
             Iterator<String> it = pros.keys();
             while(it.hasNext()){
                 String key = it.next();
-                String value = pros.getString("key");
+                String value = pros.getString(key);
                 properties.put(key, value);
             }
             List<Entity.Relation> relas = new ArrayList<>();
             JSONArray relats = covidInfo.getJSONArray("relations");
             Integer relaNum = relats.length();
             for(int j = 0; j < relaNum; j++){
-                JSONObject oneRela = relats.getJSONObject(i);
+                JSONObject oneRela = relats.getJSONObject(j);
                 Entity.Relation oneRelation = new Entity.Relation(
                         oneRela.getString("relation"),
                         oneRela.getString("url"),
@@ -72,7 +76,7 @@ public class KnowledgeGraphManager {
             Entity newOne = new Entity(
                     oneHot.getString("label"),
                     oneHot.getString("url"),
-                    oneHot.getString("abstractInfo"),
+                    briefInfo,
                     properties,
                     relas,
                     image);
