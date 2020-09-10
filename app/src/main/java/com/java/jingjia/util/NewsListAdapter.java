@@ -72,8 +72,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 vHolder.title.setText(item.getTitle());
                 vHolder.source.setText(item.getSource());
                 vHolder.time.setText(item.getTime());
-                if (item.getVisited())  // TODO: set visited news color grey
+                Log.d(TAG, "onBindViewHolder: " + item.getVisited());
+                if (item.getVisited()) {// TODO: set visited news color grey
+                    // Log.d(TAG, "onBindViewHolder: 111");
                     vHolder.title.setTextColor(R.color.yd_grey);
+                }
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -45,39 +45,13 @@
             android:textColor="@color/black"
             android:layout_margin="4dp"/>
 
-        <LinearLayout
+        <Button
+            android:id="@+id/news_page_btn_wb"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="4dp">
-            <Button
-                android:id="@+id/news_page_btn_like"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/btn_like"
-                android:layout_margin="4dp"
-                android:layout_weight="1" />
-            <Button
-                android:id="@+id/news_page_btn_collect"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/btn_collect"
-                android:layout_margin="4dp"
-                android:layout_weight="1" />
-            <Button
-                android:id="@+id/news_page_btn_wb"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/btn_wb"
-                android:layout_margin="4dp"
-                android:layout_weight="1" />
-            <Button
-                android:id="@+id/news_page_btn_wx"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/btn_wx"
-                android:layout_margin="4dp"
-                android:layout_weight="1" />
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:text="@string/btn_wb"
+            android:layout_margin="4dp"
+            android:layout_weight="1" />
+
     </LinearLayout>
 </ScrollView>

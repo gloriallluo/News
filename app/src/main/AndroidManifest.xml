@@ -3,7 +3,8 @@
     package="com.java.jingjia">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +23,8 @@
 
         <activity android:name=".ui.NewsActivity">
             <intent-filter>
-                <action android:name="android.intent.action.ALL_APPS" />
+                <action android:name="android.intent.action.SEND" />
+                <data android:mimeType="text/plain" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -43,6 +45,13 @@
         </activity>
 
         <activity android:name=".ui.news.SearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.ALL_APPS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.news.ShareActivity">
             <intent-filter>
                 <action android:name="android.intent.action.ALL_APPS" />
                 <category android:name="android.intent.category.DEFAULT" />

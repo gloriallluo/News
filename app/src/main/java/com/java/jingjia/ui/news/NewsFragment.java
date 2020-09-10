@@ -69,6 +69,12 @@ public class NewsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
+
     public String getType() {
         return type;
     }
