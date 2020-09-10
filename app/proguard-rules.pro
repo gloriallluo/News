@@ -11,6 +11,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+# -keep public class com.sina.weibo.sdk.**{*;}
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
