@@ -80,11 +80,13 @@ public class NewsFragment extends Fragment {
     }
 
     private void initNewsItems() {
-        ArrayList<NewsItem> items = manager.getLatestNewsList(type, "");
+        List<NewsItem> items = manager.getLatestNewsList(type, "");
+        if (items.size() == 0)
+            Log.e(TAG, "initNewsItems: init no news!");
         mNewsItems.addAll(items);
     }
 
-    private boolean addNewsItemsAtStart(ArrayList<NewsItem> items) {
+    private boolean addNewsItemsAtStart(List<NewsItem> items) {
         if (items.size() == 0) return false;
         ArrayList<NewsItem> temp = new ArrayList<>();
         temp.addAll(mNewsItems);
@@ -106,11 +108,8 @@ public class NewsFragment extends Fragment {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ArrayList<NewsItem> items;
-                if (mNewsItems.size() > 0)
-                    items = manager.getLatestNewsList(type, mNewsItems.get(0).getId());
-                else
-                    items = manager.getLatestNewsList(type, "");
+                List<NewsItem> items = manager.getLatestNewsList(
+                        type, mNewsItems.get(0).getId());
                 if (!addNewsItemsAtStart(items))
                     Toast.makeText(getContext(), "No more news", Toast.LENGTH_LONG).show();
                 mAdapter.notifyDataSetChanged();

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 

@@ -38,4 +38,8 @@ public interface NewsDao {
 
     @Delete
     void deleteNews(NewsItem[] news);
+
+    @Query("SELECT * FROM news_table WHERE type LIKE :type LIMIT 10")
+    List<NewsItem> getLastInsertNews(String type);
+
 }
