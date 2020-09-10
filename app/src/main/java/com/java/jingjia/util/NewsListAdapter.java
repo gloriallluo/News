@@ -2,6 +2,7 @@ package com.java.jingjia.util;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final String TAG = "NewsListAdapter";
     private Activity mActivity;
     private List<NewsItem> mNewsItems;
+    public FootViewHolder footViewHolder;
     private int loadState = -4;     // 现在的加载状态
 
     /**
@@ -56,7 +58,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new ViewHolder(view);
         } else {    //  TYPE_FOOTER
             view = inflater.inflate(R.layout.item_news_footer, parent, false);
-            return new FootViewHolder(view);
+            footViewHolder = new FootViewHolder(view);
+            return footViewHolder;
         }
     }
 
@@ -81,6 +84,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
         } else if (holder instanceof FootViewHolder) {
+            Log.d(TAG, "onBindViewHolder: " + loadState);
             FootViewHolder fHolder = (FootViewHolder) holder;
             switch (loadState) {
                 case LOADING:
@@ -92,7 +96,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     fHolder.endView.setVisibility(View.GONE);
                     break;
                 case LOAD_END:
-                    fHolder.progressBar.setVisibility(View.GONE);
+                    fHolder.progressBar.setVisibility(View.INVISIBLE);
                     fHolder.endView.setVisibility(View.VISIBLE);
                     break;
                 default:
@@ -116,6 +120,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void updateNewsItems(List<NewsItem> items) {
         mNewsItems = items;
+        notifyDataSetChanged();
     }
 
     /**
@@ -124,11 +129,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void setLoadState(int loadState) {
         this.loadState = loadState;
         notifyDataSetChanged();
+        Log.d(TAG, "setLoadState: " + this.loadState);
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, source, time;
-        public ViewHolder(View view) {
+        TextView title, source, time;
+        ViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.news_item_title);
             source = view.findViewById(R.id.news_item_source);
@@ -137,6 +143,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private class FootViewHolder extends RecyclerView.ViewHolder {
+        // int loadState = LOAD_COMPLETE;
         ProgressBar progressBar;
         View endView;
         FootViewHolder(View view) {

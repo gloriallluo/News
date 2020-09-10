@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * class UserDetailActivity
- * 展示用户的个人收藏，下载，访问记录等等
+ * 展示用户的个人访问记录等等
  */
 public class UserDetailActivity extends AppCompatActivity {
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,9 +69,19 @@ public class SearchActivity extends AppCompatActivity {
                 mListView.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 hideSoftInput(getCurrentFocus());
-                mNewsItems = searchQuery(query);
+                listManager.resetPageDown();
+                mNewsItems.clear();
                 mNewsAdapter.updateNewsItems(mNewsItems);
-                mNewsAdapter.notifyDataSetChanged();
+
+                mNewsItems = searchQuery(query);
+                if (mNewsItems.size() == 0) {
+                    Toast.makeText(
+                            SearchActivity.this, "No more result", Toast.LENGTH_LONG).
+                            show();
+                } else {
+                    mNewsAdapter.updateNewsItems(mNewsItems);
+                    mNewsAdapter.notifyDataSetChanged();
+                }
                 mHistoryAdapter.insertHistoryAtFront(query);
                 mHistoryAdapter.notifyDataSetChanged();
                 addSharedPrefSearchHistory(query);
@@ -108,6 +119,7 @@ public class SearchActivity extends AppCompatActivity {
                     case SearchHistoryAdapter.HISTORY_KEYWORD:
                         mSearchView.setQuery((String)
                                 mHistoryAdapter.getItem(position), false);
+//                        showSoftInput();
                         break;
                     case SearchHistoryAdapter.HISTORY_END:
                         mHistoryAdapter.removeAllHistory();
@@ -123,29 +135,52 @@ public class SearchActivity extends AppCompatActivity {
         mRecyclerView.addOnScrollListener(new MyScrollListener() {
             @Override
             public void onLoadMore() {
-                String query = (String) mSearchView.getQuery();
+                Log.d(TAG, "onLoadMore: 0");
+                String query = (String) mSearchView.getQuery().toString();
                 mNewsAdapter.setLoadState(mNewsAdapter.LOADING);
+                mNewsAdapter.onBindViewHolder(
+                        mNewsAdapter.footViewHolder, mNewsAdapter.getItemCount() - 1);
                 ArrayList<NewsItem> items = searchQuery(query);
-                mNewsItems.addAll(items);
-                mNewsAdapter.updateNewsItems(mNewsItems);
-                mNewsAdapter.notifyDataSetChanged();
-                mNewsAdapter.setLoadState(mNewsAdapter.LOAD_COMPLETE);
+                if (items.size() == 0) {
+                    Toast.makeText(
+                            SearchActivity.this, "No more result", Toast.LENGTH_LONG).
+                            show();
+                } else {
+                    mNewsItems.addAll(items);
+                    mNewsAdapter.updateNewsItems(mNewsItems);
+                    mNewsAdapter.setLoadState(mNewsAdapter.LOAD_COMPLETE);
+                    mNewsAdapter.onBindViewHolder(
+                            mNewsAdapter.footViewHolder, mNewsAdapter.getItemCount() - 1);
+                }
             }
         });
     }
 
     private ArrayList<NewsItem> searchQuery(String query) {
         ArrayList<NewsItem> mItems = new ArrayList<>();
-        ArrayList<NewsItem> newItems = (ArrayList<NewsItem>) listManager.getLatestNewsList("all", lastId);
+        Log.d(TAG, "searchQuery: 1");
+        ArrayList<NewsItem> newItems;
+        if (lastId.equals("")) {    // initial search
+            newItems = listManager.getLatestNewsList("all", lastId);
+            Log.d(TAG, "searchQuery: 1,1");
+        } else {    // afterwards search
+            newItems = new ArrayList<>();
+            Log.d(TAG, "searchQuery: 1,2");
+        }
+        Log.d(TAG, "searchQuery: 2");
         for (NewsItem item: newItems)
             if (item.getTitle().contains(query))
                 mItems.add(item);
+        // set lastId if it's initial search
+        if (newItems.size() > 0) lastId = newItems.get(newItems.size() - 1).getId();
         for (int i = 0; i < SEARCH_LIMIT; i++) {
-            lastId = newItems.size() > 0? newItems.get(newItems.size() - 1).getId(): "";
-            newItems = listManager.getMoreNewsList("all", lastId);
+            Log.d(TAG, "searchQuery: 3 " + lastId);
+            newItems = listManager.getMoreNewsList("all", lastId);  // TODO: too slow
+            Log.d(TAG, "searchQuery: 4");
             for (NewsItem item: newItems)
                 if (item.getTitle().contains(query))
                     mItems.add(item);
+            if (newItems.size() > 0) lastId = newItems.get(newItems.size() - 1).getId();
         }
         return mItems;
     }
@@ -179,5 +214,12 @@ public class SearchActivity extends AppCompatActivity {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void showSoftInput() {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mSearchView.requestFocus();
+        inputMethodManager.showSoftInput(mSearchView, 0);
     }
 }

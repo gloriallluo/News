@@ -50,8 +50,7 @@ public class NewsActivity extends AppCompatActivity {
         listManager = NewsListManager.getNewsListManager(getApplication());
         contentManager = NewsContentManager.getNewsContentManager();
         mItem = contentManager.getNewsItem(mItemId);
-        Message msg = new Message();
-        msg.what = MSG_SET_VISITED;
+        // listManager.setVisitedNews(mItemId); // TODO: set news visited
 
         setListeners();
         mTitle.setText(mItem.getTitle());
