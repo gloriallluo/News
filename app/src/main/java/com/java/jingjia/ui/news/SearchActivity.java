@@ -161,7 +161,7 @@ public class SearchActivity extends AppCompatActivity {
         Log.d(TAG, "searchQuery: 1");
         ArrayList<NewsItem> newItems;
         if (lastId.equals("")) {    // initial search
-            newItems = listManager.getLatestNewsList("all", lastId);
+            newItems = (ArrayList<NewsItem>) listManager.getLatestNewsList("all", lastId);
             Log.d(TAG, "searchQuery: 1,1");
         } else {    // afterwards search
             newItems = new ArrayList<>();

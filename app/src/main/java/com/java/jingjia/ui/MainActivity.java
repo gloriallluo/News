@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 
 import com.java.jingjia.R;
 import com.java.jingjia.ui.data.AllDataFragment;
+import com.java.jingjia.ui.graph.GraphFragment;
 import com.java.jingjia.ui.news.AllNewsFragment;
 
 /**

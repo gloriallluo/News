@@ -22,16 +22,17 @@ public class Entity {
     }
 
     public static class Relation {
-        String relation;
-        String url;
-        String label;
-        Boolean forward;
+        public String relation;
+        public String url;
+        public String label;
+        public Boolean forward;
         public Relation(String a, String b, String c, Boolean d){
             this.relation = a;
             this.url = b;
             this.label = c;
             this.forward = d;
         }
+
     }
 
     public String getLabel() {
