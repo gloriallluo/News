@@ -24,70 +24,70 @@
         <RadioGroup
             android:id="@+id/tabs_rg"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
             android:background="@color/yd_blue"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true">
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/tab_news"
-                android:text="@string/tab_news"
-                android:textSize="12sp"
-                android:textColor="@drawable/tab_text"
-                android:background="@color/white"
-                android:gravity="center"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:button="@null" />
+                android:background="@color/white"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/tab_news"
+                android:textColor="@drawable/tab_text"
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/tab_data"
-                android:text="@string/tab_data"
-                android:textSize="12sp"
-                android:textColor="@drawable/tab_text"
-                android:background="@color/white"
-                android:gravity="center"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:button="@null" />
+                android:background="@color/white"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/tab_data"
+                android:textColor="@drawable/tab_text"
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/tab_graph"
-                android:text="@string/tab_graph"
-                android:textSize="12sp"
-                android:textColor="@drawable/tab_text"
-                android:background="@color/white"
-                android:gravity="center"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:button="@null" />
+                android:background="@color/white"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/tab_graph"
+                android:textColor="@drawable/tab_text"
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/tab_scholar"
-                android:text="@string/tab_scholar"
-                android:textSize="12sp"
-                android:textColor="@drawable/tab_text"
-                android:background="@color/white"
-                android:gravity="center"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:button="@null" />
+                android:background="@color/white"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/tab_scholar"
+                android:textColor="@drawable/tab_text"
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/tab_user"
-                android:text="@string/tab_user"
-                android:textSize="12sp"
-                android:textColor="@drawable/tab_text"
-                android:background="@color/white"
-                android:gravity="center"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:button="@null" />
+                android:background="@color/white"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/tab_user"
+                android:textColor="@drawable/tab_text"
+                android:textSize="12sp" />
         </RadioGroup>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

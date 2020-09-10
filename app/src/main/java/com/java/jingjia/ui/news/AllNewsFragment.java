@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
@@ -99,6 +101,16 @@ public class AllNewsFragment extends Fragment {
         mBtnEdit = view.findViewById(R.id.all_news_edit);
         mHistoryBtn = view.findViewById(R.id.all_news_history_button);
         mViewPager = view.findViewById(R.id.all_news_vp);
+        initButtonImg();
+    }
+
+    private void initButtonImg() {
+        //定义底部标签图片大小和位置
+        Drawable drawable_history = getResources().getDrawable(R.drawable.history_button);
+        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
+        drawable_history.setBounds(0, 0, 50, 50);
+        //设置图片在文字的哪个方向
+        mHistoryBtn.setCompoundDrawables(null, drawable_history, null, null);
     }
 
     /**
