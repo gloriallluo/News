@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:title="Item"
-        app:showAsAction="ifRoom" />
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<item
+    android:id="@+id/app_bar_search"
+    android:icon="@drawable/ic_search_black_24dp"
+    android:title="Search"
+    app:actionViewClass="android.widget.SearchView"
+    app:showAsAction="always" />
+
+<item
+    android:id="@+id/scan_local_music"
+    android:icon="@mipmap/ic_launcher"
+    android:orderInCategory="100"
+    android:title="浏览历史"
+    app:showAsAction="never"
+    />
 </menu>
