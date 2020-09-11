@@ -30,6 +30,7 @@ public class EuclidListAdapter extends ArrayAdapter<Map<String, Object>> {
 
     public static final String KEY_AVATAR = "avatar";
     public static final String KEY_NAME = "name";
+    public static final String KEY_POSITION = "position";
     public static final String KEY_DESCRIPTION_SHORT = "description_short";
     public static final String KEY_DESCRIPTION_FULL = "description_full";
     public static final String KEY_H_INDEX = "hIndex";
@@ -54,11 +55,12 @@ public class EuclidListAdapter extends ArrayAdapter<Map<String, Object>> {
         Log.i(TAG, "getView: ");
         final ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_item, parent, false);
+            convertView = mInflater.inflate(R.layout.item_scholar, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.mViewOverlay = convertView.findViewById(R.id.view_avatar_overlay);
             viewHolder.mListItemAvatar = (ImageView) convertView.findViewById(R.id.image_view_avatar);
             viewHolder.mListItemName = (TextView) convertView.findViewById(R.id.text_view_name);
+            viewHolder.getmListItemPosition = (TextView) convertView.findViewById(R.id.text_view_positon);
             viewHolder.mListItemDescription = (TextView) convertView.findViewById(R.id.text_view_description);
             viewHolder.mBabushkaText_H = (BabushkaText) convertView.findViewById(R.id.babushka_text_H);
             viewHolder.mBabushkaText_A = (BabushkaText) convertView.findViewById(R.id.babushka_text_A);
@@ -77,10 +79,11 @@ public class EuclidListAdapter extends ArrayAdapter<Map<String, Object>> {
         //List页
         Picasso.get().load((String)mData.get(position).get(KEY_AVATAR))
 //                .resize(ScholarFragment.sScreenWidth, ScholarFragment.sProfileImageHeight).centerCrop()
-                .placeholder(R.color.blue)
+                .placeholder(R.color.white)
                 .into(viewHolder.mListItemAvatar);
 
         viewHolder.mListItemName.setText(mData.get(position).get(KEY_NAME).toString().toUpperCase());
+        viewHolder.getmListItemPosition.setText((String)mData.get(position).get(KEY_POSITION));
         viewHolder.mListItemDescription.setText((String) mData.get(position).get(KEY_DESCRIPTION_SHORT));
         viewHolder.mViewOverlay.setBackground(ScholarFragment.sOverlayShape);
 
@@ -151,6 +154,7 @@ public class EuclidListAdapter extends ArrayAdapter<Map<String, Object>> {
         View mViewOverlay;
         ImageView mListItemAvatar;
         TextView mListItemName;
+        TextView getmListItemPosition;
         TextView mListItemDescription;
         BabushkaText mBabushkaText_H;
         BabushkaText mBabushkaText_A;

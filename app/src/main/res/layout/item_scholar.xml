@@ -91,16 +91,30 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/text_view_description"
+        android:id="@+id/text_view_positon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/babushka_text_wrapper"
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif"
         android:gravity="center_horizontal"
-        android:padding="10dp"
+        android:padding="5dp"
         android:textColor="@color/blue"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        tools:text="@string/lorem_ipsum_short" />
+
+    <TextView
+        android:id="@+id/text_view_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_positon"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:textColor="@color/blue"
+        android:textSize="16sp"
         android:textStyle="normal"
         tools:text="@string/lorem_ipsum_short" />
 
