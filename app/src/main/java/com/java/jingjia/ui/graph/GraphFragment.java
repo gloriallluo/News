@@ -113,14 +113,7 @@ public class GraphFragment extends Fragment {
         mFSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
-                Log.i(TAG, "onSearchTextChanged: ");
-//                //get suggestions based on newQuery
-//                List<GraphSearchSuggestion> newSuggestions = new ArrayList<>();
-//                newSuggestions.add(new GraphSearchSuggestion("sug1"));
-//                newSuggestions.add(new GraphSearchSuggestion("sug2"));
-//                newSuggestions.add(new GraphSearchSuggestion("sug3"));
-//                //pass them on to the search view
-//                mFSearchView.swapSuggestions(newSuggestions);
+//                Log.i(TAG, "onSearchTextChanged: ");
                 if (!oldQuery.equals("") && newQuery.equals("")) {
                     mFSearchView.clearSuggestions();
                 } else {

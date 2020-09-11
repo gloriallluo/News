@@ -196,7 +196,7 @@ public class NewsListManager {
      * 返回所有数据库中的News（在首页出现过的News）
      */
     public List<NewsItem> getHistoryNewsList(String type) {
-        return this.mRepository.getAllNews();
+        return this.mRepository.getAllNewsByVisitedOrNot(true);
     }
 
     /**

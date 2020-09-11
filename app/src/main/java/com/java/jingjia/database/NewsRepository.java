@@ -83,7 +83,7 @@ public class NewsRepository {
     public List<NewsItem> getAllNewsByVisitedOrNot(boolean visited) {
         GetAllNewsByVisitedOrNotTask getAllNewsByVisitedOrNotTask = new GetAllNewsByVisitedOrNotTask();
         try {
-            Log.i(TAG, "getAllNewsByVisitedOrNot: ");
+//            Log.i(TAG, "getAllNewsByVisitedOrNot: ");
             return new ArrayList<>(getAllNewsByVisitedOrNotTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, visited).get());
         } catch (ExecutionException e) {
             e.printStackTrace();
