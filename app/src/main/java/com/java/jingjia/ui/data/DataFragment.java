@@ -2,6 +2,8 @@ package com.java.jingjia.ui.data;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.java.jingjia.NewsItem;
 import com.java.jingjia.R;
 import com.java.jingjia.database.Data;
 import com.java.jingjia.request.DataManager;
@@ -20,6 +23,8 @@ import com.java.jingjia.util.data.DataExpandableListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DataFragment extends Fragment {
 
@@ -30,13 +35,11 @@ public class DataFragment extends Fragment {
     private String type; //表示自己是china还是global
     private DataManager manager;
 
-    //
     private List<Data> gData = null;
     private List<List<Data>> iData = null;
     private Activity mActivity;
-    private ExpandableListView exlist_lol;
+    public ExpandableListView exDataList;
     private DataExpandableListAdapter mAdapter;
-    //
 
     public DataFragment(Activity activity, String type) {
         mActivity = activity;
@@ -48,20 +51,46 @@ public class DataFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_data, container, false);
         manager = DataManager.getDataManager(mActivity.getApplication());
-        exlist_lol = view.findViewById(R.id.exlist_lol);
+        exDataList = view.findViewById(R.id.exlist_lol);
         initDataItems();
         mAdapter = new DataExpandableListAdapter(gData,iData,mActivity);
-        exlist_lol.setAdapter(mAdapter);
+        exDataList.setAdapter(mAdapter);
         setListeners();
+        if(this.type.equals(GLOBAL)){
+            exDataList.setGroupIndicator(null);
+        }
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        new Thread() {
+            @Override
+            public void run() {
+                manager.getData();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        exDataList.deferNotifyDataSetChanged();
+                    }
+                });
+            }
+        }.run();
+    }
+
+
     private void setListeners() {
         //为列表设置点击事件
-        exlist_lol.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        exDataList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Toast.makeText(mActivity, "你点击了：" + iData.get(groupPosition).get(childPosition).getPlace(), Toast.LENGTH_SHORT).show();
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if(parent.isGroupExpanded(groupPosition)){
+                    parent.collapseGroup(groupPosition);
+                }else{
+                    parent.expandGroup(groupPosition,false);//第二个参数false表示展开时是否触发默认滚动动画
+                }
+                //telling the listView we have handled the group click, and don't want the default actions.
                 return true;
             }
         });
@@ -69,10 +98,10 @@ public class DataFragment extends Fragment {
 
     private void initDataItems() {
         Log.i(TAG, "initDataItems: " + type);
-        gData = new ArrayList<Data>();
-        iData = new ArrayList<List<Data>>();
+        gData = new ArrayList<>();
+        iData = new ArrayList<>();
 
-        if(this.type == "china"){
+        if(this.type.equals("china")){
             gData = manager.getChinaAllProvinceAccumulatedData();
             Log.i(TAG, "initDataItems: getChinaAllProvinceAccumulatedData return size" +  gData.size());
             for(int i = 0; i < gData.size(); i++){
@@ -80,7 +109,7 @@ public class DataFragment extends Fragment {
                 iData.add(childData);
             }
         }
-        else{
+        else{//global
             gData = manager.getGlobalAllCountryAccumulatedData();
             Log.i(TAG, "initDataItems: getGlobalAllCountryAccumulatedData return size" +  gData.size());
             for(int i = 0; i < gData.size(); i++){

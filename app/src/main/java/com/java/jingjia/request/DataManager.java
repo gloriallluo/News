@@ -52,6 +52,7 @@ public class DataManager {
      * 从url获得Data并插入到数据库
      */
     public void getData() {
+        Log.i(TAG, "getData: ");
         String url = "https://covid-dashboard.aminer.cn/api/dist/epidemic.json";
         String jsonString = HttpUtil.getServerHttpResponse().getResponse(url);
         if(jsonString.equals("") || jsonString == null){
@@ -85,11 +86,11 @@ public class DataManager {
     }
 
     public List<Data> getChinaAllProvinceAccumulatedData(){
-        getData();
+//        getData();
         return this.mRepository.getChinaAllProvinceAccumulatedData();
     }
     public List<Data> getGlobalAllCountryAccumulatedData(){
-        getData();
+//        getData();
         return this.mRepository.getGlobalAllCountryAccumulatedData();
     }
 

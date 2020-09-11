@@ -20,10 +20,6 @@ import java.util.concurrent.ExecutionException;
 public class DataRepository {
 
     private static final String TAG = "DataRepository";
-    /**
-     * 此类应该是单例模式吗?
-     * */
-
     private final DataDao mDataDao;
     private LiveData<List<Data>> mAllData;
 
@@ -45,40 +41,24 @@ public class DataRepository {
 
 
     /**
-     * insert data to database (Official Way)
+     * insert data to database
      * */
-    // You must call this on a non-UI thread or your app will throw an exception. Room ensures
-    // that you're not doing any long running operations on the main thread, blocking the UI.
     public void insert(Data data) {
-        DataRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mDataDao.insert(data);
-//            Log.i(TAG, "insert: "
-//                    + data.getCountry() + "-"
-//                    + data.getProvince() + "-"
-//                    + data.getCounty());
-        });
+        InsertDataTask insertDataTask = new InsertDataTask(mDataDao);
+        insertDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
+    }
+    private static class InsertDataTask extends AsyncTask<Data, Void, Void> {
+        private DataDao mAsyncDao;
+        InsertDataTask(DataDao dataDao){
+            this.mAsyncDao = dataDao;
+        }
+        @Override
+        protected Void doInBackground(Data... data) {
+            mAsyncDao.insert(data[0]);
+            return null;
+        }
     }
 
-    /**
-     * insert data to database (XueZhang Way)
-     * */
-//    public void insertData(Data... data){
-//        DataRepository.InsertAsyncTask insertDataTask = new DataRepository.InsertAsyncTask(mDataDao);
-//        insertDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
-//    }
-//    private static class InsertAsyncTask extends AsyncTask<Data, Void, Void> {
-//        private DataDao mAsyncDao;
-//
-//        InsertAsyncTask(DataDao dataDao) {
-//            this.mAsyncDao = dataDao;
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Data... data) {
-//            mAsyncDao.insert(data[0]);
-//            return null;
-//        }
-//    }
     public List<Data> getProvinceAllCountyAccumulatedData(String province) {
         DataRepository.getProvinceAllCountyAccumulatedDataTask task =
                 new DataRepository.getProvinceAllCountyAccumulatedDataTask();

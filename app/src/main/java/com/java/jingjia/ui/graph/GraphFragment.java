@@ -82,7 +82,6 @@ public class GraphFragment extends Fragment {
         entityExpandableListView = view.findViewById(R.id.graph_entity_list);
         mAdapter = new EntityExpandableListAdapter(myEntityList,iData,mActivity);
         entityExpandableListView.setAdapter(mAdapter);
-
         //有关List
         iniEntityItems();
         setListeners();
@@ -97,22 +96,20 @@ public class GraphFragment extends Fragment {
     private void setListeners() {
         Log.i(TAG, "setListeners:");
         //ExpandableListView
-
+        //不自动滑倒顶上
+        entityExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if(parent.isGroupExpanded(groupPosition)){
+                    parent.collapseGroup(groupPosition);
+                }else{
+                    parent.expandGroup(groupPosition,false);//第二个参数false表示展开时是否触发默认滚动动画
+                }
+                //telling the listView we have handled the group click, and don't want the default actions.
+                return true;
+            }
+        });
         //FloatingSearchView
-        mFSearchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
-            @Override
-            public void onBindSuggestion(View suggestionView, ImageView leftIcon, TextView textView, SearchSuggestion item, int itemPosition) {
-                //here you can set some attributes for the suggestion's left icon and text. For example,
-                //you can choose your favorite image-loading library for setting the left icon's image.
-            }
-
-        });
-        mFSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
-            @Override
-            public void onActionMenuItemSelected(MenuItem item) {
-                Log.i(TAG, "onActionMenuItemSelected: ");
-            }
-        });
         mFSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
@@ -138,18 +135,13 @@ public class GraphFragment extends Fragment {
                 }
             }
         });
-        mFSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
-            @Override
-            public void onActionMenuItemSelected(MenuItem item) {
-                Log.i(TAG, "onActionMenuItemSelected: ");
-            }
 
-        });
         mFSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
-                Log.i(TAG, "onSuggestionClicked: ");
+                Log.d(TAG, "onSuggestionClicked()");
                 mLastQuery = searchSuggestion.getBody();
+                mFSearchView.setSearchText(mLastQuery);
             }
 
             /**按下搜索*/
@@ -160,19 +152,14 @@ public class GraphFragment extends Fragment {
                 try {
                     myEntityList.clear();
                     myEntityList.addAll(mManager.query(query));
-                    Log.e(TAG, "onSearchAction: myEntityList size " + myEntityList.size());
-//                    mAdapter.gData.clear();
-//                    mAdapter.gData.addAll(myEntityList);
-                    Log.e(TAG, "onSearchAction: mAdapter.gData size " + mAdapter.gData.size());
-                    iData.clear();
-//                    mAdapter.iData.clear();
-                    for(Entity e : myEntityList){
-                        List<Entity> newE = new ArrayList<>();
-                        newE.add(e);
-                        iData.add(newE);
-//                        mAdapter.iData.add(newE);
-                    }
-                    Log.e(TAG, "onSearchAction: myEntityList size " + myEntityList.size());
+                    Log.d(TAG, "onSearchAction: myEntityList size " + myEntityList.size());
+                    Log.d(TAG, "onSearchAction: mAdapter.gData size " + mAdapter.gData.size());
+//                    iData.clear();
+//                    for(Entity e : myEntityList){
+//                        List<Entity> newE = new ArrayList<>();
+//                        newE.add(e);
+//                        iData.add(newE);
+//                    }
                     mAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -187,19 +174,16 @@ public class GraphFragment extends Fragment {
 //                public void onAnimationEnd(Animator animation) {
 //                    // 展示历史搜索项
 //                    mFSearchView.swapSuggestions(GraphDataHelper.getHistory(getActivity(), 3));
-//
 //                }
             }
             @Override
             public void onFocusCleared() {
                 Log.i(TAG, "onFocusCleared: ");
                 mFSearchView.setSearchBarTitle(mLastQuery);
+                mFSearchView.bringToFront();
                 //你也可以将已经打上的搜索字符保存，以致在下一次点击的时候，搜索栏内还保存着之前输入的字符
 //                mSearchView.setSearchText(searchSuggestion.getBody());
             }
         });
-
     }
-
-
 }

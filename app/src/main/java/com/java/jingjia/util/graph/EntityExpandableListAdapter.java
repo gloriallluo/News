@@ -42,11 +42,11 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     public List<Entity> gData;
-    public List<List<Entity>> iData;
+//    public List<List<Entity>> iData;
 
     public EntityExpandableListAdapter(List<Entity> gData,List<List<Entity>> iData, Context mContext) {
         this.gData = gData;
-        this.iData = iData;
+//        this.iData = iData;
         this.mContext = mContext;
     }
 
@@ -59,7 +59,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return iData.get(groupPosition).size();
+        return 1;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Entity getChild(int groupPosition, int childPosition) {
-        return iData.get(groupPosition).get(childPosition);
+        return gData.get(groupPosition);
     }
 
     @Override
@@ -95,12 +95,12 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(
                     R.layout.item_entity, parent, false);
-            groupHolder = new EntityViewHolder(convertView,mContext);
-            groupHolder.mLabel = convertView.findViewById(R.id.entity_item_label);
-            convertView.setTag(groupHolder);
         }else{
             groupHolder = (EntityViewHolder) convertView.getTag();
         }
+        groupHolder = new EntityViewHolder(convertView,mContext);
+        groupHolder.mLabel = convertView.findViewById(R.id.entity_item_label);
+        convertView.setTag(groupHolder);
         groupHolder.mLabel.setText(gData.get(groupPosition).getLabel());
         return convertView;
     }
@@ -123,21 +123,22 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
         }else{
             itemHolder = (EntityDetailViewHolder) convertView.getTag();
         }
-        itemHolder.mAbstractInfo.setText(iData.get(groupPosition).get(childPosition).getAbstractInfo());
-        if(!iData.get(groupPosition).get(childPosition).getImageUrl().equals(""))
-            Picasso.get().load(iData.get(groupPosition).get(childPosition).getImageUrl())
-                    .resize(200,200).centerCrop()
+
+        itemHolder.mAbstractInfo.setText(gData.get(groupPosition).getAbstractInfo());
+        if(!gData.get(groupPosition).getImageUrl().equals(""))
+            Picasso.get().load(gData.get(groupPosition).getImageUrl())
+                    .resize(300,300).centerCrop()
                     .placeholder(R.color.yd_grey)
                     .into(itemHolder.mImg);
 
-        if(!iData.get(groupPosition).get(childPosition).getRelations().isEmpty()){
+        if(!gData.get(groupPosition).getRelations().isEmpty()){
             //普通列
             Column<String> relation = new Column<>("关系", "relation");
             Column<Boolean> forward = new Column<>("方向", "forward");
             Column<String> label = new Column<>("实体", "label");
             //表格数据 datas是需要填充的数据
             final TableData<Entity.Relation> tableData = new TableData
-                    ("关系", iData.get(groupPosition).get(childPosition).getRelations(),relation,forward,label);
+                    ("关系", gData.get(groupPosition).getRelations(),relation,forward,label);
             //设置数据
             itemHolder.mRelations.setZoom(true, 3, 1);//是否缩放
             itemHolder.mRelations.setTableData(tableData);
@@ -208,14 +209,14 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
             });
         }
 
-        if(!iData.get(groupPosition).get(childPosition).getProperties().isEmpty()){
+        if(!gData.get(groupPosition).getProperties().isEmpty()){
             //
             //普通列
-            Column<String> pro = new Column<>("属性", "Key");
-            Column<Boolean> con = new Column<>("内容", "Value");
+            Column<String> pro = new Column<>("属性", "key");
+            Column<Boolean> con = new Column<>("内容", "value");
             //表格数据 datas是需要填充的数据
             final TableData<Entity.Relation> pTableData = new TableData
-                    ("属性", new ArrayList<Map.Entry>(iData.get(groupPosition).get(childPosition).getProperties().entrySet()),pro,con);
+                    ("属性", new ArrayList<Map.Entry>(gData.get(groupPosition).getProperties().entrySet()),pro,con);
             //设置数据
             itemHolder.mProperties.setZoom(true, 3, 1);//是否缩放
             itemHolder.mProperties.setTableData(pTableData);
@@ -271,6 +272,8 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
                 public int getTextColor(Integer integer) {
                     return ContextCompat.getColor(mContext,R.color.white);
                 }
+            });
+            itemHolder.mProperties.getConfig().setYSequenceStyle(new FontStyle( ) {
             });
             itemHolder.mProperties.getConfig().setColumnCellBackgroundFormat(new ICellBackgroundFormat() {
                 @Override

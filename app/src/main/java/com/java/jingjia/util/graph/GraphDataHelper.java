@@ -20,21 +20,13 @@ public class GraphDataHelper {
     GraphDataHelper(){
     }
 
-    private static final String COLORS_FILE_NAME = "colors.json";
+//    private static final String COLORS_FILE_NAME = "colors.json";
 
     private static List<Entity> sEntityWrappers = new ArrayList<>();
 
-//    private static List<GraphSearchSuggestion> sEntitySuggestions =
-//            new ArrayList<>(Arrays.asList(
-//                    new GraphSearchSuggestion("green"),
-//                    new GraphSearchSuggestion("blue"),
-//                    new GraphSearchSuggestion("pink"),
-//                    new GraphSearchSuggestion("purple"),
-//                    new GraphSearchSuggestion("brown"),
-//                    new GraphSearchSuggestion("gray"),
-//                    new GraphSearchSuggestion("Granny Smith Apple")));
+    private static List<GraphSearchSuggestion> sEntitySuggestions = new ArrayList<>();
 
-    private static void initColorWrapperList(Context context) {
+    private static void initEntityWrapperList(Context context) {
 //        if (sEntityWrappers.isEmpty()) {
 //            String jsonString = loadJson(context);
 //            sEntityWrappers = deserializeColors(jsonString);
@@ -88,8 +80,8 @@ public class GraphDataHelper {
                     try {
                         List<Entity> someRes = new ArrayList<>();
                         someRes.addAll(new KnowledgeGraphManager().getKnowledgeGraphManager().query(constraint.toString()));
-                        for(Entity e : someRes){
-                            suggestionList.add(new GraphSearchSuggestion(e.getLabel()));
+                        for(int i = 0; i < limit && i <someRes.size(); i++){
+                            suggestionList.add(new GraphSearchSuggestion(someRes.get(i).getLabel()));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -128,7 +120,6 @@ public class GraphDataHelper {
 
     public static void findEntitys(Context context, String query, final OnFindEntityListener listener) {
 //        initEntityWrapperList(context);
-
         new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
@@ -153,7 +144,6 @@ public class GraphDataHelper {
                 }
             }
         }.filter(query);
-
     }
 
     public static List<GraphSearchSuggestion> getHistory(Context context, int count) {
@@ -172,9 +162,9 @@ public class GraphDataHelper {
     }
 
     public static void resetSuggestionsHistory() {
-//        for (GraphSearchSuggestion entitySuggestion : sEntitySuggestions) {
-//            entitySuggestion.setIsHistory(false);
-//        }
+        for (GraphSearchSuggestion entitySuggestion : sEntitySuggestions) {
+            entitySuggestion.setIsHistory(false);
+        }
     }
 
 }

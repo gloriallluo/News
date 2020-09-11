@@ -108,29 +108,29 @@ public class EuclidListAdapter extends ArrayAdapter<Map<String, Object>> {
                         .build());
         setMBabushka(viewHolder.mBabushkaText_S,
                 new BabushkaText.Piece.Builder("  S  ")
-                        .backgroundColor(R.color.orange)
+                        .backgroundColor(Color.parseColor("#7776BC"))
                         .textColor(Color.WHITE).build(),
                 new BabushkaText.Piece.Builder(" " +(String.format("%.2f", mData.get(position).get(KEY_SOCIALBILITY)))+" ")
-                        .backgroundColor(R.color.yd_grey)
-                        .textColor(R.color.orange)
+                        .backgroundColor(Color.parseColor("#CDC7E5"))
+                        .textColor(Color.parseColor("#7776BC"))
                         .style(Typeface.BOLD)
                         .build());
         setMBabushka(viewHolder.mBabushkaText_C,
                 new BabushkaText.Piece.Builder("  C  ")
-                        .backgroundColor(R.color.orange)
+                        .backgroundColor(Color.parseColor("#23504D"))
                         .textColor(Color.WHITE).build(),
                 new BabushkaText.Piece.Builder("  " +((Integer)mData.get(position).get(KEY_CITATIONS)).toString()+"  ")
-                        .backgroundColor(R.color.yd_grey)
-                        .textColor(R.color.orange)
+                        .backgroundColor(Color.parseColor("#A5CF61"))
+                        .textColor(Color.parseColor("#23504D"))
                         .style(Typeface.BOLD)
                         .build());
         setMBabushka(viewHolder.mBabushkaText_P,
                 new BabushkaText.Piece.Builder("  P  ")
-                        .backgroundColor(R.color.orange)
+                        .backgroundColor(Color.parseColor("#564C4D"))
                         .textColor(Color.WHITE).build(),
                 new BabushkaText.Piece.Builder("  " +((Integer)mData.get(position).get(KEY_PUBS)).toString()+"  ")
-                        .backgroundColor(R.color.yd_grey)
-                        .textColor(R.color.orange)
+                        .backgroundColor(Color.parseColor("#A4A295"))
+                        .textColor(Color.parseColor("#564C4D"))
                         .style(Typeface.BOLD)
                         .build());
         return convertView;

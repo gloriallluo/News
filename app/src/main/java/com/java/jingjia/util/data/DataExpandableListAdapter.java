@@ -6,9 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.java.jingjia.R;
 import com.java.jingjia.database.Data;
@@ -69,7 +66,7 @@ public class DataExpandableListAdapter extends BaseExpandableListAdapter {
         ParentViewHolder groupHolder;
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(
-                    R.layout.recycleview_item_parent, parent, false);
+                    R.layout.item_data_parent, parent, false);
             groupHolder = new ParentViewHolder(mContext, convertView);
             groupHolder.place = convertView.findViewById(R.id.data_item_place);
             groupHolder.confirmed = convertView.findViewById(R.id.data_item_confirmed);
@@ -96,7 +93,7 @@ public class DataExpandableListAdapter extends BaseExpandableListAdapter {
         ChildViewHolder itemHolder;
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(
-                    R.layout.recycleview_item_child, parent, false);
+                    R.layout.item_data_child, parent, false);
             itemHolder = new ChildViewHolder(mContext,convertView);
             itemHolder.place = convertView.findViewById(R.id.data_item_place);
             itemHolder.confirmed = convertView.findViewById(R.id.data_item_confirmed);
@@ -114,6 +111,7 @@ public class DataExpandableListAdapter extends BaseExpandableListAdapter {
         itemHolder.dead.setText(String.format("%d", iData.get(groupPosition).get(childPosition).getDead()));
         return convertView;
     }
+
 
     //设置子列表是否可选中
     @Override
