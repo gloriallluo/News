@@ -2,6 +2,8 @@ package com.java.jingjia.ui.news;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,8 @@ import com.java.jingjia.util.MyScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * class NewsFragment
@@ -131,13 +135,21 @@ public class NewsFragment extends Fragment {
                 mAdapter.setLoadState(mAdapter.LOADING);
                 mAdapter.onBindViewHolder(mAdapter.footViewHolder, mAdapter.getItemCount() - 1);
                 Log.d(TAG, "onLoadMore: 111");
-                boolean flag = true;
-                ArrayList<NewsItem> items = manager.getMoreNewsList(
-                        type, mNewsItems.get(mNewsItems.size() - 1).getId());
-                flag = addNewsItemsAtEnd(items);
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        ArrayList<NewsItem> items = manager.getMoreNewsList(
+                                type, mNewsItems.get(mNewsItems.size() - 1).getId());
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean flag = addNewsItemsAtEnd(items);
+                                if (flag) mAdapter.setLoadState(mAdapter.LOAD_COMPLETE);
+                                else mAdapter.setLoadState(mAdapter.LOAD_END);
+                            }
+                        });
+                    }}, 1500);
                 mAdapter.notifyDataSetChanged();
-                if (flag) mAdapter.setLoadState(mAdapter.LOAD_COMPLETE);
-                else mAdapter.setLoadState(mAdapter.LOAD_END);
                 mAdapter.onBindViewHolder(mAdapter.footViewHolder, mAdapter.getItemCount() - 1);
             }
         });

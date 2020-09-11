@@ -44,7 +44,7 @@
         <LinearLayout
             android:id="@+id/all_cluster_left_drawer"
             android:orientation="vertical"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:divider="@android:color/transparent"
             android:background="@android:color/transparent">

@@ -121,6 +121,7 @@ public class AllClusterFragment extends Fragment
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         FragmentTransaction fgTransaction = fgManager.beginTransaction();
         for (int i = 0; i < clusterNum; i++)
             fgTransaction.add(R.id.all_cluster_content_frame, mFragments.get(i));
