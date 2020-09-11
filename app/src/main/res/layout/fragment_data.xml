@@ -12,7 +12,7 @@
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/yd_blue"
+        android:background="@color/light_blue"
         android:orientation="horizontal">
 
         <TextView
@@ -72,5 +72,5 @@
         android:id="@+id/exlist_lol"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:childDivider="@color/yd_blue"/>
+        android:childDivider="@color/light_blue" />
 </LinearLayout>

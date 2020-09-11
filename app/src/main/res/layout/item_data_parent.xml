@@ -3,13 +3,13 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent_black">
+    android:background="@color/light_gray">
 
     <LinearLayout
         android:id="@+id/parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent_black"
+        android:background="@color/light_gray"
         android:orientation="horizontal">
 
         <Space
@@ -68,7 +68,7 @@
     <View
         android:id="@+id/parent_dashed_view"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:layout_below="@id/parent_layout"
         android:background="@drawable/dashed_style_view"
         android:layerType="software" />

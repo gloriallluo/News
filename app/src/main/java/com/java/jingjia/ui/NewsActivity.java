@@ -122,8 +122,8 @@ public class NewsActivity extends AppCompatActivity {
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
         drawable_share.setBounds(0, 0, 70, 70);
         //设置图片在文字的哪个方向
-        mBtnWb.setCompoundDrawables(null, drawable_share, null, null);
-
+        mBtnWb.setCompoundDrawables(drawable_share, null, null, null);
+        mBtnWb.setTextColor(getResources().getColor(R.color.gray) );
     }
 
     private void setListeners() {
