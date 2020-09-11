@@ -137,7 +137,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
             Column<String> relation = new Column<>("关系", "relation");
             //方向类
             Column<Boolean> forward = new Column<>("方向", "forward",
-                    new ImageResDrawFormat<Boolean>(15,15) {
+                    new ImageResDrawFormat<Boolean>(60,60) {
                 @Override
                 protected Context getContext() {
                     return mContext;
@@ -224,6 +224,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
                 }
 
             });
+            itemHolder.mRelations.getTableData().getTableInfo().setTableRect(new Rect(0, 0, 30, 30));
         }
 
         if(!gData.get(groupPosition).getProperties().isEmpty()){
