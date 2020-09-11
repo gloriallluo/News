@@ -67,16 +67,6 @@ public class AllNewsFragment extends Fragment {
         return view;
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        Log.i(TAG, "onCreateOptionsMenu: ");
-//        super.onCreateOptionsMenu(menu, inflater);
-//        //添加菜单，R.menu.menu就是你上面创建的菜单文件
-//        inflater.inflate(R.menu.menu_main,menu);
-//        //通过MenuItem得到SearchView
-//        mSearchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
-//    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -106,11 +96,14 @@ public class AllNewsFragment extends Fragment {
 
     private void initButtonImg() {
         //定义底部标签图片大小和位置
-        Drawable drawable_history = getResources().getDrawable(R.drawable.history_button);
+        Drawable drawableHistory = getResources().getDrawable(R.drawable.history_button);
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
-        drawable_history.setBounds(0, 0, 50, 50);
+        drawableHistory.setBounds(0, 0, 50, 50);
         //设置图片在文字的哪个方向
-        mHistoryBtn.setCompoundDrawables(null, drawable_history, null, null);
+        mHistoryBtn.setCompoundDrawables(null, drawableHistory, null, null);
+        Drawable drawableEdit = getResources().getDrawable(R.drawable.edit_tab);
+        drawableEdit.setBounds(0, 0, 45, 45);
+        mBtnEdit.setCompoundDrawables(drawableEdit, null, null, null);
     }
 
     /**

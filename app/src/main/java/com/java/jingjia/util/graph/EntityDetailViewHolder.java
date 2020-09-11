@@ -26,14 +26,6 @@ public class EntityDetailViewHolder extends RecyclerView.ViewHolder {
     public SmartTable mRelations;
     public RelationTable rTable;
 
-//    String label;
-//    String url;
-//    String abstractInfo;
-//    Map properties;
-//    List<Entity.Relation> relations;
-//    String imageUrl;
-
-
     public class RelationTable{
         List<String> relations;
         List<Boolean> forward;

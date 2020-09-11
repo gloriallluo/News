@@ -15,8 +15,9 @@
             android:id="@+id/all_cluster_floating_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/cluster_more"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="125dp"
             android:background="@color/yd_blue"
             android:elevation="150dp"
             app:fabSize="mini" />

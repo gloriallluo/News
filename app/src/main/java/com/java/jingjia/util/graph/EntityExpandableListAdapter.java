@@ -96,7 +96,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(
                     R.layout.item_entity, parent, false);
-        }else{
+        } else {
             groupHolder = (EntityViewHolder) convertView.getTag();
         }
         groupHolder = new EntityViewHolder(convertView,mContext);
@@ -112,7 +112,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         EntityDetailViewHolder itemHolder;
-        if(convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(
                     R.layout.item_entity_detail, parent, false);
             itemHolder = new EntityDetailViewHolder(convertView, mContext);
@@ -121,7 +121,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
             itemHolder.mRelations = convertView.findViewById(R.id.entity_item_relations);
             itemHolder.mProperties = convertView.findViewById(R.id.entity_item_properties);
             convertView.setTag(itemHolder);
-        }else{
+        } else {
             itemHolder = (EntityDetailViewHolder) convertView.getTag();
         }
 
@@ -154,8 +154,8 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
 
             Column<String> label = new Column<>("实体", "label");
             //表格数据 datas是需要填充的数据
-            final TableData<Entity.Relation> tableData = new TableData
-                    ("关系", gData.get(groupPosition).getRelations(),relation,forward,label);
+            final TableData<Entity.Relation> tableData = new TableData(
+                    "关系", gData.get(groupPosition).getRelations(),relation,forward,label);
             //设置数据
             itemHolder.mRelations.setZoom(true, 3, 1);//是否缩放
             itemHolder.mRelations.setTableData(tableData);
@@ -192,7 +192,6 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
                 }
                 @Override
                 public void drawTableBorderGrid(Canvas canvas, int left, int top, int right, int bottom, Paint paint) {
-
                 }
             });
             itemHolder.mRelations.getConfig().setYSequenceBackground(new IBackgroundFormat() {
@@ -233,8 +232,8 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
             Column<String> pro = new Column<>("属性", "key");
             Column<Boolean> con = new Column<>("内容", "value");
             //表格数据 datas是需要填充的数据
-            final TableData<Entity.Relation> pTableData = new TableData
-                    ("属性", new ArrayList<Map.Entry>(gData.get(groupPosition).getProperties().entrySet()),pro,con);
+            final TableData<Entity.Relation> pTableData = new TableData(
+                    "属性", new ArrayList<Map.Entry>(gData.get(groupPosition).getProperties().entrySet()),pro,con);
             //设置数据
             itemHolder.mProperties.setZoom(true, 3, 1);//是否缩放
             itemHolder.mProperties.setTableData(pTableData);
