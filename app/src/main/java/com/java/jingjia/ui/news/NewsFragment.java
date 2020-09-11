@@ -43,11 +43,13 @@ public class NewsFragment extends Fragment {
     private SwipeRefreshLayout mRefreshLayout;
     private RecyclerView mRecyclerView;
     private List<NewsItem> mNewsItems;
+    private List<String> mVisitedId;
 
     public NewsFragment() { }
     public NewsFragment(Activity activity, String type) {
         mActivity = activity;
         mNewsItems = new ArrayList<>();
+        mVisitedId = new ArrayList<>();
         this.type = type;
     }
 
@@ -58,7 +60,7 @@ public class NewsFragment extends Fragment {
         if (mActivity == null) return view;
         manager = NewsListManager.getNewsListManager(mActivity.getApplication());
         initNewsItems();
-        mAdapter = new NewsListAdapter(mActivity, mNewsItems);
+        mAdapter = new NewsListAdapter(mActivity, mNewsItems, mVisitedId);
         mRefreshLayout = view.findViewById(R.id.news_srl);
         mRecyclerView = view.findViewById(R.id.news_rv);
         mRecyclerView.setAdapter(mAdapter);
@@ -84,6 +86,12 @@ public class NewsFragment extends Fragment {
         if (items.size() == 0)
             Log.e(TAG, "initNewsItems: init no news!");
         mNewsItems.addAll(items);
+        List<NewsItem> visited = manager.getVisitedNewsList(type);
+        if (visited.size() == 0)
+            Log.e(TAG, "initNewsItems: visited no news!");
+        for(NewsItem e : visited){
+            mVisitedId.add(e.getId());
+        }
     }
 
     private boolean addNewsItemsAtStart(List<NewsItem> items) {

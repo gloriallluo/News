@@ -27,6 +27,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final String TAG = "NewsListAdapter";
     private Activity mActivity;
     private List<NewsItem> mNewsItems;
+    private List<String> mVisitedId;
     public FootViewHolder footViewHolder;
     private int loadState = -4;     // 现在的加载状态
 
@@ -43,9 +44,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public final int LOAD_COMPLETE = -4;    // 加载完成
     public final int LOAD_END = -5;         // 无更多内容
 
-    public NewsListAdapter(Activity activity, List<NewsItem> items) {
+    public NewsListAdapter(Activity activity, List<NewsItem> items, List<String> visitedId) {
         mActivity = activity;
         mNewsItems = items;
+        mVisitedId = visitedId;
     }
 
     @NonNull
@@ -65,6 +67,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        Log.i(TAG, "onBindViewHolder: ");
         if (holder instanceof ViewHolder) {
             NewsItem item = mNewsItems.get(position);
             ViewHolder vHolder = (ViewHolder) holder;
@@ -72,10 +75,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 vHolder.title.setText(item.getTitle());
                 vHolder.source.setText(item.getSource());
                 vHolder.time.setText(item.getTime());
-                Log.d(TAG, "onBindViewHolder: " + item.getVisited());
-                if (item.getVisited()) {
-                    // Log.d(TAG, "onBindViewHolder: 111");
-                    vHolder.title.setTextColor(R.color.yd_grey);
+//                if (item.getVisited()) {
+//                    Log.e(TAG, "onBindViewHolder:item.getVisited() == true");
+//                    vHolder.title.setTextColor(mActivity.getResources().getColor(R.color.yd_grey));
+//                }
+                if (mVisitedId.contains(item.getId())) {  // set visited news color grey
+                    Log.e(TAG, "onBindViewHolder:item.getVisited() == true");
+                    vHolder.title.setTextColor(mActivity.getResources().getColor(R.color.yd_grey));
                 }
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {

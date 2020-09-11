@@ -4,17 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -43,6 +50,7 @@ public class AllNewsFragment extends Fragment {
     private AllNewsAdapter mFgAdapter;
     private List<NewsFragment> mFragments;
     private SharedPreferences sharedPreferences;
+    private Button mHistoryBtn;
 
     public AllNewsFragment() { }
     public AllNewsFragment(Activity activity) {
@@ -52,11 +60,22 @@ public class AllNewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.fragment_allnews, container, false);
         bindViews(view);
         fgManager = getChildFragmentManager();
         return view;
     }
+
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        Log.i(TAG, "onCreateOptionsMenu: ");
+//        super.onCreateOptionsMenu(menu, inflater);
+//        //添加菜单，R.menu.menu就是你上面创建的菜单文件
+//        inflater.inflate(R.menu.menu_main,menu);
+//        //通过MenuItem得到SearchView
+//        mSearchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+//    }
 
     @Override
     public void onResume() {
@@ -80,7 +99,18 @@ public class AllNewsFragment extends Fragment {
         mSearchView = view.findViewById(R.id.all_news_sv);
         mTabLayout = view.findViewById(R.id.all_news_tabs);
         mBtnEdit = view.findViewById(R.id.all_news_edit);
+        mHistoryBtn = view.findViewById(R.id.all_news_history_button);
         mViewPager = view.findViewById(R.id.all_news_vp);
+        initButtonImg();
+    }
+
+    private void initButtonImg() {
+        //定义底部标签图片大小和位置
+        Drawable drawable_history = getResources().getDrawable(R.drawable.history_button);
+        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
+        drawable_history.setBounds(0, 0, 50, 50);
+        //设置图片在文字的哪个方向
+        mHistoryBtn.setCompoundDrawables(null, drawable_history, null, null);
     }
 
     /**
@@ -155,6 +185,14 @@ public class AllNewsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, EditTabActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mHistoryBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, HistoryNewsActivity.class);
                 startActivity(intent);
             }
         });

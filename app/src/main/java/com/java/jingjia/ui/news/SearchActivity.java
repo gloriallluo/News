@@ -33,6 +33,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<NewsItem> mNewsItems;
     private ArrayList<String> mSearchHistory;
+    private ArrayList<String> mvisitedId;
 
     private SearchView mSearchView;
     private ListView mListView;
@@ -54,8 +55,9 @@ public class SearchActivity extends AppCompatActivity {
 
         mNewsItems = new ArrayList<>();
         mSearchHistory = new ArrayList<>();
+        mvisitedId = new ArrayList<>();
         initSearchHistory();
-        mNewsAdapter = new NewsListAdapter(SearchActivity.this, mNewsItems);
+        mNewsAdapter = new NewsListAdapter(SearchActivity.this, mNewsItems, mvisitedId);
         mHistoryAdapter = new SearchHistoryAdapter(SearchActivity.this, mSearchHistory);
         mRecyclerView.setAdapter(mNewsAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(SearchActivity.this));

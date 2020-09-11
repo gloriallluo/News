@@ -48,7 +48,8 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:padding="15dp"
-            android:src="@drawable/ic_arrow_back_black_24dp" />
+            android:src="@drawable/ic_arrow_left"
+            app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
         <RelativeLayout
             android:layout_width="200dp"

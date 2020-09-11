@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.RadioGroup;
 import com.java.jingjia.R;
 import com.java.jingjia.ui.cluster.AllClusterFragment;
 import com.java.jingjia.ui.data.AllDataFragment;
+import com.java.jingjia.ui.graph.GraphFragment;
 import com.java.jingjia.ui.news.AllNewsFragment;
 
 /**
@@ -64,6 +66,40 @@ public class MainActivity extends AppCompatActivity {
     private void bindViews() {
         mFrameLayout = findViewById(R.id.main_fl);
         mRadioGroup = findViewById(R.id.tabs_rg);
+        initButtonImg();
+    }
+
+    /**
+     * 初始化底部Button图像
+     */
+    private void initButtonImg(){
+        //定义底部标签图片大小和位置
+        Drawable drawable_news = getResources().getDrawable(R.drawable.news_button);
+        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
+        drawable_news.setBounds(0, 0, 70, 70);
+        //设置图片在文字的哪个方向
+        ((RadioButton)mRadioGroup.getChildAt(0)).setCompoundDrawables(null, drawable_news, null, null);
+
+        //定义底部标签图片大小和位置
+        Drawable drawable_data = getResources().getDrawable(R.drawable.data_button);
+        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
+        drawable_data.setBounds(0, 0, 70, 70);
+        //设置图片在文字的哪个方向
+        ((RadioButton)mRadioGroup.getChildAt(1)).setCompoundDrawables(null, drawable_data, null, null);
+
+        //定义底部标签图片大小和位置
+        Drawable drawable_graph = getResources().getDrawable(R.drawable.graph_button);
+        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
+        drawable_graph.setBounds(0, 0, 70, 70);
+        //设置图片在文字的哪个方向
+        ((RadioButton)mRadioGroup.getChildAt(2)).setCompoundDrawables(null, drawable_graph, null, null);
+
+        //定义底部标签图片大小和位置
+        Drawable drawable_scholar = getResources().getDrawable(R.drawable.scholar_button);
+        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
+        drawable_scholar.setBounds(0, 0, 70, 70);
+        //设置图片在文字的哪个方向
+        ((RadioButton)mRadioGroup.getChildAt(3)).setCompoundDrawables(null, drawable_scholar, null, null);
     }
 
     /**

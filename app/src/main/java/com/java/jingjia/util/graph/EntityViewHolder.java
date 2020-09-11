@@ -17,10 +17,7 @@ public class EntityViewHolder extends RecyclerView.ViewHolder {
 
     public static final String TAG = "EntityViewHolder";
     private Context mContext;
-    public TextView mLabel, mAbstractInfo;
-    public ImageView mImg;
-    public TextView properties;
-
+    public TextView mLabel;
 
     public EntityViewHolder(View view, Context context) {
         super(view);

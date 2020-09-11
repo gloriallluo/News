@@ -30,7 +30,7 @@ public interface NewsDao {
     @Query("SELECT * FROM news_table WHERE id LIKE :search")
     List<NewsItem> findNewsWithId(String[] search);
 
-    @Query("SELECT * FROM news_table WHERE visited LIKE :search")
+    @Query("SELECT * FROM news_table WHERE visited LIKE :search ORDER BY time DESC")
     List<NewsItem> getAllNewsByVisitedOrNot(Boolean search);
 
     @Query("UPDATE news_table SET visited= :v WHERE id = :i")
@@ -42,4 +42,6 @@ public interface NewsDao {
     @Query("SELECT * FROM news_table WHERE type LIKE :type LIMIT 10")
     List<NewsItem> getLastInsertNews(String type);
 
+    @Query("SELECT * FROM news_table WHERE id LIKE :id")
+    NewsItem getNewsByID(String id);
 }

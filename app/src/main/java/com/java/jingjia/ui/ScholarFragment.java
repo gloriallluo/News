@@ -135,7 +135,6 @@ public class ScholarFragment extends Fragment {
         sProfileImageHeight = getResources().getDimensionPixelSize(R.dimen.height_profile_image);
         sOverlayShape = buildAvatarCircleOverlay();
 
-
         Map<String, Object> profileMap;
         List<Map<String, Object>> profilesList = new ArrayList<>();
         for (int i = 0; i < myScholarList.size(); i++) {
@@ -209,13 +208,13 @@ public class ScholarFragment extends Fragment {
         //详情页的图片
         Picasso.get().load((String) item.get(EuclidListAdapter.KEY_AVATAR))
 //                .resize(sScreenWidth, sProfileImageHeight).centerCrop()
-                .placeholder(R.color.blue)
+                .placeholder(R.color.white)
                 .into((ImageView) mOverlayListItemView.findViewById(R.id.image_view_reveal_avatar));
 
         //List页的图片加载
         Picasso.get().load((String) item.get(EuclidListAdapter.KEY_AVATAR))
 //                .resize(sScreenWidth, sProfileImageHeight).centerCrop()
-                .placeholder(R.color.blue)
+                .placeholder(R.color.white)
                 .into((ImageView) mOverlayListItemView.findViewById(R.id.image_view_avatar));
 
         ((TextView) mOverlayListItemView.findViewById(R.id.text_view_name)).setText((String) item.get(EuclidListAdapter.KEY_NAME));
