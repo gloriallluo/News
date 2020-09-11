@@ -26,7 +26,6 @@
             android:layout_height="@dimen/height_profile_image"
             android:clickable="true"
             tools:src="@mipmap/wallpaper" />
-
     </LinearLayout>
 
 </FrameLayout>

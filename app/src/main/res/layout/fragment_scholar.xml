@@ -92,7 +92,7 @@
             android:id="@+id/text_view_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             tools:text="SOPHIA"
             android:fontFamily="sans-serif-light"
             android:textSize="32sp"
