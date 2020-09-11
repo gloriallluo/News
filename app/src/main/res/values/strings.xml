@@ -27,6 +27,12 @@
     <string name="search_query_hint">请输入关键字</string>
     <string name="drawer_open">open drawer</string>
     <string name="drawer_close">close drawer</string>
+    <string name="cluster_1">研究</string>
+    <string name="cluster_2">风险</string>
+    <string name="cluster_3">临床</string>
+    <string name="cluster_4">免疫</string>
+    <string name="cluster_5">疫苗</string>
+    <string name="cluster_6">基因</string>
 
 <!--    <string name="app_name">Profile Interface</string>-->
     <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </string>
