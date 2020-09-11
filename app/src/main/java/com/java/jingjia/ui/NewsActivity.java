@@ -62,7 +62,6 @@ public class NewsActivity extends AppCompatActivity {
         String mItemId = intent.getStringExtra("news");
         listManager = NewsListManager.getNewsListManager(getApplication());
         contentManager = NewsContentManager.getNewsContentManager();
-        // TODO: set news visited
         new Thread(new Runnable() {
             @Override
             public void run() {

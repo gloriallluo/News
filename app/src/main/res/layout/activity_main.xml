@@ -78,8 +78,8 @@
                 android:button="@null" />
 
             <RadioButton
-                android:id="@+id/tab_user"
-                android:text="@string/tab_user"
+                android:id="@+id/tab_cluster"
+                android:text="@string/tab_cluster"
                 android:textSize="12sp"
                 android:textColor="@drawable/tab_text"
                 android:background="@color/white"

@@ -5,6 +5,7 @@
     <string name="tab_graph">graph</string>
     <string name="tab_scholar">scholar</string>
     <string name="tab_user">user</string>
+    <string name="tab_cluster">cluster</string>
     <string name="top_tab_all">all</string>
     <string name="top_tab_news">news</string>
     <string name="top_tab_paper">paper</string>
@@ -24,6 +25,8 @@
     <string name="suspected">Suspected</string>
     <string name="todo">TODO</string>
     <string name="search_query_hint">请输入关键字</string>
+    <string name="drawer_open">open drawer</string>
+    <string name="drawer_close">close drawer</string>
 
 <!--    <string name="app_name">Profile Interface</string>-->
     <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </string>

@@ -1,4 +1,4 @@
-package com.java.jingjia.util;
+package com.java.jingjia.util.news;
 
 import android.widget.Button;
 

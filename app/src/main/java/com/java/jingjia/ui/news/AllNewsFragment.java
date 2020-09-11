@@ -22,7 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.java.jingjia.R;
-import com.java.jingjia.util.TabItem;
+import com.java.jingjia.util.news.TabItem;
 
 import java.util.ArrayList;
 import java.util.List;

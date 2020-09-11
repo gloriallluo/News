@@ -1,4 +1,4 @@
-package com.java.jingjia.util;
+package com.java.jingjia.util.news;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.java.jingjia.R;
+import com.java.jingjia.util.news.TabItem;
 
 import java.util.List;
 

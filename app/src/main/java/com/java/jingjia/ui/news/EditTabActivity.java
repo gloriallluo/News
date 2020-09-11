@@ -13,8 +13,8 @@ import android.widget.GridView;
 import androidx.annotation.Nullable;
 
 import com.java.jingjia.R;
-import com.java.jingjia.util.TabGridAdapter;
-import com.java.jingjia.util.TabItem;
+import com.java.jingjia.util.news.TabGridAdapter;
+import com.java.jingjia.util.news.TabItem;
 
 import java.util.ArrayList;
 import java.util.List;

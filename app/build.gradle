@@ -35,6 +35,7 @@ dependencies {
     implementation 'com.sina.weibo.sdk:core:9.12.0:openDefaultRelease@aar'
     implementation 'com.github.yalantis:Side-Menu.Android:1.0.2'
     implementation 'com.github.ozodrukh:CircularReveal:(latest-release)@aar'
+    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
 //    implementation 'com.android.support:design:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
