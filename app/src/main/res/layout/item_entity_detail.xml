@@ -23,11 +23,13 @@
         android:id="@+id/entity_item_relations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center" />
 
     <com.bin.david.form.core.SmartTable
         android:id="@+id/entity_item_properties"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center" />
 </LinearLayout>

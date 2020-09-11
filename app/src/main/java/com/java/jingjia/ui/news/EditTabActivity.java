@@ -51,23 +51,21 @@ public class EditTabActivity extends Activity {
     }
 
     private void setListeners() {
-        mSelectedGv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mSelectedGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TabItem item = selectedAdapter.removeItem(position);
                 unselectedAdapter.insertItem(item);
                 updateData(item.getType(), false);
-                return false;
             }
         });
 
-        mUnselectedGv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mUnselectedGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TabItem item = unselectedAdapter.removeItem(position);
                 selectedAdapter.insertItem(item);
                 updateData(item.getType(), true);
-                return false;
             }
         });
     }

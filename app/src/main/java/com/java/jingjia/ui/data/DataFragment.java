@@ -65,7 +65,7 @@ public class DataFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        new Thread() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 manager.getData();
@@ -76,7 +76,19 @@ public class DataFragment extends Fragment {
                     }
                 });
             }
-        }.run();
+        }).start();
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                manager.getData();
+//                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        exDataList.deferNotifyDataSetChanged();
+//                    }
+//                });
+//            }
+//        }.start();
     }
 
 

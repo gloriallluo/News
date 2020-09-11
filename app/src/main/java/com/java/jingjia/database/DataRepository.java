@@ -45,8 +45,10 @@ public class DataRepository {
      * */
     public void insert(Data data) {
         InsertDataTask insertDataTask = new InsertDataTask(mDataDao);
-        insertDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,data);
+//        insertDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, data);
+        insertDataTask.execute(data);
     }
+
     private static class InsertDataTask extends AsyncTask<Data, Void, Void> {
         private DataDao mAsyncDao;
         InsertDataTask(DataDao dataDao){

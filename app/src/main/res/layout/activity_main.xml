@@ -24,9 +24,10 @@
         <RadioGroup
             android:id="@+id/tabs_rg"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/yd_blue"
+            android:background="@color/white"
+            android:padding="4dp"
             android:orientation="horizontal">
 
             <RadioButton

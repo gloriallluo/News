@@ -76,35 +76,35 @@ public class MainActivity extends AppCompatActivity {
         //定义底部标签图片大小和位置
         Drawable drawable_news = getResources().getDrawable(R.drawable.news_button);
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
-        drawable_news.setBounds(0, 0, 70, 70);
+        drawable_news.setBounds(0, 10, 70, 70);
         //设置图片在文字的哪个方向
         ((RadioButton)mRadioGroup.getChildAt(0)).setCompoundDrawables(null, drawable_news, null, null);
 
         //定义底部标签图片大小和位置
         Drawable drawable_data = getResources().getDrawable(R.drawable.data_button);
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
-        drawable_data.setBounds(0, 0, 70, 70);
+        drawable_data.setBounds(0, 10, 70, 70);
         //设置图片在文字的哪个方向
         ((RadioButton)mRadioGroup.getChildAt(1)).setCompoundDrawables(null, drawable_data, null, null);
 
         //定义底部标签图片大小和位置
         Drawable drawable_graph = getResources().getDrawable(R.drawable.graph_button);
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
-        drawable_graph.setBounds(0, 0, 70, 70);
+        drawable_graph.setBounds(0, 10, 70, 70);
         //设置图片在文字的哪个方向
         ((RadioButton)mRadioGroup.getChildAt(2)).setCompoundDrawables(null, drawable_graph, null, null);
 
         //定义底部标签图片大小和位置
         Drawable drawable_scholar = getResources().getDrawable(R.drawable.scholar_button);
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
-        drawable_scholar.setBounds(0, 0, 70, 70);
+        drawable_scholar.setBounds(0, 10, 70, 70);
         //设置图片在文字的哪个方向
         ((RadioButton)mRadioGroup.getChildAt(3)).setCompoundDrawables(null, drawable_scholar, null, null);
 
         //定义底部标签图片大小和位置
         Drawable drawable_cluster = getResources().getDrawable(R.drawable.cluster_button);
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
-        drawable_cluster.setBounds(0, 0, 70, 70);
+        drawable_cluster.setBounds(0, 10, 70, 70);
         //设置图片在文字的哪个方向
         ((RadioButton)mRadioGroup.getChildAt(4)).setCompoundDrawables(null, drawable_cluster, null, null);
     }
