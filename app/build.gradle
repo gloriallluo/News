@@ -35,7 +35,7 @@ dependencies {
     implementation 'com.sina.weibo.sdk:core:9.12.0:openDefaultRelease@aar'
     implementation 'com.github.yalantis:Side-Menu.Android:1.0.2'
     implementation 'com.github.ozodrukh:CircularReveal:(latest-release)@aar'
-    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
+    implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
 //    implementation 'com.android.support:design:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
@@ -51,10 +51,17 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation 'com.github.ozodrukh:CircularReveal:1.0.5@aar'
+
 //    compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
+
     implementation files('libs/listviewanimations_lib-core_3.1.0.jar')
+    implementation files('libs/babushka-0.1.jar')
+
     implementation 'com.nineoldandroids:library:2.4.0'
+
+    implementation 'com.github.huangyanbin:SmartTable:2.2.0'
+
 }

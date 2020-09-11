@@ -39,18 +39,69 @@
         tools:text="RICHARD"
         android:layout_margin="10dp" />
 
-    <TextView
-        android:id="@+id/text_view_description"
-        android:textColor="@color/blue"
-        android:textSize="18sp"
-        android:padding="10dp"
-        android:fontFamily="sans-serif"
-        android:textStyle="normal"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/babushka_text_wrapper"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_view_name"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <babushkatext.BabushkaText
+            android:id="@+id/babushka_text_H"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="3dp"
+            android:textSize="14sp" />
+
+        <babushkatext.BabushkaText
+            android:id="@+id/babushka_text_A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="3dp"
+            android:textSize="14sp" />
+
+        <babushkatext.BabushkaText
+            android:id="@+id/babushka_text_S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="3dp"
+            android:textSize="14sp" />
+
+        <babushkatext.BabushkaText
+            android:id="@+id/babushka_text_C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="3dp"
+            android:textSize="14sp" />
+
+        <babushkatext.BabushkaText
+            android:id="@+id/babushka_text_P"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="3dp"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_view_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/babushka_text_wrapper"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        android:textStyle="normal"
         tools:text="@string/lorem_ipsum_short" />
 
 </RelativeLayout>

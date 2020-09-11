@@ -4,11 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,21 +18,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import com.java.jingjia.Entity;
 import com.java.jingjia.R;
 import com.java.jingjia.Scholar;
 import com.java.jingjia.request.ScholarManager;
@@ -49,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import babushkatext.BabushkaText;
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 
@@ -70,6 +65,7 @@ public class ScholarFragment extends Fragment {
     protected RelativeLayout mToolbarProfile;
     protected LinearLayout mProfileDetails;
     protected TextView mTextViewProfileName;
+//    protected BabushkaText mBabushka;
     protected TextView mTextViewProfileDescription;
     protected View mButtonProfile;
 
@@ -109,7 +105,6 @@ public class ScholarFragment extends Fragment {
         mManager = ScholarManager.getScholarManager();
         myScholarList = new ArrayList<>();
         myScholarList.addAll(mManager.getScholars());
-//        setContentView(R.layout.activity_euclid);
         //bind
         mWrapper = (RelativeLayout) view.findViewById(R.id.wrapper);
         mListView = (ListView) view.findViewById(R.id.list_view);
@@ -117,6 +112,14 @@ public class ScholarFragment extends Fragment {
         mToolbarProfile = (RelativeLayout) view.findViewById(R.id.toolbar_profile);
         mProfileDetails = (LinearLayout) view.findViewById(R.id.wrapper_profile_details);
         mTextViewProfileName = (TextView) view.findViewById(R.id.text_view_profile_name);
+        if(mTextViewProfileName == null)
+            Log.e(TAG, "onCreateView: mTextViewProfileName == null");
+//        mBabushka = (BabushkaText) view.findViewById(R.id.bb_text);
+//        if(mBabushka == null) {
+//            Log.e(TAG, "onCreateView: mBabushka == null");
+//        }
+//        if(view.findViewById(R.id.bb_text) == null)
+//            Log.e(TAG, "onCreateView: view.findViewById(R.id.babushka_text) == null");
         mTextViewProfileDescription = (TextView) view.findViewById(R.id.text_view_profile_description);
         mButtonProfile = view.findViewById(R.id.button_profile);
         mButtonProfile.post(new Runnable() {
@@ -131,6 +134,7 @@ public class ScholarFragment extends Fragment {
                 animateCloseProfileDetails();
             }
         });
+
         sScreenWidth = getResources().getDisplayMetrics().widthPixels;
         sProfileImageHeight = getResources().getDimensionPixelSize(R.dimen.height_profile_image);
         sOverlayShape = buildAvatarCircleOverlay();
@@ -143,6 +147,11 @@ public class ScholarFragment extends Fragment {
             profileMap.put(EuclidListAdapter.KEY_NAME, myScholarList.get(i).getName_zh() + " "+myScholarList.get(i).getName());
             profileMap.put(EuclidListAdapter.KEY_DESCRIPTION_SHORT, myScholarList.get(i).getAffiliation());
             profileMap.put(EuclidListAdapter.KEY_DESCRIPTION_FULL, myScholarList.get(i).getBio());
+            profileMap.put(EuclidListAdapter.KEY_H_INDEX, myScholarList.get(i).getHindex());
+            profileMap.put(EuclidListAdapter.KEY_ACTIVITY, myScholarList.get(i).getActivity());
+            profileMap.put(EuclidListAdapter.KEY_SOCIALBILITY, myScholarList.get(i).getSociability());
+            profileMap.put(EuclidListAdapter.KEY_CITATIONS, myScholarList.get(i).getCitations());
+            profileMap.put(EuclidListAdapter.KEY_PUBS, myScholarList.get(i).getPubs());
             profilesList.add(profileMap);
         }
 
@@ -235,6 +244,22 @@ public class ScholarFragment extends Fragment {
     private void setProfileDetailsInfo(Map<String, Object> item) {
         mTextViewProfileName.setText((String) item.get(EuclidListAdapter.KEY_NAME));
         mTextViewProfileDescription.setText((String) item.get(EuclidListAdapter.KEY_DESCRIPTION_FULL));
+//        // Add the first piece "Central Park"
+//        mBabushka.addPiece(new BabushkaText.Piece.Builder("Central Park, NY\n")
+//                .textColor(R.color.yd_blue)
+//                .build());
+//        // Add the second piece "1.2 mi"
+//        mBabushka.addPiece(new BabushkaText.Piece.Builder("1.2 mi ")
+//                .textColor(R.color.yd_navy_blue)
+//                .textSizeRelative(0.9f)
+//                .build());
+//        // Add the third piece "from here"
+//        mBabushka.addPiece(new BabushkaText.Piece.Builder("from here")
+//                .textColor(R.color.blue)
+//                .textSizeRelative(0.9f)
+//                .build());
+//        // Display the final, styled text
+//        mBabushka.display();
     }
 
     /**
@@ -424,6 +449,18 @@ public class ScholarFragment extends Fragment {
                 getResources().getDisplayMetrics().heightPixels,
                 getResources().getDimensionPixelSize(R.dimen.height_profile_picture_with_toolbar));
         return mOpenProfileDetailsAnimator;
+    }
+
+    /**
+     * This method creates animator which shows profile details.
+     *
+     * @return - animator object.
+     */
+    private Animator getBabushkaAnimator() {
+        Animator getBabushkaAnimator = ObjectAnimator.ofFloat(mProfileDetails, View.Y,
+                getResources().getDisplayMetrics().heightPixels,
+                getResources().getDimensionPixelSize(R.dimen.height_profile_picture_with_toolbar));//TODO:Double Check
+        return getBabushkaAnimator;
     }
 
     /**

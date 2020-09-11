@@ -93,6 +93,7 @@
             android:textSize="32sp"
             android:layout_margin="10dp" />
 
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -114,15 +115,16 @@
     </LinearLayout>
 
     <include
-        layout="@layout/button_round_msg"
-        android:layout_width="@dimen/size_button_message"
-        android:layout_height="@dimen/size_button_message"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        android:visibility="invisible"
-        android:layout_marginTop="@dimen/margin_top_button_message"
-        android:id="@+id/button_profile"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp" />
+    layout="@layout/button_round_msg"
+    android:layout_width="@dimen/size_button_message"
+    android:layout_height="@dimen/size_button_message"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="15dp"
+    android:visibility="invisible"
+    android:layout_marginTop="@dimen/margin_top_button_message"
+    android:id="@+id/button_profile"
+    android:layout_alignParentEnd="true"
+    android:layout_marginEnd="15dp" />
+
 
 </RelativeLayout>
