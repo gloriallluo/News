@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
@@ -24,7 +26,6 @@ public class EditTabActivity extends Activity {
     private final String TAG = "EditTabActivity";
     private GridView mSelectedGv, mUnselectedGv;
     private List<TabItem> selectedItems, unselectedItems;
-    private List<Long> selectedIds, unselectedIds;
     private TabGridAdapter selectedAdapter, unselectedAdapter;
     private SharedPreferences sharedPreferences;
 
@@ -36,9 +37,9 @@ public class EditTabActivity extends Activity {
         Intent intent = getIntent();
         initData();
         selectedAdapter = new TabGridAdapter(
-                EditTabActivity.this, selectedItems, selectedIds, "x");
+                EditTabActivity.this, selectedItems, "selected");
         unselectedAdapter = new TabGridAdapter(
-                EditTabActivity.this, unselectedItems, unselectedIds, "+");
+                EditTabActivity.this, unselectedItems, "unselected");
         mSelectedGv.setAdapter(selectedAdapter);
         mUnselectedGv.setAdapter(unselectedAdapter);
         setListeners();
@@ -53,19 +54,18 @@ public class EditTabActivity extends Activity {
         mSelectedGv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemLongClick: selected");
                 TabItem item = selectedAdapter.removeItem(position);
-                unselectedAdapter.insertItem(id, item);
+                unselectedAdapter.insertItem(item);
                 updateData(item.getType(), false);
                 return false;
             }
         });
+
         mUnselectedGv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemLongClick: unselected");
                 TabItem item = unselectedAdapter.removeItem(position);
-                selectedAdapter.insertItem(id, item);
+                selectedAdapter.insertItem(item);
                 updateData(item.getType(), true);
                 return false;
             }
@@ -75,35 +75,21 @@ public class EditTabActivity extends Activity {
     private void initData() {
         selectedItems = new ArrayList<>();
         unselectedItems = new ArrayList<>();
-        selectedIds = new ArrayList<>();
-        unselectedIds = new ArrayList<>();
         if (sharedPreferences == null)
             sharedPreferences = getSharedPreferences(
                     "user_tab", Context.MODE_PRIVATE);
         TabItem all = new TabItem(TabItem.ALL);
         TabItem news = new TabItem(TabItem.NEWS);
         TabItem paper = new TabItem(TabItem.PAPER);
-        if (sharedPreferences.getBoolean("all", true)) {
+        if (sharedPreferences.getBoolean("all", true))
             selectedItems.add(all);
-            selectedIds.add(TabItem.ALL_ID);
-        } else {
-            unselectedItems.add(all);
-            unselectedIds.add(TabItem.ALL_ID);
-        }
-        if (sharedPreferences.getBoolean("news", true)) {
+        else unselectedItems.add(all);
+        if (sharedPreferences.getBoolean("news", true))
             selectedItems.add(news);
-            selectedIds.add(TabItem.NEWS_ID);
-        } else {
-            unselectedItems.add(news);
-            unselectedIds.add(TabItem.NEWS_ID);
-        }
-        if (sharedPreferences.getBoolean("paper", true)) {
+        else unselectedItems.add(news);
+        if (sharedPreferences.getBoolean("paper", true))
             selectedItems.add(paper);
-            selectedIds.add(TabItem.PAPER_ID);
-        } else {
-            unselectedItems.add(paper);
-            unselectedIds.add(TabItem.PAPER_ID);
-        }
+        else unselectedItems.add(paper);
     }
 
     private void updateData(String tabType, Boolean selected) {
