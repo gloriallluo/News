@@ -129,7 +129,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
         if(!gData.get(groupPosition).getImageUrl().equals(""))
             Picasso.get().load(gData.get(groupPosition).getImageUrl())
                     .resize(300,300).centerCrop()
-                    .placeholder(R.color.yd_grey)
+                    .placeholder(R.color.white)
                     .into(itemHolder.mImg);
 
         if(!gData.get(groupPosition).getRelations().isEmpty()){
@@ -145,9 +145,9 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
                 @Override
                 protected int getResourceID(Boolean isCheck, String value, int position) {
                     if(isCheck){
-                        return R.drawable.forward_true;
+                        return R.mipmap.forward_true;
                     }else{
-                        return R.drawable.forward_false;
+                        return R.mipmap.forward_false;
                     }
                 }
             });

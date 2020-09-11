@@ -27,8 +27,8 @@
             android:layout_height="55dp"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="4dp">
 
             <RadioButton
                 android:id="@+id/tab_news"

@@ -7,7 +7,7 @@
     android:background="@color/white">
 
     <include
-        layout="@layout/list_item"
+        layout="@layout/item_scholar"
         android:id="@+id/wrapper_list_item" />
 
     <LinearLayout
@@ -25,8 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_profile_image"
             android:clickable="true"
-            tools:src="@drawable/wallpaper" />
-
+            tools:src="@mipmap/wallpaper" />
     </LinearLayout>
 
 </FrameLayout>

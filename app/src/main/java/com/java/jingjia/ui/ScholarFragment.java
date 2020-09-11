@@ -43,7 +43,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import babushkatext.BabushkaText;
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 
@@ -67,7 +66,6 @@ public class ScholarFragment extends Fragment {
     protected TextView mTextViewProfileName;
 //    protected BabushkaText mBabushka;
     protected TextView mTextViewProfileDescription;
-    protected View mButtonProfile;
 
     public static ShapeDrawable sOverlayShape;
     public static int sScreenWidth;
@@ -121,13 +119,7 @@ public class ScholarFragment extends Fragment {
 //        if(view.findViewById(R.id.bb_text) == null)
 //            Log.e(TAG, "onCreateView: view.findViewById(R.id.babushka_text) == null");
         mTextViewProfileDescription = (TextView) view.findViewById(R.id.text_view_profile_description);
-        mButtonProfile = view.findViewById(R.id.button_profile);
-        mButtonProfile.post(new Runnable() {
-            @Override
-            public void run() {
-                mInitialProfileButtonX = mButtonProfile.getX();
-            }
-        });
+
         view.findViewById(R.id.toolbar_profile_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +137,7 @@ public class ScholarFragment extends Fragment {
             profileMap = new HashMap<>();
             profileMap.put(EuclidListAdapter.KEY_AVATAR, myScholarList.get(i).getAvatarImg());
             profileMap.put(EuclidListAdapter.KEY_NAME, myScholarList.get(i).getName_zh() + " "+myScholarList.get(i).getName());
+            profileMap.put(EuclidListAdapter.KEY_POSITION,myScholarList.get(i).getPosition());
             profileMap.put(EuclidListAdapter.KEY_DESCRIPTION_SHORT, myScholarList.get(i).getAffiliation());
             profileMap.put(EuclidListAdapter.KEY_DESCRIPTION_FULL, myScholarList.get(i).getBio());
             profileMap.put(EuclidListAdapter.KEY_H_INDEX, myScholarList.get(i).getHindex());
@@ -155,7 +148,7 @@ public class ScholarFragment extends Fragment {
             profilesList.add(profileMap);
         }
 
-        mAdapter =  new EuclidListAdapter(mActivity, R.layout.list_item, profilesList);
+        mAdapter =  new EuclidListAdapter(mActivity, R.layout.item_scholar, profilesList);
 
         initList();
 
@@ -382,7 +375,6 @@ public class ScholarFragment extends Fragment {
             mProfileButtonShowAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
-                    mButtonProfile.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -414,15 +406,10 @@ public class ScholarFragment extends Fragment {
                 mProfileDetails.setX(0);
                 mProfileDetails.bringToFront();
                 mProfileDetails.setVisibility(View.VISIBLE);
-
-                mButtonProfile.setX(mInitialProfileButtonX);
-                mButtonProfile.bringToFront();
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                mButtonProfile.startAnimation(mProfileButtonShowAnimation);
-
                 mState = ScholarFragment.EuclidState.Opened;
             }
 
@@ -488,10 +475,6 @@ public class ScholarFragment extends Fragment {
                     0, mOverlayListItemView.getWidth());
             profilePhotoAnimator.setStartDelay(getStepDelayHideDetailsAnimation());
 
-            Animator profileButtonAnimator = ObjectAnimator.ofFloat(mButtonProfile, View.X,
-                    mInitialProfileButtonX, mOverlayListItemView.getWidth() + mInitialProfileButtonX);
-            profileButtonAnimator.setStartDelay(getStepDelayHideDetailsAnimation() * 2);
-
             Animator profileDetailsAnimator = ObjectAnimator.ofFloat(mProfileDetails, View.X,
                     0, mToolbarProfile.getWidth());
             profileDetailsAnimator.setStartDelay(getStepDelayHideDetailsAnimation() * 2);
@@ -499,7 +482,6 @@ public class ScholarFragment extends Fragment {
             List<Animator> profileAnimators = new ArrayList<>();
             profileAnimators.add(profileToolbarAnimator);
             profileAnimators.add(profilePhotoAnimator);
-            profileAnimators.add(profileButtonAnimator);
             profileAnimators.add(profileDetailsAnimator);
 
             mCloseProfileAnimatorSet = new AnimatorSet();
@@ -518,7 +500,6 @@ public class ScholarFragment extends Fragment {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mToolbarProfile.setVisibility(View.INVISIBLE);
-                    mButtonProfile.setVisibility(View.INVISIBLE);
                     mProfileDetails.setVisibility(View.INVISIBLE);
 
                     mListView.setEnabled(true);
