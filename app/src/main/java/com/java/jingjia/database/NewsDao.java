@@ -30,7 +30,7 @@ public interface NewsDao {
     @Query("SELECT * FROM news_table WHERE id LIKE :search")
     List<NewsItem> findNewsWithId(String[] search);
 
-    @Query("SELECT * FROM news_table WHERE visited LIKE :search ORDER BY time DESC")
+    @Query("SELECT * FROM news_table WHERE visited LIKE :search ORDER BY time ASC")
     List<NewsItem> getAllNewsByVisitedOrNot(Boolean search);
 
     @Query("UPDATE news_table SET visited= :v WHERE id = :i")

@@ -14,13 +14,15 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="4dp"
-        android:textColor="@color/black"
-        android:textSize="14dp" />
+        android:textColor="@color/yd_navy_blue"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="5dp"
         android:gravity="right|end"
         android:text="@string/entity" />
 

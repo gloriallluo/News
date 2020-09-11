@@ -1,5 +1,7 @@
 package com.java.jingjia.request;
 
+import android.util.Log;
+
 import com.java.jingjia.Scholar;
 
 import org.json.JSONArray;
@@ -18,6 +20,7 @@ import java.util.Map;
  * 1. 用于从url获得学者信息
  */
 public class ScholarManager {
+    private static final String TAG = "ScholarManager";
     //单例
     private static ScholarManager INSTANCE = null;
     private ScholarManager() {
@@ -34,7 +37,10 @@ public class ScholarManager {
         String url = "https://innovaapi.aminer.cn/predictor/api/v1/valhalla/highlight/get_ncov_expers_list?v=2";
         String jsonString = HttpUtil.getServerHttpResponse().getResponse(url);
         List<Scholar> retScholar = new ArrayList<>();
-
+        if(jsonString == ""){
+            Log.e(TAG, "getScholars: jsonString == \"\"");
+            return retScholar;
+        }
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray data = jsonObject.getJSONArray("data");
@@ -53,6 +59,7 @@ public class ScholarManager {
                 Integer hindex = indices.getInt("hindex");
                 Double newStar = indices.getDouble("newStar");
                 Double risingStar = indices.getDouble("risingStar");
+                Integer pubs = indices.getInt("pubs");
                 Double sociability = indices.getDouble("sociability");
 
                 String name = oneScholar.getString("name");
@@ -80,12 +87,14 @@ public class ScholarManager {
 
                 Scholar newOne = new Scholar(name, name_zh, affiliation, affiliation_zh, bio,
                         homepage, position, work, avatar, id, activity, citations, diversity,
-                        gindex, hindex, newStar, risingStar, sociability, is_passedaway);
+                        gindex, hindex, newStar, pubs, risingStar, sociability, is_passedaway);
                 retScholar.add(newOne);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (NullPointerException e){
+            return retScholar;
         }
         return retScholar;
     }

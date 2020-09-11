@@ -13,16 +13,18 @@ public class Scholar {
 
     String avatarImg;
     String id;
-    Double activity;
-    Integer citations;
     Double diversity;
     Integer gindex;
-    Integer hindex;
     Double newStar, risingStar;
-    Double sociability;
     Boolean is_passedaway;
 
-    public Scholar(String name, String name_zh, String affiliation, String affiliation_zh, String bio, String homepage, String position, String work, String avatarImg, String id, Double activity, Integer citations, Double diversity, Integer gindex, Integer hindex, Double newStar, Double risingStar, Double sociability, Boolean is_passedaway) {
+    Integer hindex;
+    Double activity;
+    Double sociability;
+    Integer citations;
+    Integer pubs;
+
+    public Scholar(String name, String name_zh, String affiliation, String affiliation_zh, String bio, String homepage, String position, String work, String avatarImg, String id, Double activity, Integer citations, Double diversity, Integer gindex, Integer hindex, Double newStar,Integer pubs, Double risingStar, Double sociability, Boolean is_passedaway) {
         this.name = name;
         this.name_zh = name_zh;
         this.affiliation = affiliation;
@@ -38,6 +40,7 @@ public class Scholar {
         this.diversity = diversity;
         this.gindex = gindex;
         this.hindex = hindex;
+        this.pubs = pubs;
         this.newStar = newStar;
         this.risingStar = risingStar;
         this.sociability = sociability;
@@ -194,5 +197,9 @@ public class Scholar {
 
     public void setIs_passedaway(Boolean is_passedaway) {
         this.is_passedaway = is_passedaway;
+    }
+
+    public Integer getPubs() {
+        return this.pubs;
     }
 }

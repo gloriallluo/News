@@ -11,7 +11,7 @@
     <color name="lightCyan">#E1FFFF</color>
     <color name="gray">#808080</color>
     <color name="lightYellow">#FFFFF0</color>
-
+    <color name="arc_text">#999999</color>
     <color name="orange">#ff8c6a</color>
     <color name="blue">#ff14445a</color>
 </resources>

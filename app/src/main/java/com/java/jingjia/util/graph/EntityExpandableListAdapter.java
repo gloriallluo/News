@@ -2,6 +2,17 @@ package com.java.jingjia.util.graph;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
+
+import com.bin.david.form.data.CellInfo;
+import com.bin.david.form.data.format.bg.IBackgroundFormat;
+import com.bin.david.form.data.format.bg.ICellBackgroundFormat;
+import com.bin.david.form.data.format.grid.BaseGridFormat;
+import com.bin.david.form.data.style.FontStyle;
+
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,11 +23,18 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
+import com.bin.david.form.core.SmartTable;
+import com.bin.david.form.data.column.Column;
+import com.bin.david.form.data.style.LineStyle;
+import com.bin.david.form.data.table.TableData;
+import com.bin.david.form.utils.DrawUtils;
 import com.java.jingjia.Entity;
 import com.java.jingjia.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -108,62 +126,166 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
         itemHolder.mAbstractInfo.setText(iData.get(groupPosition).get(childPosition).getAbstractInfo());
         if(!iData.get(groupPosition).get(childPosition).getImageUrl().equals(""))
             Picasso.get().load(iData.get(groupPosition).get(childPosition).getImageUrl())
-                    .resize(2000,2000).centerCrop()
+                    .resize(200,200).centerCrop()
                     .placeholder(R.color.yd_grey)
                     .into(itemHolder.mImg);
 
-        //设置表头
-        TableRow firstRow = new TableRow(mContext);
-        TextView tableName = new TextView(mContext);
-        tableName.setText("关系");
-        tableName.setTextSize(14);
-        firstRow.setBackgroundColor(mContext.getResources().getColor(R.color.lightYellow));
-        firstRow.addView(tableName);
-        itemHolder.mRelations.addView(firstRow);
-        //内容
-        for(Entity.Relation e : iData.get(groupPosition).get(childPosition).getRelations()){
-            TableRow row = new TableRow(mContext);
-            TextView relation = new TextView(mContext);
-            TextView with = new TextView(mContext);
-            TextView forward = new TextView(mContext);
-            relation.setText(e.relation);
+        if(!iData.get(groupPosition).get(childPosition).getRelations().isEmpty()){
+            //普通列
+            Column<String> relation = new Column<>("关系", "relation");
+            Column<Boolean> forward = new Column<>("方向", "forward");
+            Column<String> label = new Column<>("实体", "label");
+            //表格数据 datas是需要填充的数据
+            final TableData<Entity.Relation> tableData = new TableData
+                    ("关系", iData.get(groupPosition).get(childPosition).getRelations(),relation,forward,label);
+            //设置数据
+            itemHolder.mRelations.setZoom(true, 3, 1);//是否缩放
+            itemHolder.mRelations.setTableData(tableData);
+            FontStyle fontStyle = new com.bin.david.form.data.style.FontStyle(mContext,14, ContextCompat.getColor(mContext,R.color.arc_text));
+            LineStyle lineStyle = new LineStyle();
+            lineStyle.setColor(ContextCompat.getColor(mContext,R.color.yd_blue));
+            lineStyle.setEffect(new DashPathEffect(new float[] {5, 5}, 0));
+            itemHolder.mRelations.getConfig().setColumnTitleStyle(fontStyle);
+            itemHolder.mRelations.getConfig().setHorizontalPadding(10)
+                    .setVerticalPadding(10)
+                    .setSequenceHorizontalPadding(0)
+                    .setSequenceVerticalPadding(0)
+                    .setContentGridStyle(lineStyle)
+                    .setShowXSequence(false)
+                    .setShowYSequence(false)
+                    .setFixedYSequence(true);
+//        itemHolder.mRelations.setZoom(true,2,0.5f);
+            itemHolder.mRelations.getConfig().setTableGridFormat(new BaseGridFormat(){
+                @Override
+                protected boolean isShowYSequenceHorizontalLine(int row) {
+                    return false;
+                }
+                @Override
+                protected boolean isShowYSequenceVerticalLine(int row) {
+                    return false;
+                }
+                @Override
+                protected boolean isShowHorizontalLine(int col, int row, CellInfo cellInfo) {
+                    return false;
+                }
+                @Override
+                protected boolean isShowVerticalLine(int col, int row, CellInfo cellInfo) {
+                    return col == 3;
+                }
+                @Override
+                public void drawTableBorderGrid(Canvas canvas, int left, int top, int right, int bottom, Paint paint) {
 
-            with.setText(e.label);
-            with.setPadding(3,1,3,1);
-            with.setBackground(mContext.getResources().getDrawable(R.drawable.bg_orange_oval));
-            with.setGravity(Gravity.CENTER);
-            with.setTextColor(mContext.getResources().getColor(R.color.black));
+                }
+            });
+            itemHolder.mRelations.getConfig().setYSequenceBackground(new IBackgroundFormat() {
+                @Override
+                public void drawBackground(Canvas canvas, Rect rect, Paint paint) {
+                    DrawUtils.drawPatch(canvas,mContext,R.mipmap.set_bg,rect);
+                }
+            });
+            itemHolder.mRelations.getConfig().setYSequenceCellBgFormat(new ICellBackgroundFormat<Integer>() {
+                @Override
+                public void drawBackground(Canvas canvas, Rect rect, Integer position, Paint paint) {
 
-            forward.setText(e.forward.toString());
-            row.addView(relation);
-            row.addView(forward);
-            row.addView(with);
-            row.setPadding(30,10,30,10);
+                }
 
-            itemHolder.mRelations.addView(row);
+                @Override
+                public int getTextColor(Integer integer) {
+                    return ContextCompat.getColor(mContext,R.color.white);
+                }
+            });
+            itemHolder.mRelations.getConfig().setColumnCellBackgroundFormat(new ICellBackgroundFormat() {
+                @Override
+                public void drawBackground(Canvas canvas, Rect rect, Object o, Paint paint) {
+                    DrawUtils.drawPatch(canvas,mContext,R.mipmap.set_bg,rect);
+                }
+
+                @Override
+                public int getTextColor(Object o) {
+                    return 0;
+                }
+
+            });
         }
 
-        //设置表头
-        TableRow firstRow2 = new TableRow(mContext);
-        TextView tableName2 = new TextView(mContext);
-        tableName2.setText("属性");
-        tableName2.setTextSize(14);
-        firstRow2.setBackgroundColor(mContext.getResources().getColor(R.color.lightYellow));
-        firstRow2.addView(tableName2);
-        itemHolder.mProperties.addView(firstRow2);
-        //内容
-        for(Object e : iData.get(groupPosition).get(childPosition).getProperties().entrySet()){
-            TableRow row = new TableRow(mContext);
-            TextView prop = new TextView(mContext);
-            TextView content = new TextView(mContext);
-            prop.setText( ((Map.Entry<String,String>) e).getKey());
-            content.setText(((Map.Entry<String,String>) e).getValue());
-            prop.setBackground(mContext.getResources().getDrawable(R.drawable.bg_orange_oval));
-            prop.setTextColor(mContext.getResources().getColor(R.color.black));
-            row.addView(prop);
-            row.addView(content);
-            itemHolder.mProperties.addView(row);
+        if(!iData.get(groupPosition).get(childPosition).getProperties().isEmpty()){
+            //
+            //普通列
+            Column<String> pro = new Column<>("属性", "Key");
+            Column<Boolean> con = new Column<>("内容", "Value");
+            //表格数据 datas是需要填充的数据
+            final TableData<Entity.Relation> pTableData = new TableData
+                    ("属性", new ArrayList<Map.Entry>(iData.get(groupPosition).get(childPosition).getProperties().entrySet()),pro,con);
+            //设置数据
+            itemHolder.mProperties.setZoom(true, 3, 1);//是否缩放
+            itemHolder.mProperties.setTableData(pTableData);
+            FontStyle fontStyle2 = new com.bin.david.form.data.style.FontStyle(mContext,14, ContextCompat.getColor(mContext,R.color.arc_text));
+            LineStyle lineStyle2 = new LineStyle();
+            lineStyle2.setColor(ContextCompat.getColor(mContext,R.color.yd_blue));
+            lineStyle2.setEffect(new DashPathEffect(new float[] {5, 5}, 0));
+            itemHolder.mProperties.getConfig().setColumnTitleStyle(fontStyle2);
+            itemHolder.mProperties.getConfig().setHorizontalPadding(10)
+                    .setVerticalPadding(10)
+                    .setSequenceHorizontalPadding(0)
+                    .setSequenceVerticalPadding(0)
+                    .setContentGridStyle(lineStyle2)
+                    .setShowXSequence(false)
+                    .setShowYSequence(false)
+                    .setFixedYSequence(true);
+//        itemHolder.mRelations.setZoom(true,2,0.5f);
+            itemHolder.mProperties.getConfig().setTableGridFormat(new BaseGridFormat(){
+                @Override
+                protected boolean isShowYSequenceHorizontalLine(int row) {
+                    return false;
+                }
+                @Override
+                protected boolean isShowYSequenceVerticalLine(int row) {
+                    return false;
+                }
+                @Override
+                protected boolean isShowHorizontalLine(int col, int row, CellInfo cellInfo) {
+                    return false;
+                }
+                @Override
+                protected boolean isShowVerticalLine(int col, int row, CellInfo cellInfo) {
+                    return col == 3;
+                }
+                @Override
+                public void drawTableBorderGrid(Canvas canvas, int left, int top, int right, int bottom, Paint paint) {
+
+                }
+            });
+            itemHolder.mProperties.getConfig().setYSequenceBackground(new IBackgroundFormat() {
+                @Override
+                public void drawBackground(Canvas canvas, Rect rect, Paint paint) {
+                    DrawUtils.drawPatch(canvas,mContext,R.mipmap.set_bg,rect);
+                }
+            });
+            itemHolder.mProperties.getConfig().setYSequenceCellBgFormat(new ICellBackgroundFormat<Integer>() {
+                @Override
+                public void drawBackground(Canvas canvas, Rect rect, Integer position, Paint paint) {
+
+                }
+
+                @Override
+                public int getTextColor(Integer integer) {
+                    return ContextCompat.getColor(mContext,R.color.white);
+                }
+            });
+            itemHolder.mProperties.getConfig().setColumnCellBackgroundFormat(new ICellBackgroundFormat() {
+                @Override
+                public void drawBackground(Canvas canvas, Rect rect, Object o, Paint paint) {
+                    DrawUtils.drawPatch(canvas,mContext,R.mipmap.set_bg,rect);
+                }
+
+                @Override
+                public int getTextColor(Object o) {
+                    return 0;
+                }
+
+            });
         }
+
         return convertView;
     }
 

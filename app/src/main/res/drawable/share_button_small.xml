@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true" android:state_checked="true" android:state_pressed="true"
+        android:drawable="@drawable/share_on_small" />
+
+    <item android:state_enabled="true" android:state_checked="false" android:state_pressed="true"
+        android:drawable="@drawable/share_on_small" />
+
+    <item android:state_enabled="true" android:state_checked="true"
+        android:drawable="@drawable/share_on_small" />
+
+    <item android:state_enabled="true" android:state_checked="false"
+        android:drawable="@drawable/share_off_small" />
+
+    <item android:state_enabled="false" android:state_checked="true"
+        android:drawable="@drawable/share_on_small" />
+
+    <item android:state_enabled="false" android:state_checked="false"
+        android:drawable="@drawable/share_off_small" />
+</selector>

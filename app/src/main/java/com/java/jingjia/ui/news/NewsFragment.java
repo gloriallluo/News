@@ -73,6 +73,7 @@ public class NewsFragment extends Fragment {
 
     @Override
     public void onResume() {
+        Log.i(TAG, "onResume: ");
         super.onResume();
         mAdapter.notifyDataSetChanged();
     }
