@@ -8,6 +8,7 @@ import android.graphics.DashPathEffect;
 import com.bin.david.form.data.CellInfo;
 import com.bin.david.form.data.format.bg.IBackgroundFormat;
 import com.bin.david.form.data.format.bg.ICellBackgroundFormat;
+import com.bin.david.form.data.format.draw.ImageResDrawFormat;
 import com.bin.david.form.data.format.grid.BaseGridFormat;
 import com.bin.david.form.data.style.FontStyle;
 
@@ -132,9 +133,25 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
                     .into(itemHolder.mImg);
 
         if(!gData.get(groupPosition).getRelations().isEmpty()){
-            //普通列
+            //关系列
             Column<String> relation = new Column<>("关系", "relation");
-            Column<Boolean> forward = new Column<>("方向", "forward");
+            //方向类
+            Column<Boolean> forward = new Column<>("方向", "forward",
+                    new ImageResDrawFormat<Boolean>(15,15) {
+                @Override
+                protected Context getContext() {
+                    return mContext;
+                }
+                @Override
+                protected int getResourceID(Boolean isCheck, String value, int position) {
+                    if(isCheck){
+                        return R.drawable.forward_true;
+                    }else{
+                        return R.drawable.forward_false;
+                    }
+                }
+            });
+
             Column<String> label = new Column<>("实体", "label");
             //表格数据 datas是需要填充的数据
             final TableData<Entity.Relation> tableData = new TableData

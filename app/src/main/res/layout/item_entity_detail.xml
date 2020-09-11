@@ -9,16 +9,15 @@
         android:id="@+id/entity_item_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:contentDescription="@string/img"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <TextView
         android:id="@+id/entity_item_info"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/place"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
     <com.bin.david.form.core.SmartTable
         android:id="@+id/entity_item_relations"
