@@ -47,19 +47,6 @@ public class MainActivity extends AppCompatActivity {
         btnNews.setChecked(true);
     }
 
-//    @Override
-//    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-//        if (fgCluster != null) fgCluster.drawerToggleSyncState();
-//    }
-
-//    public void hideBottomBar() {
-//        mRadioGroup.setVisibility(View.INVISIBLE);
-//    }
-
-//    public void showBottomBar() {
-//        mRadioGroup.setVisibility(View.VISIBLE);
-//    }
-
     /**
      * 绑定组件
      */
@@ -78,35 +65,28 @@ public class MainActivity extends AppCompatActivity {
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
         drawable_news.setBounds(0, 10, 70, 70);
         //设置图片在文字的哪个方向
-        ((RadioButton)mRadioGroup.getChildAt(0)).setCompoundDrawables(null, drawable_news, null, null);
+        ((RadioButton) mRadioGroup.getChildAt(0)).setCompoundDrawables(
+                null, drawable_news, null, null);
 
-        //定义底部标签图片大小和位置
         Drawable drawable_data = getResources().getDrawable(R.drawable.data_button);
-        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
         drawable_data.setBounds(0, 10, 70, 70);
-        //设置图片在文字的哪个方向
-        ((RadioButton)mRadioGroup.getChildAt(1)).setCompoundDrawables(null, drawable_data, null, null);
+        ((RadioButton) mRadioGroup.getChildAt(1)).setCompoundDrawables(
+                null, drawable_data, null, null);
 
-        //定义底部标签图片大小和位置
         Drawable drawable_graph = getResources().getDrawable(R.drawable.graph_button);
-        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
         drawable_graph.setBounds(0, 10, 70, 70);
-        //设置图片在文字的哪个方向
-        ((RadioButton)mRadioGroup.getChildAt(2)).setCompoundDrawables(null, drawable_graph, null, null);
+        ((RadioButton) mRadioGroup.getChildAt(2)).setCompoundDrawables(
+                null, drawable_graph, null, null);
 
-        //定义底部标签图片大小和位置
         Drawable drawable_scholar = getResources().getDrawable(R.drawable.scholar_button);
-        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
         drawable_scholar.setBounds(0, 10, 70, 70);
-        //设置图片在文字的哪个方向
-        ((RadioButton)mRadioGroup.getChildAt(3)).setCompoundDrawables(null, drawable_scholar, null, null);
+        ((RadioButton) mRadioGroup.getChildAt(3)).setCompoundDrawables(
+                null, drawable_scholar, null, null);
 
-        //定义底部标签图片大小和位置
         Drawable drawable_cluster = getResources().getDrawable(R.drawable.cluster_button);
-        //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
         drawable_cluster.setBounds(0, 10, 70, 70);
-        //设置图片在文字的哪个方向
-        ((RadioButton)mRadioGroup.getChildAt(4)).setCompoundDrawables(null, drawable_cluster, null, null);
+        ((RadioButton) mRadioGroup.getChildAt(4)).setCompoundDrawables(
+                null, drawable_cluster, null, null);
     }
 
     /**
@@ -121,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 hideAllFragments(fgTransaction);
                 switch (checkedId) {
                     case R.id.tab_news:
-                        Log.d(TAG, "onCheckedChanged: news");
                         if (fgNews == null) {
                             fgNews = new AllNewsFragment(MainActivity.this);
                             fgTransaction.add(R.id.main_fl, fgNews);
@@ -129,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                             fgTransaction.show(fgNews);
                         } break;
                     case R.id.tab_data:
-                        Log.d(TAG, "onCheckedChanged: data");
                         if (fgData == null) {
                             fgData = new AllDataFragment(MainActivity.this);
                             fgTransaction.add(R.id.main_fl, fgData);
@@ -137,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                             fgTransaction.show(fgData);
                         } break;
                     case R.id.tab_graph:
-                        Log.d(TAG, "onCheckedChanged: graph");
                         if (fgGraph == null) {
                             fgGraph = new GraphFragment(MainActivity.this);
                             fgTransaction.add(R.id.main_fl, fgGraph);
@@ -145,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
                             fgTransaction.show(fgGraph);
                         } break;
                     case R.id.tab_scholar:
-                        Log.d(TAG, "onCheckedChanged: scholar");
                         if (fgScholar == null) {
                             fgScholar = new ScholarFragment(MainActivity.this);
                             fgTransaction.add(R.id.main_fl, fgScholar);
@@ -153,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
                             fgTransaction.show(fgScholar);
                         } break;
                     case R.id.tab_cluster:
-                        Log.d(TAG, "onCheckedChanged: user");
                         if (fgCluster == null) {
                             fgCluster = new AllClusterFragment(MainActivity.this);
                             fgTransaction.add(R.id.main_fl, fgCluster);

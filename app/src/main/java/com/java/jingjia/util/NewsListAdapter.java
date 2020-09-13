@@ -75,10 +75,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 vHolder.title.setText(item.getTitle());
                 vHolder.source.setText(item.getSource());
                 vHolder.time.setText(item.getTime());
-//                if (item.getVisited()) {
-//                    Log.e(TAG, "onBindViewHolder:item.getVisited() == true");
-//                    vHolder.title.setTextColor(mActivity.getResources().getColor(R.color.yd_grey));
-//                }
                 if (mVisitedId.contains(item.getId())) {  // set visited news color grey
                     Log.e(TAG, "onBindViewHolder:item.getVisited() == true");
                     vHolder.title.setTextColor(mActivity.getResources().getColor(R.color.yd_grey));
@@ -152,7 +148,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private class FootViewHolder extends RecyclerView.ViewHolder {
-        // int loadState = LOAD_COMPLETE;
         ProgressBar progressBar;
         View endView;
         FootViewHolder(View view) {

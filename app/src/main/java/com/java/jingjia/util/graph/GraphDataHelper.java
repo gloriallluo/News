@@ -17,44 +17,18 @@ import java.util.logging.LogRecord;
 
 public class GraphDataHelper {
     static KnowledgeGraphManager mManager;
-    GraphDataHelper(){
-    }
-
-//    private static final String COLORS_FILE_NAME = "colors.json";
+    GraphDataHelper(){ }
 
     private static List<Entity> sEntityWrappers = new ArrayList<>();
 
     private static List<GraphSearchSuggestion> sEntitySuggestions = new ArrayList<>();
 
-    private static void initEntityWrapperList(Context context) {
-//        if (sEntityWrappers.isEmpty()) {
-//            String jsonString = loadJson(context);
-//            sEntityWrappers = deserializeColors(jsonString);
-//        }
-    }
+    private static void initEntityWrapperList(Context context) { }
 
     private static String loadJson(Context context) {
         String jsonString = "";
-//        try {
-//            InputStream is = context.getAssets().open(COLORS_FILE_NAME);
-//            int size = is.available();
-//            byte[] buffer = new byte[size];
-//            is.read(buffer);
-//            is.close();
-//            jsonString = new String(buffer, "UTF-8");
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
         return jsonString;
     }
-
-//    private static List<Entity> deserializeColors(String jsonString) {
-//
-//        Gson gson = new Gson();
-//        return gson.fromJson(jsonString,  new TypeToken<List<Entity>>() {
-//        }.getType());
-//    }
 
     public interface OnFindEntityListener {
         void onResults(List<Entity> results);
@@ -86,15 +60,6 @@ public class GraphDataHelper {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-//                    for (GraphSearchSuggestion suggestion : sEntitySuggestions) {
-//                        if (suggestion.getBody().toUpperCase()
-//                                .startsWith(constraint.toString().toUpperCase())) {
-//                            suggestionList.add(suggestion);
-//                            if (limit != -1 && suggestionList.size() == limit) {
-//                                break;
-//                            }
-//                        }
-//                    }
                 }
                 FilterResults results = new FilterResults();
                 Collections.sort(suggestionList, new Comparator<GraphSearchSuggestion>() {
@@ -119,7 +84,6 @@ public class GraphDataHelper {
     }
 
     public static void findEntitys(Context context, String query, final OnFindEntityListener listener) {
-//        initEntityWrapperList(context);
         new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
@@ -149,15 +113,6 @@ public class GraphDataHelper {
     public static List<GraphSearchSuggestion> getHistory(Context context, int count) {
 
         List<GraphSearchSuggestion> suggestionList = new ArrayList<>();
-//        GraphSearchSuggestion entitySuggestion;
-//        for (int i = 0; i < sEntitySuggestions.size(); i++) {
-//            entitySuggestion = sEntitySuggestions.get(i);
-//            entitySuggestion.setIsHistory(true);
-//            suggestionList.add(entitySuggestion);
-//            if (suggestionList.size() == count) {
-//                break;
-//            }
-//        }
         return suggestionList;
     }
 

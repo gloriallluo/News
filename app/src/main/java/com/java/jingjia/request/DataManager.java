@@ -68,11 +68,6 @@ public class DataManager {
                 String begin = value.getString("begin");
                 JSONArray data = value.getJSONArray("data");
                 JSONArray latestData = data.getJSONArray(data.length()-1);
-//                Log.i(TAG, "getData: latestData :" + latestData.toString());
-//                Log.i(TAG, "getData: latestData(0) :" + latestData.get(0)
-//                        + " latestData(1) :" + latestData.get(1)
-//                        + " latestData(2) :" + latestData.get(2)
-//                        + " latestData(3) :" + latestData.get(3))
                 Data newData = new Data(key,
                         (latestData.get(0).toString().equals("null")) ? 0: latestData.getInt(0),
                         (latestData.get(1).toString().equals("null")) ? 0: latestData.getInt(1),
@@ -86,11 +81,9 @@ public class DataManager {
     }
 
     public List<Data> getChinaAllProvinceAccumulatedData(){
-//        getData();
         return this.mRepository.getChinaAllProvinceAccumulatedData();
     }
     public List<Data> getGlobalAllCountryAccumulatedData(){
-//        getData();
         return this.mRepository.getGlobalAllCountryAccumulatedData();
     }
 

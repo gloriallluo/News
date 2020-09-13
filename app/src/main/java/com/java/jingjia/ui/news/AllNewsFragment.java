@@ -8,20 +8,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -220,79 +214,6 @@ public class AllNewsFragment extends Fragment {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-//    private void checkSharedPreferencesState() {
-//        if (sharedPreferences == null)
-//            sharedPreferences = mActivity.getSharedPreferences(
-//                    "user_tab", Context.MODE_PRIVATE);
-//
-//        boolean allSelected = sharedPreferences.getBoolean("all", true);
-//        boolean newsSelected = sharedPreferences.getBoolean("news", true);
-//        boolean paperSelected = sharedPreferences.getBoolean("paper", true);
-//        boolean nowSelected[] = {allSelected, newsSelected, paperSelected};
-//        boolean preSelected[] = {false, false, false};
-//
-//        for (NewsFragment fragment: mFragments) {
-//            if (fragment.getType() == NewsFragment.ALL)
-//                preSelected[0] = true;
-//            if (fragment.getType() == NewsFragment.NEWS)
-//                preSelected[1] = true;
-//            if (fragment.getType() == NewsFragment.PAPER)
-//                preSelected[2] = true;
-//        }
-//
-//        for (int i = 0; i < 3; i++) {
-//            if (preSelected[i] && !nowSelected[i])
-//                removeNewsType(i);
-//            if (!preSelected[i] && nowSelected[i])
-//                insertNewsType(i);
-//        }
-//    }
-
-//    private void insertNewsType(int position) {
-//        String type = positionToType(position);
-//        NewsFragment fragment = new NewsFragment(mActivity, type);
-//        if (position == 0) {
-//            mFragments.add(0, fragment);
-//            mTabLayout.addTab(mTabLayout.newTab(), position);
-//        } else if (position == 2) {
-//            mFragments.add(fragment);
-//            mTabLayout.addTab(mTabLayout.newTab());
-//        } else {    // position == 1
-//            if (mFragments.size() > 0 &&
-//                    mFragments.get(0).getType() == TabItem.ALL) {
-//                mFragments.add(position, fragment);
-//                mTabLayout.addTab(mTabLayout.newTab(), position);
-//            } else {
-//                mFragments.add(fragment);
-//                mTabLayout.addTab(mTabLayout.newTab());
-//            }
-//        }
-//        mFgAdapter.updateFragments(mFragments);
-//    }
-
-//    private void removeNewsType(int type) {
-//        int position = -1;
-//        if (type == 0) {
-//            position = 0;
-//        } else if (type == 2) {
-//            position = mFragments.size() - 1;
-//        } else {    // type == 1
-//            if (mFragments.size() > 0 &&
-//                    mFragments.get(0).getType() == TabItem.ALL) {
-//                position = 1;
-//            } else {
-//                position = mFragments.size() - 1;
-//            }
-//        }
-//        if (mViewPager.getCurrentItem() == position) {
-//            if (position > 1)
-//                mTabLayout.getTabAt(position - 1).select();
-//        }
-//        mTabLayout.removeTabAt(position);
-//        mFragments.remove(position);
-//        mFgAdapter.updateFragments(mFragments);
-//    }
-
     private String positionToType(int position) {
         String ans = "";
         switch (position) {
@@ -314,8 +235,6 @@ public class AllNewsFragment extends Fragment {
         public AllNewsAdapter(FragmentManager manager, List<NewsFragment> fragments) {
             super(manager);
             mFragments = fragments;
-            for (NewsFragment fragment: mFragments)
-                Log.d(TAG, "AllNewsAdapter: " + fragment.getType());
         }
 
         @Override

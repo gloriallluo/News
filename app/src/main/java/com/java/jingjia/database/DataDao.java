@@ -25,14 +25,8 @@ public interface DataDao {
     @Delete
     void deleteAllData(Data... data);
 
-//    @Query("SELECT * FROM data_table")
-//    Data[] loadAllData();
-
     @Query("SELECT * from data_table order by country asc")
     LiveData<List<Data>> getDataAll();
-
-//    @Query("SELECT country,province,county FROM data_table")
-//    List<String> getAllPlace();
 
     @Query("SELECT * FROM data_table WHERE country LIKE :country " +
             "AND province LIKE :province " +
@@ -66,14 +60,4 @@ public interface DataDao {
             "AND county = '' " +
             "order by confirmed DESC")
     List<Data> getCountryAllProvincecData(String s);
-
-//    @Query("SELECT * FROM news WHERE age > :minAge")
-//    public News[] loadAllUsersOlderThan(int minAge);
-
-//    @Query("SELECT * FROM user WHERE age BETWEEN :minAge AND :maxAge")
-//    public User[] loadAllUsersBetweenAges(int minAge, int maxAge);
-//
-//    @Query("SELECT * FROM user WHERE first_name LIKE :search " +
-//            "OR last_name LIKE :search")
-//    public List<User> findUserWithName(String search);
 }

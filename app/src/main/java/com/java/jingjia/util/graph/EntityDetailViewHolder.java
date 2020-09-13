@@ -3,18 +3,13 @@ package com.java.jingjia.util.graph;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bin.david.form.core.SmartTable;
-import com.bin.david.form.data.column.Column;
-import com.java.jingjia.Entity;
-import com.java.jingjia.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class EntityDetailViewHolder extends RecyclerView.ViewHolder {
 

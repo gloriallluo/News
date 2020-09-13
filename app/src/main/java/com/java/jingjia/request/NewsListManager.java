@@ -214,5 +214,4 @@ public class NewsListManager {
     public void setVisitedNews(String id){
         this.mRepository.setVisitedById(id);
     }
-
 }

@@ -1,7 +1,5 @@
 package com.java.jingjia;
 
-import com.bin.david.form.annotation.SmartTable;
-
 import java.util.List;
 import java.util.Map;
 

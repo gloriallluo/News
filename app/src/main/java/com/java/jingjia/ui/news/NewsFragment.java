@@ -77,7 +77,6 @@ public class NewsFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Log.i(TAG, "onResume: ");
         super.onResume();
         mAdapter.notifyDataSetChanged();
     }
@@ -134,7 +133,6 @@ public class NewsFragment extends Fragment {
             public void onLoadMore() {
                 mAdapter.setLoadState(mAdapter.LOADING);
                 mAdapter.onBindViewHolder(mAdapter.footViewHolder, mAdapter.getItemCount() - 1);
-                Log.d(TAG, "onLoadMore: 111");
                 new Timer().schedule(new TimerTask() {
                     @Override
                     public void run() {

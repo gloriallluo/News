@@ -10,8 +10,7 @@ import org.json.JSONObject;
  */
 public class NewsContentManager {
     private static NewsContentManager INSTANCE = null;
-    private NewsContentManager() {
-    }
+    private NewsContentManager() { }
     public static NewsContentManager getNewsContentManager() {
         if (INSTANCE == null) {
             INSTANCE = new NewsContentManager();

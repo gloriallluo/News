@@ -1,8 +1,5 @@
 package com.java.jingjia;
 
-import android.app.Application;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -10,8 +7,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import com.java.jingjia.request.NewsListManager;
 
 import java.io.Serializable;
 
@@ -64,18 +59,14 @@ public class NewsItem implements Serializable {
      * 种类news或paper
      */
 
-
-
-//    public NewsItem() { }
-
     public NewsItem(
-            String id,     /* 用于请求新闻正文的id */
+            String id,      /* 用于请求新闻正文的id */
             String category,/* 分类(直接从网址读为空) */
             String content, /* 正文 */
             String title,   /* 标题 */
             String language,/* 语言 */
             String source,  /* 来源 */
-            String time,     /* 时间 */
+            String time,    /* 时间 */
             String type,
             Boolean visited) {
         this.id = id;

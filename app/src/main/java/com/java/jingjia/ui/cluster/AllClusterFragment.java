@@ -1,16 +1,10 @@
 package com.java.jingjia.ui.cluster;
 
-import android.animation.Animator;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.transition.Slide;
 import android.util.Log;
-import android.util.Xml;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,7 +19,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -38,9 +31,6 @@ import com.java.jingjia.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -116,7 +106,6 @@ public class AllClusterFragment extends Fragment
                 }   // end: for each event
                 ClusterFragment fragment = new ClusterFragment(mActivity, nowEvents);
                 mFragments.add(fragment);
-                Log.d(TAG, "initFragments: " + mFragments.size());
             }   // end: for each cluster
         } catch (Exception e) {
             e.printStackTrace();

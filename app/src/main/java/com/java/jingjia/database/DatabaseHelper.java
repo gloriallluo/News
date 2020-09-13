@@ -25,8 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context,/**Activity对象*/
                           String name,/**数据库的名字*/
                           SQLiteDatabase.CursorFactory factory,/**暂时不去了解，调用的时候传入空值*/
-                          int version/**当前数据库的版本号（正数、递增）*/
-    ) {
+                          int version/**当前数据库的版本号（正数、递增）*/) {
         super(context, name, factory, version);
         mContext = context;
     }
@@ -52,8 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                           String name,
                           SQLiteDatabase.CursorFactory factory,
                           int version,
-                          DatabaseErrorHandler errorHandler
-    ) {
+                          DatabaseErrorHandler errorHandler) {
         super(context, name, factory, version, errorHandler);
     }
 

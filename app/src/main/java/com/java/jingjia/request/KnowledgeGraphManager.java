@@ -46,7 +46,7 @@ public class KnowledgeGraphManager {
         Integer hotNum = data.length();
         Log.i(TAG, "query: "+ searchName +" has " + hotNum + " results.");
         ArrayList<Entity> retEntity = new ArrayList<>();
-        for(int i = 0; i < hotNum; i++){
+        for (int i = 0; i < hotNum; i++) {
             JSONObject oneHot= data.getJSONObject(i);
             JSONObject abInfo = oneHot.getJSONObject("abstractInfo");
             String briefInfo = abInfo.getString("enwiki") + abInfo.getString("baidu") + abInfo.getString("zhwiki");
@@ -54,7 +54,7 @@ public class KnowledgeGraphManager {
             JSONObject pros = covidInfo.getJSONObject("properties");
             Map<String, String> properties = new HashMap<>();
             Iterator<String> it = pros.keys();
-            while(it.hasNext()){
+            while (it.hasNext()) {
                 String key = it.next();
                 String value = pros.getString(key);
                 properties.put(key, value);
@@ -62,7 +62,7 @@ public class KnowledgeGraphManager {
             List<Entity.Relation> relas = new ArrayList<>();
             JSONArray relats = covidInfo.getJSONArray("relations");
             Integer relaNum = relats.length();
-            for(int j = 0; j < relaNum; j++){
+            for (int j = 0; j < relaNum; j++) {
                 JSONObject oneRela = relats.getJSONObject(j);
                 Entity.Relation oneRelation = new Entity.Relation(
                         oneRela.getString("relation"),

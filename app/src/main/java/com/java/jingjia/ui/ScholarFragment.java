@@ -64,7 +64,6 @@ public class ScholarFragment extends Fragment {
     protected RelativeLayout mToolbarProfile;
     protected LinearLayout mProfileDetails;
     protected TextView mTextViewProfileName;
-//    protected BabushkaText mBabushka;
     protected TextView mTextViewProfileDescription;
 
     public static ShapeDrawable sOverlayShape;
@@ -112,12 +111,6 @@ public class ScholarFragment extends Fragment {
         mTextViewProfileName = (TextView) view.findViewById(R.id.text_view_profile_name);
         if(mTextViewProfileName == null)
             Log.e(TAG, "onCreateView: mTextViewProfileName == null");
-//        mBabushka = (BabushkaText) view.findViewById(R.id.bb_text);
-//        if(mBabushka == null) {
-//            Log.e(TAG, "onCreateView: mBabushka == null");
-//        }
-//        if(view.findViewById(R.id.bb_text) == null)
-//            Log.e(TAG, "onCreateView: view.findViewById(R.id.babushka_text) == null");
         mTextViewProfileDescription = (TextView) view.findViewById(R.id.text_view_profile_description);
 
         view.findViewById(R.id.toolbar_profile_back).setOnClickListener(new View.OnClickListener() {
@@ -149,9 +142,7 @@ public class ScholarFragment extends Fragment {
         }
 
         mAdapter =  new EuclidListAdapter(mActivity, R.layout.item_scholar, profilesList);
-
         initList();
-
         return view;
     }
 
@@ -209,13 +200,11 @@ public class ScholarFragment extends Fragment {
         mOverlayListItemView.findViewById(R.id.view_avatar_overlay).setBackground(sOverlayShape);
         //详情页的图片
         Picasso.get().load((String) item.get(EuclidListAdapter.KEY_AVATAR))
-//                .resize(sScreenWidth, sProfileImageHeight).centerCrop()
                 .placeholder(R.color.white)
                 .into((ImageView) mOverlayListItemView.findViewById(R.id.image_view_reveal_avatar));
 
         //List页的图片加载
         Picasso.get().load((String) item.get(EuclidListAdapter.KEY_AVATAR))
-//                .resize(sScreenWidth, sProfileImageHeight).centerCrop()
                 .placeholder(R.color.white)
                 .into((ImageView) mOverlayListItemView.findViewById(R.id.image_view_avatar));
 
@@ -235,24 +224,10 @@ public class ScholarFragment extends Fragment {
      * @param item - data from adapter, that will be set into overlay view.
      */
     private void setProfileDetailsInfo(Map<String, Object> item) {
-        mTextViewProfileName.setText((String) item.get(EuclidListAdapter.KEY_NAME));
-        mTextViewProfileDescription.setText((String) item.get(EuclidListAdapter.KEY_DESCRIPTION_FULL));
-//        // Add the first piece "Central Park"
-//        mBabushka.addPiece(new BabushkaText.Piece.Builder("Central Park, NY\n")
-//                .textColor(R.color.yd_blue)
-//                .build());
-//        // Add the second piece "1.2 mi"
-//        mBabushka.addPiece(new BabushkaText.Piece.Builder("1.2 mi ")
-//                .textColor(R.color.yd_navy_blue)
-//                .textSizeRelative(0.9f)
-//                .build());
-//        // Add the third piece "from here"
-//        mBabushka.addPiece(new BabushkaText.Piece.Builder("from here")
-//                .textColor(R.color.blue)
-//                .textSizeRelative(0.9f)
-//                .build());
-//        // Display the final, styled text
-//        mBabushka.display();
+        mTextViewProfileName.setText(
+                (String) item.get(EuclidListAdapter.KEY_NAME));
+        mTextViewProfileDescription.setText(
+                (String) item.get(EuclidListAdapter.KEY_DESCRIPTION_FULL));
     }
 
     /**
@@ -279,10 +254,10 @@ public class ScholarFragment extends Fragment {
      * @return - animator object that starts circle reveal animation.
      */
     private SupportAnimator getAvatarRevealAnimator() {
-        final LinearLayout mWrapperListItemReveal = (LinearLayout) mOverlayListItemView.findViewById(R.id.wrapper_list_item_reveal);
-
-        int finalRadius = Math.max(mOverlayListItemView.getWidth(), mOverlayListItemView.getHeight());
-
+        final LinearLayout mWrapperListItemReveal =
+                (LinearLayout) mOverlayListItemView.findViewById(R.id.wrapper_list_item_reveal);
+        int finalRadius = Math.max(
+                mOverlayListItemView.getWidth(), mOverlayListItemView.getHeight());
         final SupportAnimator mRevealAnimator = ViewAnimationUtils.createCircularReveal(
                 mWrapperListItemReveal,
                 sScreenWidth / 2,
@@ -298,19 +273,11 @@ public class ScholarFragment extends Fragment {
             }
 
             @Override
-            public void onAnimationEnd() {
-
-            }
-
+            public void onAnimationEnd() { }
             @Override
-            public void onAnimationCancel() {
-
-            }
-
+            public void onAnimationCancel() { }
             @Override
-            public void onAnimationRepeat() {
-
-            }
+            public void onAnimationRepeat() { }
         });
         return mRevealAnimator;
     }
@@ -374,25 +341,17 @@ public class ScholarFragment extends Fragment {
             mProfileButtonShowAnimation.setInterpolator(new AccelerateInterpolator());
             mProfileButtonShowAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
-                public void onAnimationStart(Animation animation) {
-                }
-
+                public void onAnimationStart(Animation animation) { }
                 @Override
-                public void onAnimationEnd(Animation animation) {
-
-                }
-
+                public void onAnimationEnd(Animation animation) { }
                 @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
+                public void onAnimationRepeat(Animation animation) { }
             });
         }
     }
 
     /**
      * This method creates and setups animator which shows profile toolbar.
-     *
      * @return - animator object.
      */
     private Animator getOpenProfileToolbarAnimator() {
@@ -414,21 +373,15 @@ public class ScholarFragment extends Fragment {
             }
 
             @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
+            public void onAnimationCancel(Animator animation) { }
             @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
+            public void onAnimationRepeat(Animator animation) { }
         });
         return mOpenProfileToolbarAnimator;
     }
 
     /**
      * This method creates animator which shows profile details.
-     *
      * @return - animator object.
      */
     private Animator getOpenProfileDetailsAnimator() {
@@ -501,22 +454,15 @@ public class ScholarFragment extends Fragment {
                 public void onAnimationEnd(Animator animation) {
                     mToolbarProfile.setVisibility(View.INVISIBLE);
                     mProfileDetails.setVisibility(View.INVISIBLE);
-
                     mListView.setEnabled(true);
                     mListViewAnimator.disableAnimations();
-
                     mState = ScholarFragment.EuclidState.Closed;
                 }
 
                 @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
+                public void onAnimationCancel(Animator animation) { }
                 @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
+                public void onAnimationRepeat(Animator animation) { }
             });
         }
         return mCloseProfileAnimatorSet;
@@ -525,18 +471,10 @@ public class ScholarFragment extends Fragment {
     /**
      * This method creates a view with empty/transparent circle in it's center. This view is used
      * to cover the profile avatar.
-     *
      * @return - ShapeDrawable object.
      */
     private ShapeDrawable buildAvatarCircleOverlay() {
         int radius = 666;
-//        ShapeDrawable overlay = new ShapeDrawable(new RoundRectShape(null,
-//                new RectF(
-//                        sScreenWidth / 2 - dpToPx(getCircleRadiusDp() * 2),
-//                        sProfileImageHeight / 2 - dpToPx(getCircleRadiusDp() * 2),
-//                        sScreenWidth / 2 - dpToPx(getCircleRadiusDp() * 2),
-//                        sProfileImageHeight / 2 - dpToPx(getCircleRadiusDp() * 2)),
-//                new float[]{radius, radius, radius, radius, radius, radius, radius, radius}));
         float[] externalRound = {8, 8, 8, 8, 8, 8, 8, 8};//外部矩形的8个圆角半径,为什么是8个? 因为这个居然是一个角2个半圆组成的(太精细了...)
         RectF distanceRectF = new RectF(10, 10, 10, 10); //内部矩形与外部矩形的距离
         float[] insideRound = {10, 10, 10, 10, 10, 10, 10, 10}; //内部矩形的8个圆角半径值
@@ -552,18 +490,8 @@ public class ScholarFragment extends Fragment {
         return Math.round((float) dp * getResources().getDisplayMetrics().density);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (getState() == EuclidActivity.EuclidState.Opened) {
-//            animateCloseProfileDetails();
-//        } else if (getState() == EuclidActivity.EuclidState.Closed) {
-//            super.onBackPressed();
-//        }
-//    }
-
     /**
      * Returns current profile details state.
-     *
      */
     public ScholarFragment.EuclidState getState() {
         return mState;
@@ -571,7 +499,6 @@ public class ScholarFragment extends Fragment {
 
     /**
      * Duration of circle reveal animation.
-     *
      * @return - duration in milliseconds.
      */
     protected int getRevealAnimationDuration() {
@@ -592,7 +519,6 @@ public class ScholarFragment extends Fragment {
 
     /**
      * Duration of profile toolbar and profile details transition animations.
-     *
      * @return - duration in milliseconds.
      */
     protected int getAnimationDurationShowProfileDetails() {
@@ -601,7 +527,6 @@ public class ScholarFragment extends Fragment {
 
     /**
      * Duration of delay between profile toolbar, profile avatar and profile details close animations.
-     *
      * @return - duration in milliseconds.
      */
     protected int getStepDelayHideDetailsAnimation() {
@@ -610,7 +535,6 @@ public class ScholarFragment extends Fragment {
 
     /**
      * Duration of profile details close animation.
-     *
      * @return - duration in milliseconds.
      */
     protected int getAnimationDurationCloseProfileDetails() {
@@ -623,7 +547,6 @@ public class ScholarFragment extends Fragment {
 
     /**
      * Radius of empty circle inside the avatar overlay.
-     *
      * @return - size dp.
      */
     protected int getCircleRadiusDp() {

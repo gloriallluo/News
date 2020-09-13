@@ -11,8 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.java.jingjia.R;
-import com.java.jingjia.ui.news.EditTabActivity;
-import com.java.jingjia.util.news.TabItem;
 
 import java.util.List;
 
@@ -65,7 +63,6 @@ public class TabGridAdapter extends BaseAdapter {
         }
         holder.mText.setText(((TabItem) getItem(position)).getType());
         if (mTabItems.get(position).getShaking()) {
-            Log.d(TAG, "getView: " + mType + " " + position + " " + mTabItems.get(position).getType());
             holder.mText.startAnimation(mAnimation);
             mTabItems.get(position).setShaking(false);    // 传引用
         }
@@ -73,7 +70,7 @@ public class TabGridAdapter extends BaseAdapter {
     }
 
     public TabItem removeItem(int position) {
-        TabItem item = mTabItems.remove(position); // TODO: modified
+        TabItem item = mTabItems.remove(position);
         item.setShaking(true);
         notifyDataSetChanged();
         return item;

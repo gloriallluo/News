@@ -104,9 +104,11 @@ public class NewsActivity extends AppCompatActivity {
         Drawable drawable_share = getResources().getDrawable(R.drawable.share_button);
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
         drawable_share.setBounds(0, 0, 70, 70);
-        DialogMenuItem shareText = new DialogMenuItem("文本", R.drawable.share_button_small);
+        DialogMenuItem shareText = new DialogMenuItem(
+                "文本", R.drawable.share_button_small);
         mMenuItems.add(shareText);
-        mMenuItems.add(new DialogMenuItem("微博", R.drawable.weibo_button_small));
+        mMenuItems.add(new DialogMenuItem(
+                "微博", R.drawable.weibo_button_small));
         mBasIn = new BounceTopEnter();
         mBasOut = new SlideBottomExit();
     }
@@ -165,10 +167,6 @@ public class NewsActivity extends AppCompatActivity {
                     case "微博":
                         Toast toast_weibo = Toast.makeText(mContext,"weibo", Toast.LENGTH_SHORT);
                         toast_weibo.show();
-    //                startAuth();
-    //                Intent intent = new Intent(NewsActivity.this, ShareActivity.class);
-    //                intent.putExtra("share", mItem);
-    //                startActivity(intent);
                       break;
                 }
                 dialog.dismiss();

@@ -1,56 +1,36 @@
 package com.java.jingjia.ui.graph;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
-import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.java.jingjia.Entity;
 import com.java.jingjia.R;
-import com.java.jingjia.database.Data;
 import com.java.jingjia.request.KnowledgeGraphManager;
-import com.java.jingjia.util.data.DataExpandableListAdapter;
 import com.java.jingjia.util.graph.EntityExpandableListAdapter;
-import com.java.jingjia.util.graph.EntityViewHolder;
 import com.java.jingjia.util.graph.GraphDataHelper;
 import com.java.jingjia.util.graph.GraphSearchSuggestion;
-import com.poliveira.parallaxrecyclerview.ParallaxRecyclerAdapter;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GraphFragment extends Fragment {
 
-    private static final int FIND_SUGGESTION_SIMULATED_DELAY = 20;
     private final String TAG = "GraphFragment";
+    private static final int FIND_SUGGESTION_SIMULATED_DELAY = 20;
     private Activity mActivity;
 
     private FloatingSearchView mFSearchView;
@@ -88,24 +68,19 @@ public class GraphFragment extends Fragment {
         return view;
     }
 
-    private void iniEntityItems() {
-    }
-
-
+    private void iniEntityItems() { }
 
     private void setListeners() {
-        Log.i(TAG, "setListeners:");
-        //ExpandableListView
-        //不自动滑倒顶上
+        // ExpandableListView
+        // 不自动滑倒顶上
         entityExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if(parent.isGroupExpanded(groupPosition)){
+                if (parent.isGroupExpanded(groupPosition)) {
                     parent.collapseGroup(groupPosition);
-                }else{
-                    parent.expandGroup(groupPosition,false);//第二个参数false表示展开时是否触发默认滚动动画
+                } else {
+                    parent.expandGroup(groupPosition,false);    //第二个参数false表示展开时是否触发默认滚动动画
                 }
-                //telling the listView we have handled the group click, and don't want the default actions.
                 return true;
             }
         });
@@ -113,7 +88,6 @@ public class GraphFragment extends Fragment {
         mFSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
-//                Log.i(TAG, "onSearchTextChanged: ");
                 if (!oldQuery.equals("") && newQuery.equals("")) {
                     mFSearchView.clearSuggestions();
                 } else {
@@ -121,7 +95,6 @@ public class GraphFragment extends Fragment {
                             FIND_SUGGESTION_SIMULATED_DELAY, new GraphDataHelper.OnFindSuggestionsListener() {
                                 @Override
                                 public void onResults(List<GraphSearchSuggestion> results) {
-//                                    mFSearchView.hideProgress();
                                     mFSearchView.swapSuggestions(results);
                                 }
                             });
@@ -145,14 +118,6 @@ public class GraphFragment extends Fragment {
                 try {
                     myEntityList.clear();
                     myEntityList.addAll(mManager.query(query));
-                    Log.d(TAG, "onSearchAction: myEntityList size " + myEntityList.size());
-                    Log.d(TAG, "onSearchAction: mAdapter.gData size " + mAdapter.gData.size());
-//                    iData.clear();
-//                    for(Entity e : myEntityList){
-//                        List<Entity> newE = new ArrayList<>();
-//                        newE.add(e);
-//                        iData.add(newE);
-//                    }
                     mAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -161,21 +126,12 @@ public class GraphFragment extends Fragment {
         });
         mFSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
             @Override
-            public void onFocus() {
-                Log.i(TAG, "onFocus: ");
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    // 展示历史搜索项
-//                    mFSearchView.swapSuggestions(GraphDataHelper.getHistory(getActivity(), 3));
-//                }
-            }
+            public void onFocus() { }
+
             @Override
             public void onFocusCleared() {
-                Log.i(TAG, "onFocusCleared: ");
                 mFSearchView.setSearchBarTitle(mLastQuery);
                 mFSearchView.bringToFront();
-                //你也可以将已经打上的搜索字符保存，以致在下一次点击的时候，搜索栏内还保存着之前输入的字符
-//                mSearchView.setSearchText(searchSuggestion.getBody());
             }
         });
     }

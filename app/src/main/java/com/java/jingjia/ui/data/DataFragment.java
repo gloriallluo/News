@@ -77,18 +77,6 @@ public class DataFragment extends Fragment {
                 });
             }
         }).start();
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                manager.getData();
-//                new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        exDataList.deferNotifyDataSetChanged();
-//                    }
-//                });
-//            }
-//        }.start();
     }
 
 
@@ -97,35 +85,33 @@ public class DataFragment extends Fragment {
         exDataList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if(parent.isGroupExpanded(groupPosition)){
+                if (parent.isGroupExpanded(groupPosition)) {
                     parent.collapseGroup(groupPosition);
-                }else{
-                    parent.expandGroup(groupPosition,false);//第二个参数false表示展开时是否触发默认滚动动画
+                } else {
+                    parent.expandGroup(groupPosition,false);    //第二个参数false表示展开时是否触发默认滚动动画
                 }
-                //telling the listView we have handled the group click, and don't want the default actions.
                 return true;
             }
         });
     }
 
     private void initDataItems() {
-        Log.i(TAG, "initDataItems: " + type);
         gData = new ArrayList<>();
         iData = new ArrayList<>();
 
-        if(this.type.equals("china")){
+        if (this.type.equals("china")) {
             gData = manager.getChinaAllProvinceAccumulatedData();
-            Log.i(TAG, "initDataItems: getChinaAllProvinceAccumulatedData return size" +  gData.size());
             for(int i = 0; i < gData.size(); i++){
-                List<Data> childData = manager.getProvinceAllCountyAccumulatedData(gData.get(i).getProvince());
+                List<Data> childData = manager.getProvinceAllCountyAccumulatedData(
+                        gData.get(i).getProvince());
                 iData.add(childData);
             }
         }
-        else{//global
+        else {  // global
             gData = manager.getGlobalAllCountryAccumulatedData();
-            Log.i(TAG, "initDataItems: getGlobalAllCountryAccumulatedData return size" +  gData.size());
             for(int i = 0; i < gData.size(); i++){
-                List<Data> childData = manager.getCountryAllProvinceAccumulatedData(gData.get(i).getProvince());
+                List<Data> childData = manager.getCountryAllProvinceAccumulatedData(
+                        gData.get(i).getProvince());
                 iData.add(childData);
             }
         }

@@ -43,11 +43,9 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     public List<Entity> gData;
-//    public List<List<Entity>> iData;
 
     public EntityExpandableListAdapter(List<Entity> gData,List<List<Entity>> iData, Context mContext) {
         this.gData = gData;
-//        this.iData = iData;
         this.mContext = mContext;
     }
 
@@ -126,13 +124,13 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         itemHolder.mAbstractInfo.setText(gData.get(groupPosition).getAbstractInfo());
-        if(!gData.get(groupPosition).getImageUrl().equals(""))
+        if (!gData.get(groupPosition).getImageUrl().equals(""))
             Picasso.get().load(gData.get(groupPosition).getImageUrl())
                     .resize(300,300).centerCrop()
                     .placeholder(R.color.white)
                     .into(itemHolder.mImg);
 
-        if(!gData.get(groupPosition).getRelations().isEmpty()){
+        if (!gData.get(groupPosition).getRelations().isEmpty()) {
             //关系列
             Column<String> relation = new Column<>("关系", "relation");
             //方向类
@@ -144,9 +142,9 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
                 }
                 @Override
                 protected int getResourceID(Boolean isCheck, String value, int position) {
-                    if(isCheck){
+                    if (isCheck) {
                         return R.mipmap.forward_true;
-                    }else{
+                    } else {
                         return R.mipmap.forward_false;
                     }
                 }
@@ -172,7 +170,6 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
                     .setShowXSequence(false)
                     .setShowYSequence(false)
                     .setFixedYSequence(true);
-//        itemHolder.mRelations.setZoom(true,2,0.5f);
             itemHolder.mRelations.getConfig().setTableGridFormat(new BaseGridFormat(){
                 @Override
                 protected boolean isShowYSequenceHorizontalLine(int row) {
@@ -202,9 +199,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
             });
             itemHolder.mRelations.getConfig().setYSequenceCellBgFormat(new ICellBackgroundFormat<Integer>() {
                 @Override
-                public void drawBackground(Canvas canvas, Rect rect, Integer position, Paint paint) {
-
-                }
+                public void drawBackground(Canvas canvas, Rect rect, Integer position, Paint paint) { }
 
                 @Override
                 public int getTextColor(Integer integer) {
@@ -226,7 +221,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
             itemHolder.mRelations.getTableData().getTableInfo().setTableRect(new Rect(0, 0, 30, 30));
         }
 
-        if(!gData.get(groupPosition).getProperties().isEmpty()){
+        if (!gData.get(groupPosition).getProperties().isEmpty()) {
             //
             //普通列
             Column<String> pro = new Column<>("属性", "key");
@@ -250,7 +245,6 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
                     .setShowXSequence(false)
                     .setShowYSequence(false)
                     .setFixedYSequence(true);
-//        itemHolder.mRelations.setZoom(true,2,0.5f);
             itemHolder.mProperties.getConfig().setTableGridFormat(new BaseGridFormat(){
                 @Override
                 protected boolean isShowYSequenceHorizontalLine(int row) {
@@ -290,8 +284,7 @@ public class EntityExpandableListAdapter extends BaseExpandableListAdapter {
                     return ContextCompat.getColor(mContext,R.color.white);
                 }
             });
-            itemHolder.mProperties.getConfig().setYSequenceStyle(new FontStyle( ) {
-            });
+            itemHolder.mProperties.getConfig().setYSequenceStyle(new FontStyle( ) {});
             itemHolder.mProperties.getConfig().setColumnCellBackgroundFormat(new ICellBackgroundFormat() {
                 @Override
                 public void drawBackground(Canvas canvas, Rect rect, Object o, Paint paint) {

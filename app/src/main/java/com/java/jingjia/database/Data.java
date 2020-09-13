@@ -43,20 +43,16 @@ public class Data {
     }
 
     public Data(String place, Integer confirmed, Integer suspected, Integer cured, Integer dead){
-//        Log.i(TAG, "Data: " + place);
         String[] p = place.split("\\|");
-//        Log.i(TAG, "Data: p.length " + p.length);
-        if(p.length == 1){
-//            Log.i(TAG, "Data: COUNTRY " + p[0]);
+        if (p.length == 1) {
             this.country = p[0];
             this.province = "";
             this.county = "";
-        }else if(p.length == 2){
-//            Log.i(TAG, "Data: COUNTRY " + p[0] + " PROVINCE " + p[1]);
+        } else if (p.length == 2) {
             this.country = p[0];
             this.province = p[1];
             this.county = "";
-        }else{
+        } else {
             this.country = p[0];
             this.province = p[1];
             this.county = p[2];
@@ -91,11 +87,11 @@ public class Data {
 
     @Ignore
     public String getPlace() {
-        if(!this.county.equals("")){
+        if (!this.county.equals("")) {
             return this.county;
-        }else if(!this.province.equals("")){
+        } else if (!this.province.equals("")){
             return this.province;
-        }else{
+        } else {
             return this.country;
         }
     }

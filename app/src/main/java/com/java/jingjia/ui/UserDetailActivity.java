@@ -37,8 +37,6 @@ public class UserDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_userdetail);
         manager = NewsListManager.getNewsListManager(getApplication());
         mNewsItems = new ArrayList<>();
-//        List<NewsItem> items = manager.getVisitedNewsList("");
-//        mNewsItems.addAll(items);
 
         Intent intent = getIntent();
         bindViews();
@@ -49,20 +47,6 @@ public class UserDetailActivity extends AppCompatActivity {
             default:
                 break;
         }
-//        mAdapter = new NewsListAdapter(UserDetailActivity.this, mNewsItems);
-//        mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mRecyclerView.addOnScrollListener(new MyScrollListener() {
-//            @Override
-//            public void onLoadMore() {
-//                mAdapter.setLoadState(mAdapter.LOADING);
-//                Log.d(TAG, "onLoadMore: 111");
-//                // TODO: get data from database
-//                mAdapter.setLoadState(mAdapter.LOAD_COMPLETE);
-//            }
-//        });
-//        mRecyclerView.addItemDecoration(
-//                new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
     }
 
     private void bindViews() {

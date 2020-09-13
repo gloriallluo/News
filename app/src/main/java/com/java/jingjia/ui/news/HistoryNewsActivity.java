@@ -3,7 +3,6 @@ package com.java.jingjia.ui.news;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,9 +12,6 @@ import com.java.jingjia.NewsItem;
 import com.java.jingjia.R;
 import com.java.jingjia.request.NewsListManager;
 import com.java.jingjia.util.NewsListAdapter;
-import com.java.jingjia.util.data.SearchHistoryAdapter;
-import com.sina.weibo.sdk.common.UiError;
-import com.sina.weibo.sdk.share.WbShareCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +19,6 @@ import java.util.List;
 public class HistoryNewsActivity extends Activity {
 
     private final String TAG = "HistoryNewsActivity";
-
     private List<NewsItem> mHistoryNewsList;
     private List<String> visitedId;
     private RecyclerView mRecyclerView;

@@ -66,7 +66,6 @@ public class SearchActivity extends AppCompatActivity {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG, "onQueryTextSubmit: " + query);
                 lastId = "";
                 mListView.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
@@ -121,7 +120,6 @@ public class SearchActivity extends AppCompatActivity {
                     case SearchHistoryAdapter.HISTORY_KEYWORD:
                         mSearchView.setQuery((String)
                                 mHistoryAdapter.getItem(position), false);
-//                        showSoftInput();
                         break;
                     case SearchHistoryAdapter.HISTORY_END:
                         mHistoryAdapter.removeAllHistory();
@@ -160,25 +158,19 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<NewsItem> searchQuery(String query) {
         ArrayList<NewsItem> mItems = new ArrayList<>();
-        Log.d(TAG, "searchQuery: 1");
         ArrayList<NewsItem> newItems;
         if (lastId.equals("")) {    // initial search
             newItems = (ArrayList<NewsItem>) listManager.getLatestNewsList("all", lastId);
-            Log.d(TAG, "searchQuery: 1,1");
         } else {    // afterwards search
             newItems = new ArrayList<>();
-            Log.d(TAG, "searchQuery: 1,2");
         }
-        Log.d(TAG, "searchQuery: 2");
         for (NewsItem item: newItems)
             if (item.getTitle().contains(query))
                 mItems.add(item);
         // set lastId if it's initial search
         if (newItems.size() > 0) lastId = newItems.get(newItems.size() - 1).getId();
         for (int i = 0; i < SEARCH_LIMIT; i++) {
-            Log.d(TAG, "searchQuery: 3 " + lastId);
-            newItems = listManager.getMoreNewsList("all", lastId);  // TODO: too slow
-            Log.d(TAG, "searchQuery: 4");
+            newItems = listManager.getMoreNewsList("all", lastId);
             for (NewsItem item: newItems)
                 if (item.getTitle().contains(query))
                     mItems.add(item);

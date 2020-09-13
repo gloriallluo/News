@@ -37,7 +37,7 @@ public class ScholarManager {
         String url = "https://innovaapi.aminer.cn/predictor/api/v1/valhalla/highlight/get_ncov_expers_list?v=2";
         String jsonString = HttpUtil.getServerHttpResponse().getResponse(url);
         List<Scholar> retScholar = new ArrayList<>();
-        if(jsonString == ""){
+        if (jsonString == "") {
             Log.e(TAG, "getScholars: jsonString == \"\"");
             return retScholar;
         }
